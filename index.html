@@ -4,16 +4,38 @@
 <meta charset="utf-8">
 <title>Main Kata</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#faf7f2">
+<meta name="theme-color" content="#ffffff">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23f5c6d6'/%3E%3Ctext x='90' y='128' font-family='system-ui,sans-serif' font-size='110' font-weight='800' text-anchor='middle' fill='%233e3a36'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%2358cc02'/%3E%3Ctext x='90' y='128' font-family='Nunito,system-ui,sans-serif' font-size='110' font-weight='800' text-anchor='middle' fill='%23ffffff'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap">
 <style>
+  /* Duolingo style reference. One family throughout: this app has almost no
+     copy — 26 letters, two tab labels, one word — so Nunito covers both the
+     rounded display voice and the nav labels, and weight does the rest. The
+     rounded system stack stays behind it as a fallback. */
+  :root{
+    --color-eager-green:#58cc02;
+    --color-spark-blue:#1cb0f6;
+    --color-paper-white:#ffffff;
+    --color-charcoal:#4b4b4b;
+    --color-pencil-gray:#777777;
+    --color-faded-gray:#afafaf;
+    --font-display:"Nunito",ui-rounded,"SF Pro Rounded",system-ui,-apple-system,sans-serif;
+    --text-nav-label:15px;
+    --tracking-nav-label:.053em;
+    --radius:12px;
+    --border:2px;
+    --element-gap:12px;
+  }
+
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{
-    height:100%;overflow:hidden;background:#faf7f2;
-    font-family:ui-rounded,"SF Pro Rounded","Nunito",system-ui,-apple-system,sans-serif;
+    height:100%;overflow:hidden;background:var(--color-paper-white);
+    font-family:var(--font-display);
     -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;
     overscroll-behavior:none;touch-action:manipulation;
   }
@@ -25,15 +47,23 @@
             calc(2.6vmin + env(safe-area-inset-bottom));
   }
 
-  /* Small and muted: it is the grown-up's control, and it must not compete
-     with the 26 boxes for her attention. */
-  #picker{display:flex;gap:1.6vmin;justify-content:center;padding-bottom:2vmin}
+  /* Nav Language Pill: ghost by default, 2px faded-gray border, uppercase
+     nav-label tracking. The selected tab takes the Primary CTA treatment —
+     solid Eager Green, white text, no border — so "where am I" reads as
+     "go". It is still the grown-up's control and still small. */
+  #picker{display:flex;gap:var(--element-gap);justify-content:center;padding-bottom:var(--element-gap)}
   .tab{
-    border:0;border-radius:999px;padding:1.4vmin 5vmin;
-    font-family:inherit;font-weight:700;font-size:min(4vmin,2.4vh);
-    line-height:1;color:#8a8078;background:#f0ece6;cursor:pointer;
+    border:var(--border) solid var(--color-faded-gray);border-radius:var(--radius);
+    padding:8px 16px;background:transparent;cursor:pointer;
+    font-family:inherit;font-weight:700;
+    font-size:var(--text-nav-label);line-height:1.33;
+    text-transform:uppercase;letter-spacing:var(--tracking-nav-label);
+    color:var(--color-pencil-gray);
   }
-  .tab.on{color:#3e3a36;background:#e2dbd1}
+  .tab.on{
+    border-color:var(--color-eager-green);background:var(--color-eager-green);
+    color:var(--color-paper-white);
+  }
 
   /* ---- Board: 26 Letter Boxes, 4x7, always fits, never scrolls ---- */
   #board{
@@ -41,28 +71,36 @@
     grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(7,1fr);
     gap:2.2vmin;
   }
+  /* Stickers pressed onto the paper: flat fill, 2px border in a deeper tone
+     of the same hue, 12px radius, no shadow. */
   .box{
-    border:0;border-radius:22%;display:grid;place-items:center;
+    border:var(--border) solid;border-radius:var(--radius);
+    display:grid;place-items:center;
     /* Longhands, not the `font:` shorthand — `inherit` is only legal as a
        whole value, so `font:800 …/1 inherit` is dropped and buttons fall
        back to the 13px UA default. */
     font-family:inherit;font-weight:800;font-size:min(9.5vmin,10vh);
-    line-height:1;color:#3e3a36;
-    box-shadow:0 .5vmin 0 rgba(0,0,0,.06);cursor:pointer;
-    transition:transform .12s ease;
+    line-height:1;letter-spacing:-.02em;color:var(--color-charcoal);
+    cursor:pointer;transition:transform .12s ease;
   }
   .box:active{transform:scale(.94)}
   .box[data-pos="y"]{grid-column:2}
 
-  /* pastel Colour Groups */
-  .pink{background:#f5c6d6}  .blue{background:#bcdaec}
-  .yellow{background:#f7e6a4}.brown{background:#ddc6b1}
-  .orange{background:#f8cda6}.purple{background:#d6c6e8}
+  /* Suhyung's six Colour Groups, restyled as sticker fills. None of the six
+     is green, so Eager Green stays reserved for UI chrome as the reference
+     asks — the board never competes with the tabs or the word. */
+  .pink  {background:#ffc9dd;border-color:#f08bb4}
+  .blue  {background:#b8e2fb;border-color:#1cb0f6}
+  .yellow{background:#ffe8a3;border-color:#ffc800}
+  .brown {background:#e8d3bd;border-color:#c69c6d}
+  .orange{background:#ffd3a8;border-color:#ff9600}
+  .purple{background:#ddd0f5;border-color:#a560f0}
 
   /* ---- Reveal: fullscreen, one object, nothing competing ---- */
   #reveal{
     position:fixed;inset:0;display:none;flex-direction:column;
     align-items:center;justify-content:center;z-index:10;
+    background:var(--color-paper-white);
   }
   #reveal.on{display:flex}
   #stage{
@@ -71,24 +109,31 @@
   }
   #photo{
     max-width:100%;max-height:100%;object-fit:contain;
-    border-radius:4vmin;opacity:0;transition:opacity .18s ease;
-    box-shadow:0 1vmin 4vmin rgba(0,0,0,.12);
+    border:var(--border) solid var(--color-faded-gray);border-radius:var(--radius);
+    opacity:0;transition:opacity .18s ease;
   }
   #photo.shown{opacity:1}
+
+  /* The Section Headline of this page: the one thing she is here to say,
+     in the display voice and the signature green. */
   #word{
     position:absolute;left:0;right:0;
     bottom:calc(4vmin + env(safe-area-inset-bottom));
     text-align:center;font-family:inherit;font-weight:800;
-    font-size:min(11vmin,7vh);line-height:1;
-    color:#3e3a36;letter-spacing:.02em;pointer-events:none;
+    font-size:min(12vmin,7.5vh);line-height:1.2;
+    color:var(--color-eager-green);letter-spacing:-.02em;pointer-events:none;
   }
+
+  /* Outlined Account Button treatment — ghost fill, Spark Blue glyph, 2px
+     faded-gray border — held at 60px minimum so it stays a five-year-old's
+     target rather than a 15px nav control. */
   #back{
     position:absolute;left:3vmin;top:calc(3vmin + env(safe-area-inset-top));
     width:16vmin;height:16vmin;min-width:60px;min-height:60px;
-    border:0;border-radius:50%;background:rgba(255,255,255,.92);
-    box-shadow:0 .6vmin 2vmin rgba(0,0,0,.18);
+    border:var(--border) solid var(--color-faded-gray);border-radius:var(--radius);
+    background:var(--color-paper-white);
     font-family:inherit;font-weight:700;font-size:8vmin;line-height:1;
-    color:#3e3a36;cursor:pointer;z-index:2;
+    color:var(--color-spark-blue);cursor:pointer;z-index:2;
   }
   #back:active{transform:scale(.92)}
 
@@ -517,9 +562,6 @@ const POOLS = {
 };
 /*POOLS_END*/
 
-const TINT = {pink:"#fdeff4",blue:"#eef6fb",yellow:"#fdf7e6",
-              brown:"#f7f0e9",orange:"#fdf1e6",purple:"#f4effa"};
-
 const board  = document.getElementById("board");
 const picker = document.getElementById("picker");
 const reveal = document.getElementById("reveal");
@@ -549,13 +591,12 @@ for (const [name, t] of Object.entries(THEMES)) {
 function buildBoard(){
   board.textContent = "";
   for (const [letter, word] of THEMES[theme].letters) {
-    const colour = COLOURS[letter];
     const b = document.createElement("button");
-    b.className = "box " + colour;
+    b.className = "box " + COLOURS[letter];
     b.textContent = letter;
     b.setAttribute("aria-label", word);
     if (letter === "Y") b.dataset.pos = "y";
-    b.addEventListener("click", () => open(letter, word, colour));
+    b.addEventListener("click", () => open(letter, word));
     board.appendChild(b);
   }
   for (const tab of picker.children)
@@ -596,10 +637,12 @@ function show(letter){
   if (p.length > 1) new Image().src = p[(i + 1) % p.length];
 }
 
-function open(letter, word, colour){
+/* The reveal is pure white now, not a wash of the letter's colour — the
+   style reference puts every surface on paper white. Her colour cue lives
+   on the board, which is the screen she navigates by. */
+function open(letter, word){
   current = letter; shownIdx = -1;
   wordEl.textContent = word;
-  reveal.style.background = TINT[colour];
   reveal.classList.add("on");
   show(letter);
 }
@@ -640,7 +683,7 @@ addEventListener("load", warm);
 const manifest = {
   name:"Main Kata", short_name:"Main Kata",
   start_url:".", display:"standalone", orientation:"portrait",
-  background_color:"#faf7f2", theme_color:"#faf7f2",
+  background_color:"#ffffff", theme_color:"#ffffff",
   icons:[{src:document.querySelector('link[rel="apple-touch-icon"]').href,
           sizes:"180x180", type:"image/svg+xml", purpose:"any"}]
 };

@@ -1291,7 +1291,7 @@ function letterDone(){
   clearAdvance();
   celebrate(last);
   /* A finished word holds long enough for the fanfare, the confetti and the
-     naming to land — she has to hear "ini ayam" out before the screen changes
+     naming to land — she has to hear "A, ayam" out before the screen changes
      under her — then the next Subject behind this letter arrives by itself,
      in the same order the Board walks, see docs/adr/0002. A finished letter
      mid-word waits only for the pop. */
@@ -1505,15 +1505,16 @@ function fanfare(big){
   });
 }
 
-/* The word she just wrote, named back to her — "ini anjing". The writing is
-   in service of the word, so the reward is hearing the word, and hearing it
-   slowly enough to have a go at saying it herself. */
+/* The letter she wrote and then the word it belongs to — "B badak" — because
+   that pairing is the thing being taught, and it is the pairing she has to be
+   able to say. Slowly, and with the letter set off by a comma, so the two come
+   out as two sounds she can copy rather than one run-together noise. */
 function sayWord(){
   if (!("speechSynthesis" in window)) return;
   const word = (curWord || "").toLowerCase();
-  if (!word) return;
+  if (!word || !letterKey) return;
   try {
-    const u = new SpeechSynthesisUtterance("Ini " + word);
+    const u = new SpeechSynthesisUtterance(letterKey + ", " + word);
     u.lang = "id-ID"; u.rate = .8; u.pitch = 1.3;
     speechSynthesis.speak(u);
   } catch (e) {}

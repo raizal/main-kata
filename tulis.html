@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<title>Main Kata</title>
+<title>Main Kata &mdash; Menulis</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
 <meta name="mobile-web-app-capable" content="yes">
@@ -13,12 +13,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap">
 <style>
-  /* Duolingo style reference. One family throughout: this app has almost no
-     copy — 26 letters, two tab labels, one word — so Nunito covers both the
-     rounded display voice and the nav labels, and weight does the rest. The
-     rounded system stack stays behind it as a fallback. */
+  /* Same Duolingo tokens as index.html — this is the second room of the same
+     house, so nothing about the board may look different. */
   :root{
     --color-eager-green:#58cc02;
+    --color-storybook-green:#d7ffb8;
     --color-spark-blue:#1cb0f6;
     --color-paper-white:#ffffff;
     --color-charcoal:#4b4b4b;
@@ -40,17 +39,12 @@
     overscroll-behavior:none;touch-action:manipulation;
   }
 
-  /* ---- Home: theme selector above the board, both always on screen ---- */
+  /* ---- Home: identical board to the photo game ---- */
   #home{
     position:fixed;inset:0;display:flex;flex-direction:column;
     padding:calc(2.6vmin + env(safe-area-inset-top)) 2.6vmin
             calc(2.6vmin + env(safe-area-inset-bottom));
   }
-
-  /* Nav Language Pill: ghost by default, 2px faded-gray border, uppercase
-     nav-label tracking. The selected tab takes the Primary CTA treatment —
-     solid Eager Green, white text, no border — so "where am I" reads as
-     "go". It is still the grown-up's control and still small. */
   #picker{display:flex;gap:var(--element-gap);justify-content:center;padding-bottom:var(--element-gap)}
   .tab{
     border:var(--border) solid var(--color-faded-gray);border-radius:var(--radius);
@@ -64,41 +58,29 @@
     border-color:var(--color-eager-green);background:var(--color-eager-green);
     color:var(--color-paper-white);
   }
-  /* Link across to the writing game. She picks the activity deliberately
-     rather than falling into it — two predictable modes, never a surprise. */
-  .tab.pencil{
+  .tab.icon{
     display:inline-flex;align-items:center;padding:8px 12px;
     color:var(--color-spark-blue);text-decoration:none;
   }
-  .tab.pencil svg{width:18px;height:18px;display:block}
+  .tab.icon svg{width:18px;height:18px;display:block}
 
-  /* ---- Board: 26 Letter Boxes, 4x7, always fits, never scrolls ---- */
   #board{
     flex:1;min-height:0;display:grid;
     grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(7,1fr);
     gap:2.2vmin;
   }
-  /* Stickers pressed onto the paper: flat fill, 2px border in a deeper tone
-     of the same hue, 12px radius, no shadow. */
   .box{
     border:var(--border) solid;border-radius:var(--radius);
     /* Grid items default to min-height:auto, which lets a tall glyph push the
        1fr rows past the board and clip the last one. */
     min-width:0;min-height:0;overflow:hidden;
     display:grid;place-items:center;
-    /* Longhands, not the `font:` shorthand — `inherit` is only legal as a
-       whole value, so `font:800 …/1 inherit` is dropped and buttons fall
-       back to the 13px UA default. */
     font-family:inherit;font-weight:800;font-size:min(9.5vmin,10vh);
     line-height:1;letter-spacing:-.02em;color:var(--color-charcoal);
     cursor:pointer;transition:transform .12s ease;
   }
   .box:active{transform:scale(.94)}
   .box[data-pos="y"]{grid-column:2}
-
-  /* Suhyung's six Colour Groups, restyled as sticker fills. None of the six
-     is green, so Eager Green stays reserved for UI chrome as the reference
-     asks — the board never competes with the tabs or the word. */
   .pink  {background:#ffc9dd;border-color:#f08bb4}
   .blue  {background:#b8e2fb;border-color:#1cb0f6}
   .yellow{background:#ffe8a3;border-color:#ffc800}
@@ -106,48 +88,129 @@
   .orange{background:#ffd3a8;border-color:#ff9600}
   .purple{background:#ddd0f5;border-color:#a560f0}
 
-  /* ---- Reveal: fullscreen, one object, nothing competing ---- */
-  #reveal{
-    position:fixed;inset:0;display:none;flex-direction:column;
-    align-items:center;justify-content:center;z-index:10;
-    background:var(--color-paper-white);
+  /* ---- Write: picture, its name, the letter to trace ---- */
+  #write{
+    position:fixed;inset:0;z-index:10;display:none;flex-direction:column;
+    align-items:center;background:var(--color-paper-white);
+    padding:calc(3vmin + env(safe-area-inset-top)) 3vmin
+            calc(3vmin + env(safe-area-inset-bottom));
+    gap:1.5vmin;
   }
-  #reveal.on{display:flex}
-  #stage{
-    position:absolute;inset:0;display:grid;place-items:center;
-    padding:14vmin 4vmin 18vmin;cursor:pointer;
-  }
-  #photo{
-    max-width:100%;max-height:100%;object-fit:contain;
+  #write.on{display:flex}
+
+  #wtop{width:100%;display:flex;justify-content:space-between;flex:none}
+  .round{
+    width:16vmin;height:16vmin;min-width:56px;min-height:56px;
     border:var(--border) solid var(--color-faded-gray);border-radius:var(--radius);
+    background:var(--color-paper-white);cursor:pointer;
+    display:grid;place-items:center;
+    font-family:inherit;font-weight:700;font-size:7vmin;line-height:1;
+    color:var(--color-spark-blue);
+  }
+  .round svg{width:8vmin;height:8vmin;min-width:28px;min-height:28px;display:block}
+  .round:active{transform:scale(.92)}
+  #mute.off{color:var(--color-faded-gray)}
+
+  /* Fixed height, not max-height: the photo arriving must not reflow the
+     square she is drawing in. The border only appears once it has loaded. */
+  #photo{
+    flex:none;height:26vh;max-width:100%;object-fit:contain;
+    border:var(--border) solid transparent;border-radius:var(--radius);
     opacity:0;transition:opacity .18s ease;
   }
-  #photo.shown{opacity:1}
+  #photo.shown{opacity:1;border-color:var(--color-faded-gray)}
 
-  /* The Section Headline of this page: the one thing she is here to say,
-     in the display voice and the signature green. */
+  /* The word in uppercase here, unlike the photo game: she is copying these
+     exact shapes, so what she reads and what she traces must match. */
   #word{
-    position:absolute;left:0;right:0;
-    bottom:calc(4vmin + env(safe-area-inset-bottom));
-    text-align:center;font-family:inherit;font-weight:800;
-    font-size:min(12vmin,7.5vh);line-height:1.2;
-    color:var(--color-eager-green);letter-spacing:-.02em;pointer-events:none;
+    flex:none;white-space:nowrap;font-weight:800;line-height:1.2;
+    font-size:min(8vmin,4.4vh);letter-spacing:.02em;
   }
+  #word .done{color:var(--color-eager-green)}
+  #word .now{color:var(--color-charcoal);border-bottom:3px solid var(--color-charcoal)}
+  #word .todo{color:var(--color-faded-gray)}
 
-  /* Outlined Account Button treatment — ghost fill, Spark Blue glyph, 2px
-     faded-gray border — held at 60px minimum so it stays a five-year-old's
-     target rather than a 15px nav control. */
-  #back{
-    position:absolute;left:3vmin;top:calc(3vmin + env(safe-area-inset-top));
-    width:16vmin;height:16vmin;min-width:60px;min-height:60px;
+  #tracebox{flex:1;min-height:0;width:100%;display:grid;place-items:center}
+  /* aspect-ratio alone will not do it: max-height:100% here resolves against
+     a flex height the browser treats as indefinite, so the square silently
+     overflows. layout() sets the real pixels; this is the fallback. */
+  #tracewrap{
+    position:relative;width:100%;aspect-ratio:1;max-height:100%;
+    touch-action:none;cursor:crosshair;
+  }
+  #guide,#ink{position:absolute;inset:0;width:100%;height:100%}
+  #guide{transition:transform .25s ease}
+  #guide.pop{transform:scale(1.12)}
+
+  #guide path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+  /* Dotted guide, pale-green progress track behind her, bright green when
+     the letter is finished. Round caps on a zero-length dash make the dots. */
+  #guide .guide{stroke:var(--color-faded-gray);stroke-width:6.5;stroke-dasharray:.001 13}
+  #guide .prog,#guide .did{stroke:var(--color-storybook-green);stroke-width:13}
+  #guide .final{stroke:var(--color-eager-green);stroke-width:13}
+  #guide .startdot{
+    fill:var(--color-eager-green);transform-box:fill-box;transform-origin:center;
+    animation:pulse 1.2s ease-in-out infinite;
+  }
+  #guide .hint{fill:var(--color-spark-blue);opacity:.45}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
+
+  /* Space is reserved whether or not the button is showing, so finishing a
+     letter never shifts the board under her hand. */
+  #againwrap{flex:none;height:calc(11vmin + 18px);display:grid;place-items:center;width:100%}
+  #again{
+    visibility:hidden;border:0;border-radius:var(--radius);
+    background:var(--color-eager-green);color:var(--color-paper-white);
+    padding:12px 40px;cursor:pointer;
+    font-family:inherit;font-weight:700;font-size:var(--text-nav-label);
+    text-transform:uppercase;letter-spacing:var(--tracking-nav-label);
+  }
+  #again.show{visibility:visible}
+  #again:active{transform:scale(.96)}
+
+  #confetti{position:fixed;inset:0;z-index:20;pointer-events:none}
+
+  /* ---- Settings: the grown-up's panel, never in her way ---- */
+  #settings{
+    position:fixed;inset:0;z-index:30;display:none;
+    align-items:center;justify-content:center;background:rgba(75,75,75,.35);
+    padding:6vmin;
+  }
+  #settings.on{display:flex}
+  #settings .panel{
+    background:var(--color-paper-white);border:var(--border) solid var(--color-faded-gray);
+    border-radius:var(--radius);padding:24px;width:100%;max-width:340px;
+  }
+  #settings h2{
+    font-size:19px;font-weight:700;color:var(--color-charcoal);margin-bottom:16px;
+  }
+  #settings .row{margin-bottom:16px}
+  #settings .row>span{
+    display:block;font-size:13px;font-weight:700;color:var(--color-pencil-gray);
+    text-transform:uppercase;letter-spacing:var(--tracking-nav-label);margin-bottom:8px;
+  }
+  #settings .opts{display:flex;gap:8px;flex-wrap:wrap}
+  #settings .opts button{
     border:var(--border) solid var(--color-faded-gray);border-radius:var(--radius);
-    background:var(--color-paper-white);
-    font-family:inherit;font-weight:700;font-size:8vmin;line-height:1;
-    color:var(--color-spark-blue);cursor:pointer;z-index:2;
+    background:transparent;padding:8px 14px;cursor:pointer;
+    font-family:inherit;font-weight:700;font-size:14px;color:var(--color-pencil-gray);
   }
-  #back:active{transform:scale(.92)}
+  #settings .opts button.on{
+    border-color:var(--color-eager-green);background:var(--color-eager-green);
+    color:var(--color-paper-white);
+  }
+  #closeset{
+    width:100%;border:0;border-radius:var(--radius);margin-top:8px;
+    background:var(--color-eager-green);color:var(--color-paper-white);
+    padding:12px;cursor:pointer;font-family:inherit;font-weight:700;
+    font-size:var(--text-nav-label);text-transform:uppercase;
+    letter-spacing:var(--tracking-nav-label);
+  }
 
-  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  @media (prefers-reduced-motion:reduce){
+    #guide,.box,.round{transition:none!important}
+    #guide .startdot{animation:none}
+  }
 </style>
 </head>
 <body>
@@ -157,19 +220,41 @@
   <div id="board"></div>
 </div>
 
-<div id="reveal">
-  <div id="stage"><img id="photo" alt=""></div>
+<div id="write">
+  <div id="wtop">
+    <button id="back" class="round" aria-label="Kembali">&#8592;</button>
+    <button id="mute" class="round" aria-label="Suara">&#128266;</button>
+  </div>
+  <img id="photo" alt="">
   <div id="word"></div>
-  <button id="back" aria-label="Kembali">&#8592;</button>
+  <div id="tracebox">
+    <div id="tracewrap">
+      <svg id="guide" viewBox="0 0 100 100"></svg>
+      <canvas id="ink"></canvas>
+    </div>
+  </div>
+  <div id="againwrap"><button id="again">Lagi</button></div>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<div id="settings">
+  <div class="panel">
+    <h2>Pengaturan</h2>
+    <div class="row"><span>Suara</span><div class="opts" data-key="sound">
+      <button data-v="on">Nyala</button><button data-v="off">Mati</button></div></div>
+    <div class="row"><span>Tulis</span><div class="opts" data-key="mode">
+      <button data-v="huruf">Huruf awal</button><button data-v="kata">Satu kata</button></div></div>
+    <div class="row"><span>Bantuan</span><div class="opts" data-key="help">
+      <button data-v="mudah">Mudah</button><button data-v="sedang">Sedang</button>
+      <button data-v="sulit">Sulit</button></div></div>
+    <button id="closeset">Selesai</button>
+  </div>
 </div>
 
 <script>
-/* ------------------------------------------------------------------
-   Colour belongs to the LETTER, not to the theme. Switching themes
-   must leave the board looking exactly the same — same 26 boxes, same
-   positions, same colours — so the map she has memorised still holds
-   and only the pictures behind it change.
-   ------------------------------------------------------------------ */
+/* Colour belongs to the LETTER, not the theme, and not the activity. The
+   board here is the same board she already knows. */
 const COLOURS = {
   A:"pink",  B:"blue",  C:"yellow",D:"brown", E:"orange",F:"purple",
   G:"pink",  H:"blue",  I:"yellow",J:"brown", K:"orange",L:"purple",
@@ -243,8 +328,6 @@ const THEMES = {
 };
 /*WORDS_END*/
 
-/* POOLS: approved photo URLs per letter. Regenerated by tools/build_pools.py
-   — nothing lands here that has not been through the Contact Sheet. */
 /*POOLS_START*/
 const POOLS = {
  "benda": {
@@ -566,43 +649,109 @@ const POOLS = {
 };
 /*POOLS_END*/
 
-const board  = document.getElementById("board");
-const picker = document.getElementById("picker");
-const reveal = document.getElementById("reveal");
-const stage  = document.getElementById("stage");
-const photo  = document.getElementById("photo");
-const wordEl = document.getElementById("word");
+/* ------------------------------------------------------------------
+   Uppercase letterforms, one entry per letter, as an ordered list of
+   SVG strokes in a 100x100 box. Order and direction are the handwriting
+   order — top to bottom, left to right — and only one stroke is shown at
+   a time, so correct formation is enforced by what is on screen rather
+   than by ever telling her she got it wrong.
 
-let current = null, shownIdx = -1, theme = "benda";
+   The shapes follow the sans-serif forms on the board (bare I, bare J)
+   rather than the serifed teaching alphabet, because those are the
+   letters she has been looking at for weeks.
+   ------------------------------------------------------------------ */
+const STROKES = {
+  A:["M50 8 L18 92","M50 8 L82 92","M29 66 L71 66"],
+  B:["M26 8 L26 92",
+     "M26 8 L56 8 C74 8 74 46 56 46 L26 46",
+     "M26 46 L60 46 C80 46 80 92 60 92 L26 92"],
+  C:["M78 26 C68 10 32 8 22 34 C14 56 20 84 44 90 C60 94 72 84 78 74"],
+  D:["M26 8 L26 92","M26 8 L52 8 C84 8 84 92 52 92 L26 92"],
+  E:["M27 8 L27 92","M27 8 L79 8","M27 50 L71 50","M27 92 L79 92"],
+  F:["M27 8 L27 92","M27 8 L79 8","M27 50 L71 50"],
+  G:["M78 26 C68 10 32 8 22 34 C14 56 20 84 44 90 C64 95 78 84 78 62 L54 62"],
+  H:["M24 8 L24 92","M76 8 L76 92","M24 50 L76 50"],
+  I:["M50 8 L50 92"],
+  J:["M66 8 L66 70 C66 88 48 94 36 86 C30 82 28 76 28 70"],
+  K:["M26 8 L26 92","M74 8 L28 50","M28 50 L76 92"],
+  L:["M28 8 L28 92 L78 92"],
+  M:["M20 8 L20 92","M20 8 L50 62 L80 8 L80 92"],
+  N:["M22 8 L22 92","M22 8 L78 92 L78 8"],
+  O:["M50 8 C26 8 16 28 16 50 C16 72 26 92 50 92 C74 92 84 72 84 50 C84 28 74 8 50 8"],
+  P:["M26 8 L26 92","M26 8 L58 8 C78 8 78 52 58 52 L26 52"],
+  Q:["M50 8 C26 8 16 28 16 50 C16 72 26 92 50 92 C74 92 84 72 84 50 C84 28 74 8 50 8",
+     "M60 68 L86 96"],
+  R:["M26 8 L26 92","M26 8 L58 8 C78 8 78 50 58 50 L26 50","M48 50 L78 92"],
+  S:["M76 24 C70 10 30 6 26 28 C23 44 44 48 56 52 C72 57 82 66 76 82 C70 96 32 94 24 78"],
+  T:["M50 8 L50 92","M18 8 L82 8"],
+  U:["M22 8 L22 60 C22 84 38 92 50 92 C62 92 78 84 78 60 L78 8"],
+  V:["M20 8 L50 92 L80 8"],
+  W:["M14 8 L34 92 L50 38 L66 92 L86 8"],
+  X:["M22 8 L78 92","M78 8 L22 92"],
+  Y:["M24 8 L50 50","M76 8 L50 50 L50 92"],
+  Z:["M22 8 L78 8 L22 92 L78 92"],
+};
 
-/* Remember which theme she was last playing, so reopening the app from
-   the home screen puts her straight back where she was. */
+const NS = "http://www.w3.org/2000/svg";
+const el = id => document.getElementById(id);
+const board=el("board"), picker=el("picker"), write=el("write"),
+      photo=el("photo"), wordEl=el("word"), guide=el("guide"), ink=el("ink"),
+      wrap=el("tracewrap"), again=el("again"), conf=el("confetti"),
+      muteBtn=el("mute"), settings=el("settings");
+
+/* ---- Settings, remembered between visits ---- */
+const CFG = {sound:"on", mode:"huruf", help:"sedang"};
+/* How near her finger has to pass a checkpoint, in the 0-100 letter box.
+   Sedang is the default: forgiving enough never to frustrate, tight enough
+   that the shape she draws is actually the letter. */
+const TOL = {mudah:26, sedang:17, sulit:11};
+
+try { Object.assign(CFG, JSON.parse(localStorage.getItem("rere.write") || "{}")); }
+catch (e) { /* private mode: defaults are fine */ }
+
+function saveCfg(){
+  try { localStorage.setItem("rere.write", JSON.stringify(CFG)); } catch (e) {}
+}
+
+let theme = "benda";
 const SAVED = "rere.theme";
 try { if (THEMES[localStorage.getItem(SAVED)]) theme = localStorage.getItem(SAVED); }
-catch (e) { /* private mode: just start on benda */ }
+catch (e) {}
 
-/* ---- Theme selector, on the home screen above the board ---- */
+/* ---- Home ---- */
 for (const [name, t] of Object.entries(THEMES)) {
   const b = document.createElement("button");
   b.className = "tab";
   b.textContent = t.label;
   b.dataset.theme = name;
-  b.addEventListener("click", () => setTheme(name));
+  b.addEventListener("click", () => {
+    if (name === theme) return;
+    theme = name;
+    try { localStorage.setItem(SAVED, name); } catch (e) {}
+    buildBoard();
+  });
   picker.appendChild(b);
 }
 
-/* tulis.html reads the same rere.theme key, so the theme carries across. */
-const toWrite = document.createElement("a");
-toWrite.className = "tab pencil";
-toWrite.href = "tulis.html";
-toWrite.setAttribute("aria-label", "Menulis");
-toWrite.innerHTML =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"' +
-  ' stroke-linecap="round" stroke-linejoin="round">' +
-  '<path d="M4 20h4L20 8a2.8 2.8 0 0 0-4-4L4 16v4z"/><path d="M14 6l4 4"/></svg>';
-picker.appendChild(toWrite);
+function iconTab(href, label, path){
+  const a = document.createElement(href ? "a" : "button");
+  a.className = "tab icon";
+  if (href) a.href = href;
+  a.setAttribute("aria-label", label);
+  a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"' +
+    ' stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+    path + '</svg>';
+  picker.appendChild(a);
+  return a;
+}
+iconTab("index.html", "Lihat gambar",
+  '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/>' +
+  '<path d="M21 16l-5-5-6 6"/>');
+iconTab(null, "Pengaturan",
+  '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3' +
+  'M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/>')
+  .addEventListener("click", () => { paintCfg(); settings.classList.add("on"); });
 
-/* ---- Build the Board ---- */
 function buildBoard(){
   board.textContent = "";
   for (const [letter, word] of THEMES[theme].letters) {
@@ -611,101 +760,459 @@ function buildBoard(){
     b.textContent = letter;
     b.setAttribute("aria-label", word);
     if (letter === "Y") b.dataset.pos = "y";
-    b.addEventListener("click", () => open(letter, word));
+    b.addEventListener("click", () => startRound(letter, word));
     board.appendChild(b);
   }
-  for (const tab of picker.children)
-    tab.classList.toggle("on", tab.dataset.theme === theme);
+  for (const t of picker.children)
+    if (t.dataset.theme) t.classList.toggle("on", t.dataset.theme === theme);
 }
 
-function setTheme(name){
-  if (name === theme) return;
-  theme = name;
-  try { localStorage.setItem(SAVED, name); } catch (e) {}
-  buildBoard();
-  warm();
-}
+/* ---- A round ---- */
+let letterKey = null, curWord = "", queue = [], qi = 0, shownIdx = -1;
 
 function pool(letter){
   const p = POOLS[theme] && POOLS[theme][letter];
   return (p && p.length) ? p : [];
 }
 
-/* Pick a different photo than the one already showing, so every tap
-   is a fresh object — that is what drives the repetitions. */
-function pick(letter){
-  const p = pool(letter);
-  if (!p.length) return -1;
-  if (p.length === 1) return 0;
-  let i;
-  do { i = Math.floor(Math.random() * p.length); } while (i === shownIdx);
-  return i;
-}
-
-function show(letter){
-  const p = pool(letter), i = pick(letter);
+function showPhoto(){
+  const p = pool(letterKey);
   photo.classList.remove("shown");
-  if (i < 0){ photo.removeAttribute("src"); return; }   // no pool: word alone
+  if (!p.length) { photo.removeAttribute("src"); return; }
+  let i = 0;
+  if (p.length > 1) do { i = Math.floor(Math.random() * p.length); } while (i === shownIdx);
   shownIdx = i;
   photo.src = p[i];
-  // warm the next one so the following tap is instant
-  if (p.length > 1) new Image().src = p[(i + 1) % p.length];
+}
+photo.addEventListener("load", () => photo.classList.add("shown"));
+photo.addEventListener("error", () => {
+  photo.classList.remove("shown"); photo.removeAttribute("src");
+});
+
+function startRound(letter, word){
+  unlockAudio();
+  letterKey = letter;
+  curWord = word.toUpperCase();
+  /* Huruf awal: just the letter on the box she tapped. Satu kata: every
+     letter of the word in turn, skipping the space in "ES KRIM". */
+  queue = CFG.mode === "kata"
+    ? [...curWord].map((c, i) => ({c, i})).filter(x => STROKES[x.c])
+    : [{c: letter, i: 0}];
+  qi = 0;
+  shownIdx = -1;
+  renderWord();
+  showPhoto();
+  write.classList.add("on");
+  again.classList.remove("show");
+  layout();
+  sizeInk();
+  loadLetter();
 }
 
-/* The reveal is pure white now, not a wash of the letter's colour — the
-   style reference puts every surface on paper white. Her colour cue lives
-   on the board, which is the screen she navigates by. */
-function open(letter, word){
-  current = letter; shownIdx = -1;
-  wordEl.textContent = word;
-  reveal.classList.add("on");
-  show(letter);
+function renderWord(){
+  wordEl.textContent = "";
+  [...curWord].forEach((c, i) => {
+    const s = document.createElement("span");
+    s.textContent = c === " " ? " " : c;
+    s.dataset.i = i;
+    wordEl.appendChild(s);
+  });
 }
 
-function close(){
-  reveal.classList.remove("on");
+function markWord(){
+  const at = new Map(queue.map((q, n) => [q.i, n]));
+  for (const s of wordEl.children) {
+    const n = at.get(+s.dataset.i);
+    s.className = (n === undefined || n < qi) ? "done" : n === qi ? "now" : "todo";
+  }
+}
+
+/* ---- Trace engine ---- */
+let strokes = [], sIdx = 0, cps = [], cpIdx = 0, progEl = null, lastPt = null;
+
+function mkPath(d, cls){
+  const p = document.createElementNS(NS, "path");
+  p.setAttribute("d", d);
+  p.setAttribute("class", cls);
+  return p;
+}
+
+function loadLetter(){
+  markWord();
+  clearInk();
+  guide.classList.remove("pop");
+  strokes = STROKES[queue[qi].c] || [];
+  sIdx = 0;
+  buildStroke();
+}
+
+function buildStroke(){
+  guide.textContent = "";
+  for (let k = 0; k < sIdx; k++) guide.appendChild(mkPath(strokes[k], "did"));
+  if (sIdx >= strokes.length) return;
+
+  guide.appendChild(mkPath(strokes[sIdx], "guide"));
+  progEl = mkPath(strokes[sIdx], "prog");
+  guide.appendChild(progEl);
+
+  /* Checkpoints are sampled off the path itself rather than hand-placed, so
+     tolerance stays one number instead of 26 sets of coordinates. */
+  const len = progEl.getTotalLength();
+  progEl.style.strokeDasharray = len;
+  progEl.style.strokeDashoffset = len;
+  cps = [];
+  for (let d = 0; d < len; d += 5) cps.push(progEl.getPointAtLength(d));
+  cps.push(progEl.getPointAtLength(len));
+  cpIdx = 0;
+
+  const dot = document.createElementNS(NS, "circle");
+  dot.setAttribute("cx", cps[0].x);
+  dot.setAttribute("cy", cps[0].y);
+  dot.setAttribute("r", 6);
+  dot.setAttribute("class", "startdot");
+  guide.appendChild(dot);
+  resetIdle();
+}
+
+function toSvg(e){
+  const r = wrap.getBoundingClientRect();
+  return {x: (e.clientX - r.left) / r.width * 100,
+          y: (e.clientY - r.top) / r.height * 100};
+}
+
+/* Distance from a checkpoint to the segment her finger just swept, not to
+   where it happened to land — so a quick confident stroke counts the same
+   as a slow careful one. */
+function segDist(p, a, b){
+  const dx = b.x - a.x, dy = b.y - a.y, l2 = dx * dx + dy * dy;
+  let t = l2 ? ((p.x - a.x) * dx + (p.y - a.y) * dy) / l2 : 0;
+  t = t < 0 ? 0 : t > 1 ? 1 : t;
+  return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy));
+}
+
+function advance(a, b){
+  const tol = TOL[CFG.help] || TOL.sedang;
+  let moved = false;
+  while (cpIdx < cps.length && segDist(cps[cpIdx], a, b) <= tol) { cpIdx++; moved = true; }
+  if (!moved) return;
+  const len = progEl.getTotalLength();
+  progEl.style.strokeDashoffset = len * (1 - cpIdx / cps.length);
+  if (cpIdx >= cps.length) strokeDone();
+}
+
+function strokeDone(){
+  sIdx++;
+  if (sIdx < strokes.length) { buildStroke(); return; }
+  letterDone();
+}
+
+function letterDone(){
+  clearIdle();
+  /* Her wobbly line gives way to the clean letterform underneath it. The
+     reward is seeing the letter she just made, not the smudge of making it. */
+  clearInk();
+  guide.textContent = "";
+  for (const d of strokes) guide.appendChild(mkPath(d, "final"));
+  guide.classList.add("pop");
+  qi++;
+  markWord();
+  const last = qi >= queue.length;
+  celebrate(last);
+  if (last) { again.classList.add("show"); return; }
+  setTimeout(loadLetter, 950);
+}
+
+/* Lifting her finger never resets anything — she resumes from the furthest
+   checkpoint she reached. There is no way to fail this. */
+wrap.addEventListener("pointerdown", e => {
+  if (!strokes.length || sIdx >= strokes.length) return;
+  /* Capture keeps the line going when her finger strays off the square. */
+  try { wrap.setPointerCapture(e.pointerId); } catch (err) {}
+  lastPt = toSvg(e);
+  inkDown(e);
+  advance(lastPt, lastPt);
+  resetIdle();
+});
+wrap.addEventListener("pointermove", e => {
+  if (!lastPt) return;
+  const p = toSvg(e);
+  inkTo(e);
+  advance(lastPt, p);
+  lastPt = p;
+  resetIdle();
+});
+for (const ev of ["pointerup", "pointercancel", "pointerleave"])
+  wrap.addEventListener(ev, () => { lastPt = null; inkPrev = null; });
+
+/* ---- Her own line, on a canvas above the guide ---- */
+let inkPrev = null;
+
+/* The trace area must be exactly square — the SVG viewBox is 100x100 and the
+   letters would shear otherwise — and on a short screen it must not be the
+   thing that gets squeezed. So the square claims its share of the free space
+   first and the photo takes what is left, rather than the other way round.
+   Measured rather than left to CSS: a percentage max-height resolves against
+   a flex height the browser treats as indefinite, and silently does nothing. */
+const SQUARE_SHARE = .62;
+
+function layout(){
+  const box = write.getBoundingClientRect();
+  if (!box.height) return;
+  const cs = getComputedStyle(write);
+  const px = p => parseFloat(cs[p]) || 0;
+  const inner = box.width - px("paddingLeft") - px("paddingRight");
+  const free = box.height - px("paddingTop") - px("paddingBottom")
+    - px("rowGap") * (write.children.length - 1)
+    - el("wtop").offsetHeight - wordEl.offsetHeight - el("againwrap").offsetHeight;
+
+  const s = Math.max(0, Math.floor(Math.min(inner, free * SQUARE_SHARE)));
+  photo.style.height = Math.max(0, Math.floor(free - s)) + "px";
+  wrap.style.width = s + "px";
+  wrap.style.height = s + "px";
+}
+
+function inkCtx(){ return ink.getContext("2d"); }
+
+function sizeInk(){
+  const r = wrap.getBoundingClientRect(), dpr = devicePixelRatio || 1;
+  if (!r.width) return;
+  ink.width = r.width * dpr;
+  ink.height = r.height * dpr;
+  const c = inkCtx();
+  c.setTransform(dpr, 0, 0, dpr, 0, 0);
+  c.lineCap = "round"; c.lineJoin = "round";
+  c.strokeStyle = "#58cc02"; c.fillStyle = "#58cc02";
+  c.lineWidth = r.width * 0.07;
+}
+
+function clearInk(){
+  const c = inkCtx();
+  c.save();
+  c.setTransform(1, 0, 0, 1, 0, 0);
+  c.clearRect(0, 0, ink.width, ink.height);
+  c.restore();
+  inkPrev = null;
+}
+
+function at(e){
+  const r = wrap.getBoundingClientRect();
+  return {x: e.clientX - r.left, y: e.clientY - r.top};
+}
+
+function inkDown(e){
+  const p = at(e), c = inkCtx();
+  c.beginPath();
+  c.arc(p.x, p.y, c.lineWidth / 2, 0, Math.PI * 2);
+  c.fill();
+  inkPrev = p;
+}
+
+function inkTo(e){
+  if (!inkPrev) return;
+  const p = at(e), c = inkCtx();
+  c.beginPath();
+  c.moveTo(inkPrev.x, inkPrev.y);
+  c.lineTo(p.x, p.y);
+  c.stroke();
+  inkPrev = p;
+}
+
+/* ---- After a while, show her the way. It never blocks her. ---- */
+let idleT = 0, hintRaf = 0, hintEl = null;
+
+function clearIdle(){
+  clearTimeout(idleT);
+  cancelAnimationFrame(hintRaf);
+  hintRaf = 0;
+  if (hintEl) { hintEl.remove(); hintEl = null; }
+}
+
+function resetIdle(){
+  clearIdle();
+  idleT = setTimeout(showHint, 8000);
+}
+
+function showHint(){
+  if (!progEl || cpIdx >= cps.length) return;
+  hintEl = document.createElementNS(NS, "circle");
+  hintEl.setAttribute("r", 7);
+  hintEl.setAttribute("class", "hint");
+  guide.appendChild(hintEl);
+  const len = progEl.getTotalLength(), from = len * cpIdx / cps.length;
+  let t0 = null;
+  const step = ts => {
+    if (t0 === null) t0 = ts;
+    const k = ((ts - t0) / 1800) % 1;
+    const p = progEl.getPointAtLength(from + (len - from) * k);
+    hintEl.setAttribute("cx", p.x);
+    hintEl.setAttribute("cy", p.y);
+    hintRaf = requestAnimationFrame(step);
+  };
+  hintRaf = requestAnimationFrame(step);
+}
+
+/* ---- Celebration ---- */
+const CONFETTI = ["#ffc9dd","#b8e2fb","#ffe8a3","#e8d3bd","#ffd3a8","#ddd0f5",
+                  "#58cc02","#1cb0f6"];
+let parts = [], confRaf = 0;
+
+function sizeConf(){
+  const d = devicePixelRatio || 1;
+  conf.width = innerWidth * d;
+  conf.height = innerHeight * d;
+  conf.getContext("2d").setTransform(d, 0, 0, d, 0, 0);
+}
+
+function burst(n){
+  const r = wrap.getBoundingClientRect();
+  const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2, s = 3 + Math.random() * 9;
+    parts.push({
+      x: cx, y: cy, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 6,
+      w: 5 + Math.random() * 7, h: 8 + Math.random() * 8,
+      rot: Math.random() * 6.3, vr: (Math.random() - .5) * .4,
+      c: CONFETTI[(Math.random() * CONFETTI.length) | 0], life: 1,
+    });
+  }
+  if (!confRaf) confRaf = requestAnimationFrame(tickConf);
+}
+
+function tickConf(){
+  const c = conf.getContext("2d");
+  c.clearRect(0, 0, innerWidth, innerHeight);
+  parts = parts.filter(p => p.life > 0 && p.y < innerHeight + 40);
+  for (const p of parts) {
+    p.vy += .32; p.x += p.vx; p.y += p.vy; p.vx *= .99; p.rot += p.vr; p.life -= .008;
+    c.save();
+    c.translate(p.x, p.y);
+    c.rotate(p.rot);
+    c.globalAlpha = Math.max(0, Math.min(1, p.life * 2));
+    c.fillStyle = p.c;
+    c.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+    c.restore();
+  }
+  confRaf = parts.length ? requestAnimationFrame(tickConf) : 0;
+}
+
+/* Synthesized so it costs nothing and cannot fail to load. Recorded voices
+   from Ibu and Ayah would be better and can replace hore() later. */
+let AC = null, master = null;
+
+function unlockAudio(){
+  if (AC) { if (AC.state === "suspended") AC.resume(); return; }
+  const C = window.AudioContext || window.webkitAudioContext;
+  if (!C) return;
+  AC = new C();
+  master = AC.createGain();
+  master.gain.value = .5;
+  master.connect(AC.destination);
+}
+
+function fanfare(big){
+  if (!AC) return;
+  const t0 = AC.currentTime + .02;
+  const notes = big ? [523.25, 659.25, 783.99, 1046.5] : [659.25, 880];
+  notes.forEach((f, i) => {
+    const t = t0 + i * .11, last = i === notes.length - 1;
+    const o = AC.createOscillator(), g = AC.createGain(), lp = AC.createBiquadFilter();
+    o.type = "sawtooth";
+    o.frequency.setValueAtTime(f, t);
+    lp.type = "lowpass";
+    lp.frequency.setValueAtTime(2800, t);
+    g.gain.setValueAtTime(.0001, t);
+    g.gain.exponentialRampToValueAtTime(.3, t + .03);
+    g.gain.exponentialRampToValueAtTime(.0001, t + (last ? .85 : .2));
+    o.connect(lp); lp.connect(g); g.connect(master);
+    o.start(t);
+    o.stop(t + (last ? .9 : .25));
+  });
+}
+
+function hore(){
+  if (!("speechSynthesis" in window)) return;
+  try {
+    const u = new SpeechSynthesisUtterance("Hore! Hebat!");
+    u.lang = "id-ID"; u.rate = .95; u.pitch = 1.4;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+function celebrate(big){
+  burst(big ? 110 : 45);
+  if (CFG.sound !== "on") return;
+  fanfare(big);
+  if (big) setTimeout(hore, 520);
+}
+
+/* ---- Buttons ---- */
+again.addEventListener("click", () => {
+  again.classList.remove("show");
+  qi = 0;
+  showPhoto();
+  loadLetter();
+});
+
+el("back").addEventListener("click", () => {
+  clearIdle();
+  write.classList.remove("on");
   photo.classList.remove("shown");
-  current = null;
+});
+
+muteBtn.addEventListener("click", () => {
+  CFG.sound = CFG.sound === "on" ? "off" : "on";
+  saveCfg();
+  paintMute();
+});
+
+/* Drawn, not an emoji: emoji fonts vary wildly across Android builds and the
+   speaker glyph is simply missing on some, leaving a blank button. */
+const SPEAKER = '<path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z"/>';
+function paintMute(){
+  const on = CFG.sound === "on";
+  muteBtn.classList.toggle("off", !on);
+  muteBtn.innerHTML =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"' +
+    ' stroke-linecap="round" stroke-linejoin="round">' + SPEAKER +
+    (on ? '<path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18 6.5a7.5 7.5 0 0 1 0 11"/>'
+        : '<path d="M16 9.5l5 5M21 9.5l-5 5"/>') + '</svg>';
 }
 
-photo.addEventListener("load",  () => photo.classList.add("shown"));
-/* Never show a broken-image icon — fall back silently to the word alone. */
-photo.addEventListener("error", () => { photo.classList.remove("shown"); photo.removeAttribute("src"); });
+function paintCfg(){
+  for (const opts of settings.querySelectorAll(".opts"))
+    for (const b of opts.children)
+      b.classList.toggle("on", CFG[opts.dataset.key] === b.dataset.v);
+  paintMute();
+}
 
-stage.addEventListener("click", () => { if (current) show(current); });
-document.getElementById("back").addEventListener("click", e => { e.stopPropagation(); close(); });
+for (const opts of settings.querySelectorAll(".opts"))
+  opts.addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    CFG[opts.dataset.key] = b.dataset.v;
+    saveCfg();
+    paintCfg();
+  });
+
+el("closeset").addEventListener("click", () => settings.classList.remove("on"));
 
 /* Kill the ways a five-year-old accidentally leaves the app */
 document.addEventListener("contextmenu", e => e.preventDefault());
 document.addEventListener("gesturestart", e => e.preventDefault());
 document.addEventListener("dblclick", e => e.preventDefault());
 
-/* Warm the first photo of every letter so the first tap of each object
-   never shows an empty screen — at launch, and again on a theme switch
-   because the new theme's photos have never been fetched. */
-function warm(){
-  for (const [letter] of THEMES[theme].letters){
-    const p = pool(letter);
-    if (p.length) new Image().src = p[0];
-  }
-}
+addEventListener("resize", () => {
+  sizeConf();
+  if (!write.classList.contains("on")) return;
+  /* Resizing the canvas wipes it, so a rotation loses the ink she has laid
+     down — but not her progress, which lives in cpIdx, not in the pixels. */
+  layout();
+  sizeInk();
+});
 
 buildBoard();
-addEventListener("load", warm);
-
-/* Inline manifest keeps this a single file while still allowing
-   Add to Home Screen -> fullscreen, portrait-locked. */
-const manifest = {
-  name:"Main Kata", short_name:"Main Kata",
-  start_url:".", display:"standalone", orientation:"portrait",
-  background_color:"#ffffff", theme_color:"#ffffff",
-  icons:[{src:document.querySelector('link[rel="apple-touch-icon"]').href,
-          sizes:"180x180", type:"image/svg+xml", purpose:"any"}]
-};
-const link = document.createElement("link");
-link.rel = "manifest";
-link.href = URL.createObjectURL(new Blob([JSON.stringify(manifest)], {type:"application/manifest+json"}));
-document.head.appendChild(link);
+paintMute();
+sizeConf();
 </script>
 </body>
 </html>

@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Main Kata</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#faf7f2">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23f5c6d6'/%3E%3Ctext x='90' y='128' font-family='system-ui,sans-serif' font-size='110' font-weight='800' text-anchor='middle' fill='%233e3a36'%3EA%3C/text%3E%3C/svg%3E">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{
+    height:100%;overflow:hidden;background:#faf7f2;
+    font-family:ui-rounded,"SF Pro Rounded","Nunito",system-ui,-apple-system,sans-serif;
+    -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;
+    overscroll-behavior:none;touch-action:manipulation;
+  }
+
+  /* ---- Board: 26 Letter Boxes, 4x7, always fits, never scrolls ---- */
+  #board{
+    position:fixed;inset:0;display:grid;
+    grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(7,1fr);
+    gap:2.2vmin;padding:calc(2.6vmin + env(safe-area-inset-top)) 2.6vmin
+          calc(2.6vmin + env(safe-area-inset-bottom));
+  }
+  .box{
+    border:0;border-radius:22%;display:grid;place-items:center;
+    /* Longhands, not the `font:` shorthand — `inherit` is only legal as a
+       whole value, so `font:800 …/1 inherit` is dropped and buttons fall
+       back to the 13px UA default. */
+    font-family:inherit;font-weight:800;font-size:min(9.5vmin,10vh);
+    line-height:1;color:#3e3a36;
+    box-shadow:0 .5vmin 0 rgba(0,0,0,.06);cursor:pointer;
+    transition:transform .12s ease;
+  }
+  .box:active{transform:scale(.94)}
+  .box[data-pos="y"]{grid-column:2}
+
+  /* pastel Colour Groups */
+  .pink{background:#f5c6d6}  .blue{background:#bcdaec}
+  .yellow{background:#f7e6a4}.brown{background:#ddc6b1}
+  .orange{background:#f8cda6}.purple{background:#d6c6e8}
+
+  /* ---- Reveal: fullscreen, one object, nothing competing ---- */
+  #reveal{
+    position:fixed;inset:0;display:none;flex-direction:column;
+    align-items:center;justify-content:center;z-index:10;
+  }
+  #reveal.on{display:flex}
+  #stage{
+    position:absolute;inset:0;display:grid;place-items:center;
+    padding:14vmin 4vmin 18vmin;cursor:pointer;
+  }
+  #photo{
+    max-width:100%;max-height:100%;object-fit:contain;
+    border-radius:4vmin;opacity:0;transition:opacity .18s ease;
+    box-shadow:0 1vmin 4vmin rgba(0,0,0,.12);
+  }
+  #photo.shown{opacity:1}
+  #word{
+    position:absolute;left:0;right:0;
+    bottom:calc(4vmin + env(safe-area-inset-bottom));
+    text-align:center;font-family:inherit;font-weight:800;
+    font-size:min(11vmin,7vh);line-height:1;
+    color:#3e3a36;letter-spacing:.02em;pointer-events:none;
+  }
+  #back{
+    position:absolute;left:3vmin;top:calc(3vmin + env(safe-area-inset-top));
+    width:16vmin;height:16vmin;min-width:60px;min-height:60px;
+    border:0;border-radius:50%;background:rgba(255,255,255,.92);
+    box-shadow:0 .6vmin 2vmin rgba(0,0,0,.18);
+    font-family:inherit;font-weight:700;font-size:8vmin;line-height:1;
+    color:#3e3a36;cursor:pointer;z-index:2;
+  }
+  #back:active{transform:scale(.92)}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="board"></div>
+
+<div id="reveal">
+  <div id="stage"><img id="photo" alt=""></div>
+  <div id="word"></div>
+  <button id="back" aria-label="Kembali">&#8592;</button>
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+   Each letter carries a Target Word and a Search Phrase.
+   They deliberately differ — see docs/adr/0001. `word` is what she
+   says and what appears on screen; `query` only ever sourced the
+   photos and is never shown to her. Do not "fix" them to match.
+   ------------------------------------------------------------------ */
+const LETTERS = [
+  ["A","apel",    "pink",  "apel"],
+  ["B","buku",    "blue",  "buku"],
+  ["C","coklat",  "yellow","coklat bar"],
+  ["D","donat",   "brown", "donat stroberi"],
+  ["E","es krim", "orange","es krim cone stroberi"],
+  ["F","foto",    "purple","foto bingkai"],
+  ["G","gunting", "pink",  "gunting"],
+  ["H","hidung",  "blue",  "hidung"],
+  ["I","ikan",    "yellow","ikan badut"],
+  ["J","jam",     "brown", "jam dinding"],
+  ["K","kacamata","orange","kacamata"],
+  ["L","lampu",   "purple","lampu"],
+  ["M","madu",    "pink",  "madu"],
+  ["N","nasi",    "blue",  "nasi putih"],
+  ["O","obeng",   "yellow","obeng"],
+  ["P","payung",  "brown", "payung"],
+  ["Q","quran",   "orange","quran"],
+  ["R","roda",    "purple","roda ban"],
+  ["S","susu",    "yellow","susu"],
+  ["T","tahu",    "blue",  "tahu putih"],
+  ["U","uang",    "yellow","uang kertas"],
+  ["V","vas",     "brown", "vas bunga"],
+  ["W","wajan",   "orange","wajan hitam"],
+  ["X","xilofon", "purple","xylophone"],
+  ["Y","yoyo",    "pink",  "yoyo"],
+  ["Z","zebra",   "blue",  "zebra"],
+];
+
+/* POOLS: approved photo URLs per letter. Regenerated by tools/build_pools.py
+   — nothing lands here that has not been through the Contact Sheet. */
+/*POOLS_START*/
+const POOLS = {
+  "A": [
+    "https://images.pexels.com/photos/7333124/pexels-photo-7333124.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/9280417/pexels-photo-9280417.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/31663981/pexels-photo-31663981.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/9280426/pexels-photo-9280426.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "B": [
+    "https://images.pexels.com/photos/10946433/pexels-photo-10946433.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/3760323/pexels-photo-3760323.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/7718809/pexels-photo-7718809.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/8534033/pexels-photo-8534033.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "C": [
+    "https://images.pexels.com/photos/6167328/pexels-photo-6167328.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/14456375/pexels-photo-14456375.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/6167332/pexels-photo-6167332.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/6167340/pexels-photo-6167340.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "D": [
+    "https://images.pexels.com/photos/23203365/pexels-photo-23203365.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/14978254/pexels-photo-14978254.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/37253714/pexels-photo-37253714.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/35081225/pexels-photo-35081225.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "E": [
+    "https://images.pexels.com/photos/5061019/pexels-photo-5061019.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/5060943/pexels-photo-5060943.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/4397393/pexels-photo-4397393.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/28366975/pexels-photo-28366975.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "F": [
+    "https://images.pexels.com/photos/15585620/pexels-photo-15585620.png?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/5978721/pexels-photo-5978721.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/187023/pexels-photo-187023.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/1367230/pexels-photo-1367230.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "G": [
+    "https://images.pexels.com/photos/8250803/pexels-photo-8250803.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/35009364/pexels-photo-35009364.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/4226901/pexels-photo-4226901.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/4226910/pexels-photo-4226910.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "H": [
+    "https://images.pexels.com/photos/7298697/pexels-photo-7298697.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/2118710/pexels-photo-2118710.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/8419741/pexels-photo-8419741.png?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/34217562/pexels-photo-34217562.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "I": [
+    "https://images.pexels.com/photos/4593110/pexels-photo-4593110.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/27874654/pexels-photo-27874654.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/35787439/pexels-photo-35787439.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/12861719/pexels-photo-12861719.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "J": [
+    "https://images.pexels.com/photos/15797564/pexels-photo-15797564.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/14976142/pexels-photo-14976142.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/191703/pexels-photo-191703.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/9367466/pexels-photo-9367466.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "K": [
+    "https://images.pexels.com/photos/5752242/pexels-photo-5752242.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/4226865/pexels-photo-4226865.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/7718859/pexels-photo-7718859.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/28488304/pexels-photo-28488304.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "L": [
+    "https://images.pexels.com/photos/17994856/pexels-photo-17994856.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/28461166/pexels-photo-28461166.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/11474538/pexels-photo-11474538.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/8872548/pexels-photo-8872548.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "M": [
+    "https://images.pexels.com/photos/5634212/pexels-photo-5634212.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/4921856/pexels-photo-4921856.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/13246534/pexels-photo-13246534.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/9105957/pexels-photo-9105957.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "N": [
+    "https://images.pexels.com/photos/8956718/pexels-photo-8956718.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/31346219/pexels-photo-31346219.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/8423376/pexels-photo-8423376.png?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/8923092/pexels-photo-8923092.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "O": [
+    "https://images.pexels.com/photos/5583097/pexels-photo-5583097.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/5583106/pexels-photo-5583106.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/5583091/pexels-photo-5583091.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/20874131/pexels-photo-20874131.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "P": [
+    "https://images.pexels.com/photos/7140708/pexels-photo-7140708.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/20425627/pexels-photo-20425627.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/8465590/pexels-photo-8465590.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/12877826/pexels-photo-12877826.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "Q": [
+    "https://images.pexels.com/photos/14743719/pexels-photo-14743719.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/14074052/pexels-photo-14074052.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/28823667/pexels-photo-28823667.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/28823661/pexels-photo-28823661.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "R": [
+    "https://images.pexels.com/photos/34357287/pexels-photo-34357287.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/36635358/pexels-photo-36635358.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/37378481/pexels-photo-37378481.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/33630422/pexels-photo-33630422.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "S": [
+    "https://images.pexels.com/photos/4324359/pexels-photo-4324359.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/1675976/pexels-photo-1675976.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/4324320/pexels-photo-4324320.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "T": [
+    "https://images.pexels.com/photos/11663140/pexels-photo-11663140.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/6805775/pexels-photo-6805775.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/35132130/pexels-photo-35132130.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/4518604/pexels-photo-4518604.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "U": [
+    "https://images.pexels.com/photos/6927371/pexels-photo-6927371.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/6927358/pexels-photo-6927358.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/10067197/pexels-photo-10067197.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/9914134/pexels-photo-9914134.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "V": [
+    "https://images.pexels.com/photos/30555647/pexels-photo-30555647.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/12486863/pexels-photo-12486863.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/26810756/pexels-photo-26810756.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/6955468/pexels-photo-6955468.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "W": [
+    "https://images.pexels.com/photos/10936545/pexels-photo-10936545.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/8704812/pexels-photo-8704812.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/31521713/pexels-photo-31521713.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/10936546/pexels-photo-10936546.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "X": [
+    "https://images.pexels.com/photos/6637619/pexels-photo-6637619.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/6743155/pexels-photo-6743155.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/6274911/pexels-photo-6274911.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/4407649/pexels-photo-4407649.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "Y": [
+    "https://images.pexels.com/photos/5454342/pexels-photo-5454342.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/4196860/pexels-photo-4196860.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/27695399/pexels-photo-27695399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/34594829/pexels-photo-34594829.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "Z": [
+    "https://images.pexels.com/photos/35725386/pexels-photo-35725386.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/27056091/pexels-photo-27056091.png?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/4740805/pexels-photo-4740805.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/33650635/pexels-photo-33650635.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ]
+};
+/*POOLS_END*/
+
+const TINT = {pink:"#fdeff4",blue:"#eef6fb",yellow:"#fdf7e6",
+              brown:"#f7f0e9",orange:"#fdf1e6",purple:"#f4effa"};
+
+const board  = document.getElementById("board");
+const reveal = document.getElementById("reveal");
+const stage  = document.getElementById("stage");
+const photo  = document.getElementById("photo");
+const wordEl = document.getElementById("word");
+
+let current = null, shownIdx = -1;
+
+/* ---- Build the Board ---- */
+for (const [letter, word, colour] of LETTERS) {
+  const b = document.createElement("button");
+  b.className = "box " + colour;
+  b.textContent = letter;
+  b.setAttribute("aria-label", word);
+  if (letter === "Y") b.dataset.pos = "y";
+  b.addEventListener("click", () => open(letter, word, colour));
+  board.appendChild(b);
+}
+
+function pool(letter){ return (POOLS[letter] && POOLS[letter].length) ? POOLS[letter] : []; }
+
+/* Pick a different photo than the one already showing, so every tap
+   is a fresh object — that is what drives the repetitions. */
+function pick(letter){
+  const p = pool(letter);
+  if (!p.length) return -1;
+  if (p.length === 1) return 0;
+  let i;
+  do { i = Math.floor(Math.random() * p.length); } while (i === shownIdx);
+  return i;
+}
+
+function show(letter){
+  const p = pool(letter), i = pick(letter);
+  photo.classList.remove("shown");
+  if (i < 0){ photo.removeAttribute("src"); return; }   // no pool: word alone
+  shownIdx = i;
+  photo.src = p[i];
+  // warm the next one so the following tap is instant
+  if (p.length > 1) new Image().src = p[(i + 1) % p.length];
+}
+
+function open(letter, word, colour){
+  current = letter; shownIdx = -1;
+  wordEl.textContent = word;
+  reveal.style.background = TINT[colour];
+  reveal.classList.add("on");
+  show(letter);
+}
+
+function close(){
+  reveal.classList.remove("on");
+  photo.classList.remove("shown");
+  current = null;
+}
+
+photo.addEventListener("load",  () => photo.classList.add("shown"));
+/* Never show a broken-image icon — fall back silently to the word alone. */
+photo.addEventListener("error", () => { photo.classList.remove("shown"); photo.removeAttribute("src"); });
+
+stage.addEventListener("click", () => { if (current) show(current); });
+document.getElementById("back").addEventListener("click", e => { e.stopPropagation(); close(); });
+
+/* Kill the ways a five-year-old accidentally leaves the app */
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("gesturestart", e => e.preventDefault());
+document.addEventListener("dblclick", e => e.preventDefault());
+
+/* Warm the first photo of every letter at launch so the first tap of
+   each object never shows an empty screen. */
+addEventListener("load", () => {
+  for (const [letter] of LETTERS){
+    const p = pool(letter);
+    if (p.length) new Image().src = p[0];
+  }
+});
+
+/* Inline manifest keeps this a single file while still allowing
+   Add to Home Screen -> fullscreen, portrait-locked. */
+const manifest = {
+  name:"Main Kata", short_name:"Main Kata",
+  start_url:".", display:"standalone", orientation:"portrait",
+  background_color:"#faf7f2", theme_color:"#faf7f2",
+  icons:[{src:document.querySelector('link[rel="apple-touch-icon"]').href,
+          sizes:"180x180", type:"image/svg+xml", purpose:"any"}]
+};
+const link = document.createElement("link");
+link.rel = "manifest";
+link.href = URL.createObjectURL(new Blob([JSON.stringify(manifest)], {type:"application/manifest+json"}));
+document.head.appendChild(link);
+</script>
+</body>
+</html>

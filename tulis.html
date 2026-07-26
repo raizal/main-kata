@@ -155,19 +155,6 @@
   #guide .hint{fill:var(--color-spark-blue);opacity:.45}
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
 
-  /* Space is reserved whether or not the button is showing, so finishing a
-     letter never shifts the board under her hand. */
-  #againwrap{flex:none;height:calc(11vmin + 18px);display:grid;place-items:center;width:100%}
-  #again{
-    visibility:hidden;border:0;border-radius:var(--radius);
-    background:var(--color-eager-green);color:var(--color-paper-white);
-    padding:12px 40px;cursor:pointer;
-    font-family:inherit;font-weight:700;font-size:var(--text-nav-label);
-    text-transform:uppercase;letter-spacing:var(--tracking-nav-label);
-  }
-  #again.show{visibility:visible}
-  #again:active{transform:scale(.96)}
-
   #confetti{position:fixed;inset:0;z-index:20;pointer-events:none}
 
   /* ---- Settings: the grown-up's panel, never in her way ---- */
@@ -233,7 +220,6 @@
       <canvas id="ink"></canvas>
     </div>
   </div>
-  <div id="againwrap"><button id="again">Lagi</button></div>
 </div>
 
 <canvas id="confetti"></canvas>
@@ -929,7 +915,7 @@ const NS = "http://www.w3.org/2000/svg";
 const el = id => document.getElementById(id);
 const board=el("board"), picker=el("picker"), write=el("write"),
       photo=el("photo"), wordEl=el("word"), guide=el("guide"), ink=el("ink"),
-      wrap=el("tracewrap"), again=el("again"), conf=el("confetti"),
+      wrap=el("tracewrap"), conf=el("confetti"),
       muteBtn=el("mute"), settings=el("settings");
 
 /* ---- Settings, remembered between visits ---- */
@@ -1057,13 +1043,28 @@ function loadSubject(){
   showPhoto();
 }
 
+/* The round moves itself along: the next letter, and then the next Subject,
+   arrive on a timer once she finishes one. Nothing waits on her finding a
+   button, because reading one and deciding to press it is a separate skill
+   from the writing she is here to practise — and at the end of a word the
+   thing she wants is the confetti, not a decision. */
+let advTimer = null;
+function clearAdvance(){ clearTimeout(advTimer); advTimer = null; }
+
+function nextSubject(){
+  const line = subjects(letterKey);
+  subj = line.length ? (subj + 1) % line.length : 0;
+  loadSubject();
+  loadLetter();
+}
+
 function startRound(letter){
   unlockAudio();
+  clearAdvance();
   letterKey = letter;
   subj = 0;
   loadSubject();
   write.classList.add("on");
-  again.classList.remove("show");
   layout();
   sizeInk();
   loadLetter();
@@ -1178,8 +1179,12 @@ function letterDone(){
   markWord();
   const last = qi >= queue.length;
   celebrate(last);
-  if (last) { again.classList.add("show"); return; }
-  setTimeout(loadLetter, 950);
+  /* A finished word holds long enough for the fanfare and the confetti to
+     land and for her to look at what she made, then the next Subject behind
+     this letter arrives by itself — the same order the Board walks, see
+     docs/adr/0002. A finished letter mid-word waits only for the pop. */
+  clearAdvance();
+  advTimer = setTimeout(last ? nextSubject : loadLetter, last ? 2600 : 950);
 }
 
 /* Lifting her finger never resets anything — she resumes from the furthest
@@ -1223,7 +1228,7 @@ function layout(){
   const inner = box.width - px("paddingLeft") - px("paddingRight");
   const free = box.height - px("paddingTop") - px("paddingBottom")
     - px("rowGap") * (write.children.length - 1)
-    - el("wtop").offsetHeight - wordEl.offsetHeight - el("againwrap").offsetHeight;
+    - el("wtop").offsetHeight - wordEl.offsetHeight;
 
   const s = Math.max(0, Math.floor(Math.min(inner, free * SQUARE_SHARE)));
   photo.style.height = Math.max(0, Math.floor(free - s)) + "px";
@@ -1406,18 +1411,12 @@ function celebrate(big){
 }
 
 /* ---- Buttons ---- */
-/* "Lagi" moves on to the next Subject behind this letter rather than to
-   another photograph of the same one — see docs/adr/0002. */
-again.addEventListener("click", () => {
-  again.classList.remove("show");
-  const line = subjects(letterKey);
-  subj = line.length ? (subj + 1) % line.length : 0;
-  loadSubject();
-  loadLetter();
-});
-
 el("back").addEventListener("click", () => {
   clearIdle();
+  /* Without this a round she left mid-celebration would load its next Subject
+     into a view she is no longer looking at, and the Board would be showing
+     one letter while the write view held another. */
+  clearAdvance();
   write.classList.remove("on");
   photo.classList.remove("shown");
 });

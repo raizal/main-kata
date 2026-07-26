@@ -18,12 +18,28 @@
     overscroll-behavior:none;touch-action:manipulation;
   }
 
+  /* ---- Home: theme selector above the board, both always on screen ---- */
+  #home{
+    position:fixed;inset:0;display:flex;flex-direction:column;
+    padding:calc(2.6vmin + env(safe-area-inset-top)) 2.6vmin
+            calc(2.6vmin + env(safe-area-inset-bottom));
+  }
+
+  /* Small and muted: it is the grown-up's control, and it must not compete
+     with the 26 boxes for her attention. */
+  #picker{display:flex;gap:1.6vmin;justify-content:center;padding-bottom:2vmin}
+  .tab{
+    border:0;border-radius:999px;padding:1.4vmin 5vmin;
+    font-family:inherit;font-weight:700;font-size:min(4vmin,2.4vh);
+    line-height:1;color:#8a8078;background:#f0ece6;cursor:pointer;
+  }
+  .tab.on{color:#3e3a36;background:#e2dbd1}
+
   /* ---- Board: 26 Letter Boxes, 4x7, always fits, never scrolls ---- */
   #board{
-    position:fixed;inset:0;display:grid;
+    flex:1;min-height:0;display:grid;
     grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(7,1fr);
-    gap:2.2vmin;padding:calc(2.6vmin + env(safe-area-inset-top)) 2.6vmin
-          calc(2.6vmin + env(safe-area-inset-bottom));
+    gap:2.2vmin;
   }
   .box{
     border:0;border-radius:22%;display:grid;place-items:center;
@@ -81,7 +97,10 @@
 </head>
 <body>
 
-<div id="board"></div>
+<div id="home">
+  <div id="picker"></div>
+  <div id="board"></div>
+</div>
 
 <div id="reveal">
   <div id="stage"><img id="photo" alt=""></div>
@@ -91,44 +110,95 @@
 
 <script>
 /* ------------------------------------------------------------------
+   Colour belongs to the LETTER, not to the theme. Switching themes
+   must leave the board looking exactly the same — same 26 boxes, same
+   positions, same colours — so the map she has memorised still holds
+   and only the pictures behind it change.
+   ------------------------------------------------------------------ */
+const COLOURS = {
+  A:"pink",  B:"blue",  C:"yellow",D:"brown", E:"orange",F:"purple",
+  G:"pink",  H:"blue",  I:"yellow",J:"brown", K:"orange",L:"purple",
+  M:"pink",  N:"blue",  O:"yellow",P:"brown", Q:"orange",R:"purple",
+  S:"yellow",T:"blue",  U:"yellow",V:"brown", W:"orange",X:"purple",
+  Y:"pink",  Z:"blue",
+};
+
+/* ------------------------------------------------------------------
    Each letter carries a Target Word and a Search Phrase.
    They deliberately differ — see docs/adr/0001. `word` is what she
    says and what appears on screen; `query` only ever sourced the
    photos and is never shown to her. Do not "fix" them to match.
    ------------------------------------------------------------------ */
-const LETTERS = [
-  ["A","apel",    "pink",  "apel"],
-  ["B","buku",    "blue",  "buku"],
-  ["C","coklat",  "yellow","coklat bar"],
-  ["D","donat",   "brown", "donat stroberi"],
-  ["E","es krim", "orange","es krim cone stroberi"],
-  ["F","foto",    "purple","foto bingkai"],
-  ["G","gunting", "pink",  "gunting"],
-  ["H","hidung",  "blue",  "hidung"],
-  ["I","ikan",    "yellow","ikan badut"],
-  ["J","jam",     "brown", "jam dinding"],
-  ["K","kacamata","orange","kacamata"],
-  ["L","lampu",   "purple","lampu"],
-  ["M","madu",    "pink",  "madu"],
-  ["N","nasi",    "blue",  "nasi putih"],
-  ["O","obeng",   "yellow","obeng"],
-  ["P","payung",  "brown", "payung"],
-  ["Q","quran",   "orange","quran"],
-  ["R","roda",    "purple","roda ban"],
-  ["S","susu",    "yellow","susu"],
-  ["T","tahu",    "blue",  "tahu putih"],
-  ["U","uang",    "yellow","uang kertas"],
-  ["V","vas",     "brown", "vas bunga"],
-  ["W","wajan",   "orange","wajan hitam"],
-  ["X","xilofon", "purple","xylophone"],
-  ["Y","yoyo",    "pink",  "yoyo"],
-  ["Z","zebra",   "blue",  "zebra"],
-];
+const THEMES = {
+  benda: {
+    label: "Benda",
+    letters: [
+      ["A","apel",    "apel"],
+      ["B","buku",    "buku"],
+      ["C","coklat",  "coklat bar"],
+      ["D","donat",   "donat stroberi"],
+      ["E","es krim", "es krim cone stroberi"],
+      ["F","foto",    "foto bingkai"],
+      ["G","gunting", "gunting"],
+      ["H","hidung",  "hidung"],
+      ["I","ikan",    "ikan badut"],
+      ["J","jam",     "jam dinding"],
+      ["K","kacamata","kacamata"],
+      ["L","lampu",   "lampu"],
+      ["M","madu",    "madu"],
+      ["N","nasi",    "nasi putih"],
+      ["O","obeng",   "obeng"],
+      ["P","payung",  "payung"],
+      ["Q","quran",   "quran"],
+      ["R","roda",    "roda ban"],
+      ["S","susu",    "susu"],
+      ["T","tahu",    "tahu putih"],
+      ["U","uang",    "uang kertas"],
+      ["V","vas",     "vas bunga"],
+      ["W","wajan",   "wajan hitam"],
+      ["X","xilofon", "xylophone"],
+      ["Y","yoyo",    "yoyo"],
+      ["Z","zebra",   "zebra"],
+    ],
+  },
+  hewan: {
+    label: "Hewan",
+    letters: [
+      ["A","ayam",     "ayam"],
+      ["B","bebek",    "bebek"],
+      ["C","cicak",    "cicak"],
+      ["D","domba",    "domba"],
+      ["E","elang",    "elang"],
+      ["F","flamingo", "flamingo"],
+      ["G","gajah",    "gajah"],
+      ["H","harimau",  "harimau"],
+      ["I","ikan",     "ikan mas"],
+      ["J","jerapah",  "jerapah"],
+      ["K","kucing",   "kucing"],
+      ["L","lebah",    "lebah"],
+      ["M","monyet",   "monyet"],
+      ["N","nyamuk",   "nyamuk"],
+      ["O","orangutan","orangutan"],
+      ["P","panda",    "panda"],
+      ["Q","quokka",   "quokka"],
+      ["R","rusa",     "rusa"],
+      ["S","sapi",     "sapi"],
+      ["T","tikus",    "tikus"],
+      ["U","unta",     "unta"],
+      ["V","viper",    "ular viper"],
+      ["W","walrus",   "walrus"],
+      ["X","xerus",    "bajing tanah"],
+      ["Y","yuyu",     "yuyu kepiting"],
+      ["Z","zebra",    "zebra"],
+    ],
+  },
+};
 
 /* POOLS: approved photo URLs per letter. Regenerated by tools/build_pools.py
    — nothing lands here that has not been through the Contact Sheet. */
 /*POOLS_START*/
 const POOLS = {
+ "benda": {
   "A": [
     "https://images.pexels.com/photos/7333124/pexels-photo-7333124.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
     "https://images.pexels.com/photos/9280417/pexels-photo-9280417.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
@@ -285,6 +355,165 @@ const POOLS = {
     "https://images.pexels.com/photos/4740805/pexels-photo-4740805.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
     "https://images.pexels.com/photos/33650635/pexels-photo-33650635.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
   ]
+ },
+ "hewan": {
+  "A": [
+    "https://images.pexels.com/photos/38365059/pexels-photo-38365059.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/19038587/pexels-photo-19038587.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/29707950/pexels-photo-29707950.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/37235014/pexels-photo-37235014.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "B": [
+    "https://images.pexels.com/photos/27565478/pexels-photo-27565478.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/12754746/pexels-photo-12754746.png?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/23489805/pexels-photo-23489805.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/17911356/pexels-photo-17911356.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "C": [
+    "https://images.pexels.com/photos/29979168/pexels-photo-29979168.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/36866660/pexels-photo-36866660.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/27772577/pexels-photo-27772577.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/23833420/pexels-photo-23833420.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "D": [
+    "https://images.pexels.com/photos/32367317/pexels-photo-32367317.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/31973752/pexels-photo-31973752.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/9270002/pexels-photo-9270002.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/31902636/pexels-photo-31902636.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "E": [
+    "https://images.pexels.com/photos/38204263/pexels-photo-38204263.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/35548/golden-eagle-animal-bird-bill.jpg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/36164232/pexels-photo-36164232.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/31519183/pexels-photo-31519183.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "F": [
+    "https://images.pexels.com/photos/30597934/pexels-photo-30597934.png?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/30597911/pexels-photo-30597911.png?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/5800775/pexels-photo-5800775.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/30597910/pexels-photo-30597910.png?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "G": [
+    "https://images.pexels.com/photos/17081254/pexels-photo-17081254.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/13129167/pexels-photo-13129167.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/35671094/pexels-photo-35671094.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/17793971/pexels-photo-17793971.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "H": [
+    "https://images.pexels.com/photos/36530920/pexels-photo-36530920.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/37426136/pexels-photo-37426136.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/11996336/pexels-photo-11996336.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/27834738/pexels-photo-27834738.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "I": [
+    "https://images.pexels.com/photos/886210/pexels-photo-886210.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/36581408/pexels-photo-36581408.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/4365565/pexels-photo-4365565.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/5966770/pexels-photo-5966770.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "J": [
+    "https://images.pexels.com/photos/31030732/pexels-photo-31030732.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/35283497/pexels-photo-35283497.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/4577493/pexels-photo-4577493.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/14367741/pexels-photo-14367741.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "K": [
+    "https://images.pexels.com/photos/33819083/pexels-photo-33819083.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/18354831/pexels-photo-18354831.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/37032712/pexels-photo-37032712.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/18354830/pexels-photo-18354830.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "L": [
+    "https://images.pexels.com/photos/27418555/pexels-photo-27418555.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/14287333/pexels-photo-14287333.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/17737840/pexels-photo-17737840.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/38101066/pexels-photo-38101066.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "M": [
+    "https://images.pexels.com/photos/13272459/pexels-photo-13272459.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/13272457/pexels-photo-13272457.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/34140848/pexels-photo-34140848.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/29520938/pexels-photo-29520938.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "N": [
+    "https://images.pexels.com/photos/1685610/pexels-photo-1685610.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/30601916/pexels-photo-30601916.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/27178285/pexels-photo-27178285.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/6439698/pexels-photo-6439698.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "O": [
+    "https://images.pexels.com/photos/10971036/pexels-photo-10971036.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/27582276/pexels-photo-27582276.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/38550162/pexels-photo-38550162.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/30041537/pexels-photo-30041537.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "P": [
+    "https://images.pexels.com/photos/31047125/pexels-photo-31047125.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/31097566/pexels-photo-31097566.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/33103117/pexels-photo-33103117.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/33403163/pexels-photo-33403163.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "Q": [
+    "https://images.pexels.com/photos/30652256/pexels-photo-30652256.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/32890170/pexels-photo-32890170.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/30652257/pexels-photo-30652257.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "R": [
+    "https://images.pexels.com/photos/20489124/pexels-photo-20489124.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/33753565/pexels-photo-33753565.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/31819271/pexels-photo-31819271.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/12377320/pexels-photo-12377320.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "S": [
+    "https://images.pexels.com/photos/27896657/pexels-photo-27896657.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/22922494/pexels-photo-22922494.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/34582680/pexels-photo-34582680.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/31794126/pexels-photo-31794126.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "T": [
+    "https://images.pexels.com/photos/9980949/pexels-photo-9980949.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/2189599/pexels-photo-2189599.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/16206020/pexels-photo-16206020.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/2280794/pexels-photo-2280794.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "U": [
+    "https://images.pexels.com/photos/3788/animal-wilderness-zoo-camel.jpg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/30239281/pexels-photo-30239281.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/36922582/pexels-photo-36922582.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/28291075/pexels-photo-28291075.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "V": [
+    "https://images.pexels.com/photos/8807543/pexels-photo-8807543.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/17721248/pexels-photo-17721248.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/38585464/pexels-photo-38585464.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/36700729/pexels-photo-36700729.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "W": [
+    "https://images.pexels.com/photos/12073523/pexels-photo-12073523.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/12073516/pexels-photo-12073516.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/12073514/pexels-photo-12073514.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/6394816/pexels-photo-6394816.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "X": [
+    "https://images.pexels.com/photos/33144154/pexels-photo-33144154.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/33144162/pexels-photo-33144162.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/6892938/pexels-photo-6892938.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/33144152/pexels-photo-33144152.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "Y": [
+    "https://images.pexels.com/photos/31764068/pexels-photo-31764068.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/5311210/pexels-photo-5311210.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/7796409/pexels-photo-7796409.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/27649541/pexels-photo-27649541.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ],
+  "Z": [
+    "https://images.pexels.com/photos/26954301/pexels-photo-26954301.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/17775005/pexels-photo-17775005.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/12804263/pexels-photo-12804263.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "https://images.pexels.com/photos/5842495/pexels-photo-5842495.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+  ]
+ }
 };
 /*POOLS_END*/
 
@@ -292,25 +521,59 @@ const TINT = {pink:"#fdeff4",blue:"#eef6fb",yellow:"#fdf7e6",
               brown:"#f7f0e9",orange:"#fdf1e6",purple:"#f4effa"};
 
 const board  = document.getElementById("board");
+const picker = document.getElementById("picker");
 const reveal = document.getElementById("reveal");
 const stage  = document.getElementById("stage");
 const photo  = document.getElementById("photo");
 const wordEl = document.getElementById("word");
 
-let current = null, shownIdx = -1;
+let current = null, shownIdx = -1, theme = "benda";
 
-/* ---- Build the Board ---- */
-for (const [letter, word, colour] of LETTERS) {
+/* Remember which theme she was last playing, so reopening the app from
+   the home screen puts her straight back where she was. */
+const SAVED = "rere.theme";
+try { if (THEMES[localStorage.getItem(SAVED)]) theme = localStorage.getItem(SAVED); }
+catch (e) { /* private mode: just start on benda */ }
+
+/* ---- Theme selector, on the home screen above the board ---- */
+for (const [name, t] of Object.entries(THEMES)) {
   const b = document.createElement("button");
-  b.className = "box " + colour;
-  b.textContent = letter;
-  b.setAttribute("aria-label", word);
-  if (letter === "Y") b.dataset.pos = "y";
-  b.addEventListener("click", () => open(letter, word, colour));
-  board.appendChild(b);
+  b.className = "tab";
+  b.textContent = t.label;
+  b.dataset.theme = name;
+  b.addEventListener("click", () => setTheme(name));
+  picker.appendChild(b);
 }
 
-function pool(letter){ return (POOLS[letter] && POOLS[letter].length) ? POOLS[letter] : []; }
+/* ---- Build the Board ---- */
+function buildBoard(){
+  board.textContent = "";
+  for (const [letter, word] of THEMES[theme].letters) {
+    const colour = COLOURS[letter];
+    const b = document.createElement("button");
+    b.className = "box " + colour;
+    b.textContent = letter;
+    b.setAttribute("aria-label", word);
+    if (letter === "Y") b.dataset.pos = "y";
+    b.addEventListener("click", () => open(letter, word, colour));
+    board.appendChild(b);
+  }
+  for (const tab of picker.children)
+    tab.classList.toggle("on", tab.dataset.theme === theme);
+}
+
+function setTheme(name){
+  if (name === theme) return;
+  theme = name;
+  try { localStorage.setItem(SAVED, name); } catch (e) {}
+  buildBoard();
+  warm();
+}
+
+function pool(letter){
+  const p = POOLS[theme] && POOLS[theme][letter];
+  return (p && p.length) ? p : [];
+}
 
 /* Pick a different photo than the one already showing, so every tap
    is a fresh object — that is what drives the repetitions. */
@@ -359,14 +622,18 @@ document.addEventListener("contextmenu", e => e.preventDefault());
 document.addEventListener("gesturestart", e => e.preventDefault());
 document.addEventListener("dblclick", e => e.preventDefault());
 
-/* Warm the first photo of every letter at launch so the first tap of
-   each object never shows an empty screen. */
-addEventListener("load", () => {
-  for (const [letter] of LETTERS){
+/* Warm the first photo of every letter so the first tap of each object
+   never shows an empty screen — at launch, and again on a theme switch
+   because the new theme's photos have never been fetched. */
+function warm(){
+  for (const [letter] of THEMES[theme].letters){
     const p = pool(letter);
     if (p.length) new Image().src = p[0];
   }
-});
+}
+
+buildBoard();
+addEventListener("load", warm);
 
 /* Inline manifest keeps this a single file while still allowing
    Add to Home Screen -> fullscreen, portrait-locked. */

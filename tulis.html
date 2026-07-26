@@ -210,6 +210,10 @@
 <div id="write">
   <div id="wtop">
     <button id="back" class="round" aria-label="Kembali">&#8592;</button>
+    <!-- Reset sits up here rather than under the square so it costs no height:
+         the tracing area is the thing she needs big, and a button beside her
+         hand is a button she presses by accident. -->
+    <button id="reset" class="round" aria-label="Ulangi">&#8634;</button>
     <button id="mute" class="round" aria-label="Suara">&#128266;</button>
   </div>
   <img id="photo" alt="">
@@ -1039,8 +1043,20 @@ function loadSubject(){
     ? [...curWord].map((c, i) => ({c, i})).filter(x => STROKES[x.c])
     : [{c: letterKey, i: 0}];
   qi = 0;
+  /* Nothing to trace would leave her stuck on a screen with no way forward,
+     and the walk can now arrive at a letter by itself rather than only by her
+     tapping it, so fall back to the box letter. */
+  if (!queue.length) queue = [{c: letterKey, i: 0}];
   renderWord();
   showPhoto();
+}
+
+/* The letter order the walk follows once a Line-up is exhausted — board order,
+   wrapping Z back to A. */
+function nextLetter(letter){
+  const ls = THEMES[theme].letters;
+  const i = ls.findIndex(([l]) => l === letter);
+  return ls[(i + 1) % ls.length][0];
 }
 
 /* The round moves itself along: the next letter, and then the next Subject,
@@ -1051,10 +1067,29 @@ function loadSubject(){
 let advTimer = null;
 function clearAdvance(){ clearTimeout(advTimer); advTimer = null; }
 
+/* Once the last animal behind a letter is written, the walk carries on to the
+   next letter rather than looping back to the first animal — so she is always
+   heading somewhere new, and the alphabet gets covered by playing rather than
+   by her having to go back and choose. */
 function nextSubject(){
   const line = subjects(letterKey);
-  subj = line.length ? (subj + 1) % line.length : 0;
-  loadSubject();
+  if (subj + 1 < line.length) {
+    subj++;
+    loadSubject();
+    loadLetter();
+    return;
+  }
+  startRound(nextLetter(letterKey));
+}
+
+/* Wipe her line and start this animal over from its first letter. The word
+   she is writing and the photo above it stay put — this undoes the drawing,
+   not the round, because a reset that also changed the word would punish her
+   for wanting another go. */
+function resetSubject(){
+  clearAdvance();
+  lastPt = null;
+  qi = 0;
   loadLetter();
 }
 
@@ -1411,6 +1446,8 @@ function celebrate(big){
 }
 
 /* ---- Buttons ---- */
+el("reset").addEventListener("click", resetSubject);
+
 el("back").addEventListener("click", () => {
   clearIdle();
   /* Without this a round she left mid-celebration would load its next Subject

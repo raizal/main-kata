@@ -222,3 +222,33 @@ html,body{
 #batas .angka .nol{grid-column:2}
 
 #batas.usai .soal,#batas.usai .angka{display:none}
+
+/* Aba-aba satu menit sebelum berhenti. Sebaris di kaki layar dan tidak bisa
+   dipencet: dia bukan sesuatu yang harus dijawab, cuma sesuatu yang harus
+   terlihat. Warnanya diambil dari kertas dan garis biasa — kalau penanda
+   ini sendiri sudah bikin tegang, dia gagal justru pada tugasnya. */
+#aba{
+  position:fixed;z-index:80;
+  left:50%;transform:translateX(-50%);
+  bottom:calc(10px + env(safe-area-inset-bottom));
+  max-width:calc(100% - 28px);
+  padding:9px 16px;
+  border:var(--border) solid var(--garis);border-radius:999px;
+  background:var(--kertas-dalam);
+  color:var(--tinta-lembut);
+  font-weight:700;font-size:13px;line-height:1.2;
+  white-space:nowrap;
+  pointer-events:none;
+}
+
+/* Pintu orang tua di layar berhenti: satu pojok tanpa rupa sama sekali,
+   yang baru membuka soalnya setelah ditahan dua detik. Tidak digambar
+   dengan sengaja — pintu yang kelihatan adalah pintu yang dicoba. */
+#batas .pintu{
+  display:none;
+  position:absolute;right:0;bottom:0;
+  width:76px;height:76px;
+  border:0;background:transparent;
+  -webkit-appearance:none;appearance:none;
+}
+#batas.usai .pintu{display:block}

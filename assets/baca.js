@@ -55,28 +55,33 @@ const IKON_SUARA =
   ' stroke-linecap="round" stroke-linejoin="round">' +
   '<path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z"/>';
 
+/* Tombolnya ikut hilang kalau ponselnya tidak punya suara Indonesia:
+   tombol yang bisa dinyalakan tapi tidak pernah bersuara cuma bikin orang
+   tuanya mengira ada yang rusak. */
 function catSuara(){
-  suaraBtn.classList.toggle("mati", !bunyi);
-  suaraBtn.setAttribute("aria-label", bunyi ? "Matikan suara" : "Nyalakan suara");
-  suaraBtn.setAttribute("aria-pressed", String(bunyi));
+  const bisa = bolehUcap();
+  const on = bunyi && bisa;
+  suaraBtn.disabled = !bisa;
+  suaraBtn.classList.toggle("mati", !on);
+  suaraBtn.setAttribute("aria-label",
+    !bisa ? "Suara Indonesia belum terpasang di ponsel ini"
+          : on ? "Matikan suara" : "Nyalakan suara");
+  suaraBtn.setAttribute("aria-pressed", String(on));
   suaraBtn.innerHTML = IKON_SUARA +
-    (bunyi ? '<path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18 6.5a7.5 7.5 0 0 1 0 11"/>'
-           : '<path d="M16 9.5l5 5M21 9.5l-5 5"/>') + '</svg>';
+    (on ? '<path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18 6.5a7.5 7.5 0 0 1 0 11"/>'
+        : '<path d="M16 9.5l5 5M21 9.5l-5 5"/>') + '</svg>';
 }
 
+/* Daftar suara ponsel kadang baru datang beberapa saat setelah halaman
+   terbuka, jadi tombolnya dicat ulang begitu jawabannya pasti. */
+addEventListener("suaraberubah", catSuara);
+
+/* Pengucapannya sendiri ada di ucapID (assets/app.js), bersama penjaga
+   bahasanya: kalau ponselnya tidak punya suara Indonesia, halaman ini
+   memilih diam daripada mengajarkan bunyi Inggris. */
 function ucap(teks){
-  if (!bunyi || !teks || !("speechSynthesis" in window)) return;
-  try {
-    /* Yang sebelumnya masih diucapkan dibatalkan dulu: dua suara menumpuk
-       jadi bunyi kacau, bukan dua kata. */
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(teks);
-    u.lang = "id-ID";
-    /* Pelan dan datar. Suara ceria yang cepat justru sulit ditiru. */
-    u.rate = .75;
-    u.pitch = 1;
-    speechSynthesis.speak(u);
-  } catch (e) {}
+  if (!bunyi) return;
+  ucapID(teks);
 }
 
 suaraBtn.addEventListener("click", () => {

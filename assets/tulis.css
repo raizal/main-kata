@@ -184,6 +184,14 @@
 #atur .pilih button.on{
   border-color:var(--sage);background:var(--sage-muda);color:var(--sage-tua);
 }
+#atur .pilih button:disabled{
+  opacity:.45;cursor:default;
+}
+/* Keterangan kenapa barisnya mati. Baris pengaturan yang tidak bisa dipencet
+   tanpa penjelasan terbaca sebagai aplikasi rusak. */
+#atur .catatan{
+  margin:-8px 0 16px;font-size:13px;line-height:1.45;color:var(--tinta-lembut);
+}
 #tutupatur{
   width:100%;border:var(--border) solid var(--sage);border-radius:12px;
   margin-top:8px;background:var(--sage-muda);color:var(--sage-tua);

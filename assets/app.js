@@ -77,3 +77,86 @@ function riwayat(tutup, sedangTerbuka){
 function hangatkan(url){
   if (url) new Image().src = url;
 }
+
+/* ------------------------------------------------------------------
+   Suara.
+
+   Semua pengucapan di aplikasi ini lewat satu pintu, dan pintu itu punya
+   satu penjaga: harus ada suara Indonesia yang benar-benar terpasang di
+   ponselnya.
+
+   Tanpa penjaga itu, ponsel yang tidak punya suara id-ID akan diam-diam
+   membacakan "ayam" dengan mesin Inggris. Untuk anak yang sedang dilatih
+   menirukan persis apa yang dia dengar, itu bukan sekadar janggal — itu
+   mengajarkan bunyi yang salah, dan diam jauh lebih baik daripada salah.
+
+   Daftar suaranya datang belakangan di sebagian peramban. Selama daftarnya
+   masih kosong kita memang belum tahu apa-apa, jadi permintaannya tetap
+   dilayani seperti dulu; begitu daftarnya datang jawabannya pasti, dan
+   halaman diberi tahu lewat "suaraberubah" supaya tombol suaranya ikut
+   menyesuaikan tanpa perlu dimuat ulang.
+   ------------------------------------------------------------------ */
+let daftarSuara = [];
+
+function muatSuara(){
+  try { daftarSuara = speechSynthesis.getVoices() || []; }
+  catch (e) { daftarSuara = []; }
+}
+
+if ("speechSynthesis" in window) {
+  muatSuara();
+  try {
+    speechSynthesis.addEventListener("voiceschanged", () => {
+      muatSuara();
+      dispatchEvent(new Event("suaraberubah"));
+    });
+  } catch (e) {}
+}
+
+function suaraID(){
+  return daftarSuara.find(v => /^(id|ind)([-_]|$)/i.test(v.lang || "")) || null;
+}
+
+/* Boleh bicara selama daftarnya belum ketahuan, atau ketahuan ada bahasa
+   Indonesianya. Yang dilarang cuma satu keadaan: daftar yang sudah pasti
+   dan tidak ada Indonesianya sama sekali. */
+function bolehUcap(){
+  if (!("speechSynthesis" in window)) return false;
+  return !daftarSuara.length || !!suaraID();
+}
+
+function ucapID(teks, laju){
+  if (!teks || !bolehUcap()) return false;
+  try {
+    /* Yang sebelumnya masih diucapkan dibatalkan dulu: dua suara menumpuk
+       jadi bunyi kacau, bukan dua kata. */
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(teks);
+    const v = suaraID();
+    if (v) u.voice = v;
+    u.lang = "id-ID";
+    /* Pelan dan datar. Suara ceria yang cepat justru paling sulit ditiru. */
+    u.rate = laju || .75;
+    u.pitch = 1;
+    speechSynthesis.speak(u);
+    return true;
+  } catch (e) { return false; }
+}
+
+/* ------------------------------------------------------------------
+   Simpanan luring.
+
+   Fotonya sekarang ikut di dalam berkas aplikasi, tapi halaman yang dibuka
+   dari sebuah alamat web tetap butuh jaringan untuk mengambilnya sekali.
+   Pekerja layanan ini menyimpan semuanya di kunjungan pertama, jadi
+   sesudahnya aplikasinya jalan penuh tanpa sinyal — di mobil, di ruang
+   tunggu, tempat yang justru paling sering dipakai.
+
+   Dibuka langsung lewat file:// pekerja layanan memang tidak bisa dipasang,
+   dan di situ dia tidak dibutuhkan: berkasnya sudah ada di ponsel.
+   ------------------------------------------------------------------ */
+if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
+  addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}

@@ -624,20 +624,17 @@ function bisik(){
    itulah yang sedang diajarkan, dan pasangan itu pula yang harus bisa dia
    ucapkan. Pelan, dan dengan hurufnya dipisah koma, supaya keduanya keluar
    sebagai dua bunyi yang bisa ditiru, bukan satu bunyi yang berdempetan. */
+/* Pengucapannya sendiri ada di ucapID (assets/app.js), bersama penjaga
+   bahasanya: ponsel tanpa suara Indonesia akan membacakan "ayam" dengan
+   mesin Inggris, dan untuk anak yang sedang dilatih menirukan, bunyi yang
+   salah lebih buruk daripada diam. Nadanya biasa, bukan cempreng — suara
+   tinggi yang ceria justru lebih sulit ditiru dan buat sebagian telinga
+   terasa menusuk. */
 function ucapKata(){
   if (CFG.suara !== "nyala") return;
-  if (!("speechSynthesis" in window)) return;
   const kata = (kataKini || "").toLowerCase();
   if (!kata || !huruf) return;
-  try {
-    const u = new SpeechSynthesisUtterance(huruf + ", " + kata);
-    u.lang = "id-ID";
-    u.rate = .75;
-    /* Nada biasa, bukan cempreng. Suara tinggi yang ceria justru lebih sulit
-       ditiru dan buat sebagian telinga terasa menusuk. */
-    u.pitch = 1;
-    speechSynthesis.speak(u);
-  } catch (e) {}
+  ucapID(huruf + ", " + kata);
 }
 
 function rayakan(terakhir){
@@ -669,10 +666,17 @@ const IKON_SUARA =
 /* Digambar dan bukan emoji: rupa emoji berbeda-beda antar Android dan glif
    pengeras suara tidak ada sama sekali di sebagian, yang menyisakan tombol
    kosong. */
+/* Tombolnya ikut mati kalau ponselnya tidak punya suara Indonesia: tombol
+   yang bisa dinyalakan tapi tidak pernah bersuara cuma bikin orang tuanya
+   mengira ada yang rusak. */
 function catBunyi(){
-  const on = CFG.suara === "nyala";
+  const bisa = bolehUcap();
+  const on = CFG.suara === "nyala" && bisa;
+  bunyiBtn.disabled = !bisa;
   bunyiBtn.classList.toggle("mati", !on);
-  bunyiBtn.setAttribute("aria-label", on ? "Matikan suara" : "Nyalakan suara");
+  bunyiBtn.setAttribute("aria-label",
+    !bisa ? "Suara Indonesia belum terpasang di ponsel ini"
+          : on ? "Matikan suara" : "Nyalakan suara");
   bunyiBtn.setAttribute("aria-pressed", String(on));
   bunyiBtn.innerHTML = IKON_SUARA +
     (on ? '<path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18 6.5a7.5 7.5 0 0 1 0 11"/>'
@@ -687,11 +691,22 @@ bunyiBtn.addEventListener("click", () => {
 });
 
 function catCfg(){
+  const bisa = bolehUcap();
   for (const pilih of atur.querySelectorAll(".pilih"))
-    for (const b of pilih.children)
+    for (const b of pilih.children) {
       b.classList.toggle("on", CFG[pilih.dataset.kunci] === b.dataset.v);
+      if (pilih.dataset.kunci === "suara") b.disabled = !bisa;
+    }
+  /* Alasannya ditulis, bukan cuma tombolnya dimatikan: baris pengaturan yang
+     mati tanpa keterangan terbaca sebagai aplikasi yang rusak. */
+  el("catatanSuara").hidden = bisa;
   catBunyi();
 }
+
+/* Daftar suara ponsel kadang baru datang beberapa saat setelah halaman
+   terbuka, jadi yang bergantung padanya dicat ulang begitu jawabannya
+   pasti. */
+addEventListener("suaraberubah", () => { catBunyi(); if (atur.classList.contains("on")) catCfg(); });
 
 for (const pilih of atur.querySelectorAll(".pilih"))
   pilih.addEventListener("click", e => {
@@ -702,7 +717,20 @@ for (const pilih of atur.querySelectorAll(".pilih"))
     catCfg();
   });
 
-el("gir").addEventListener("click", () => { catCfg(); atur.classList.add("on"); });
+/* Roda giginya minta ditahan, bukan diketuk. Di dalamnya ada mode tulis dan
+   tingkat bantuan — pilihan orang tua, bukan pilihannya — dan roda gigi yang
+   ada di kepala halaman adalah roda gigi yang cepat atau lambat dia pencet
+   sambil menjelajah. Satu setengah detik cukup untuk memisahkan "sengaja"
+   dari "kepencet", dan cukup pendek untuk tidak menyusahkan yang berhak. */
+const gir = el("gir");
+let jamGir = 0;
+
+gir.addEventListener("pointerdown", () => {
+  clearTimeout(jamGir);
+  jamGir = setTimeout(() => { catCfg(); atur.classList.add("on"); }, 1500);
+});
+for (const ev of ["pointerup", "pointerleave", "pointercancel"])
+  gir.addEventListener(ev, () => clearTimeout(jamGir));
 el("tutupatur").addEventListener("click", () => atur.classList.remove("on"));
 
 addEventListener("resize", () => {
@@ -713,6 +741,13 @@ addEventListener("resize", () => {
   pasTataLetak();
   ukurCoret();
 });
+
+/* Batas sepuluh menitnya tidak boleh memotong huruf yang sedang dia buat:
+   layar yang berganti di tengah goresan terbaca sebagai diambil, bukan
+   sebagai sudah waktunya. Selama masih ada goresan yang sudah dimulai,
+   assets/waktu.js menunggu; begitu satu huruf tuntas dan yang berikutnya
+   belum disentuh, itu titik berhenti yang bersih. */
+window.batasTunda = () => tulis.classList.contains("on") && (gi > 0 || ti > 0);
 
 susunPapan();
 catBunyi();

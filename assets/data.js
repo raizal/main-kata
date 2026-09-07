@@ -93,711 +93,711 @@ const THEMES = {
 const POOLS = {
  "benda": {
   "apel": [
-    "https://images.pexels.com/photos/7333124/pexels-photo-7333124.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-apel.jpg"
   ],
   "buku": [
-    "https://images.pexels.com/photos/10946433/pexels-photo-10946433.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-buku.jpg"
   ],
   "coklat": [
-    "https://images.pexels.com/photos/6167328/pexels-photo-6167328.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-coklat.jpg"
   ],
   "donat": [
-    "https://images.pexels.com/photos/23203365/pexels-photo-23203365.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-donat.jpg"
   ],
   "es krim": [
-    "https://images.pexels.com/photos/5061019/pexels-photo-5061019.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-es-krim.jpg"
   ],
   "foto": [
-    "https://images.pexels.com/photos/15585620/pexels-photo-15585620.png?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-foto.jpg"
   ],
   "gunting": [
-    "https://images.pexels.com/photos/8250803/pexels-photo-8250803.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-gunting.jpg"
   ],
   "hidung": [
-    "https://images.pexels.com/photos/7298697/pexels-photo-7298697.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-hidung.jpg"
   ],
   "ikan": [
-    "https://images.pexels.com/photos/4593110/pexels-photo-4593110.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-ikan.jpg"
   ],
   "jam": [
-    "https://images.pexels.com/photos/15797564/pexels-photo-15797564.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-jam.jpg"
   ],
   "kacamata": [
-    "https://images.pexels.com/photos/5752242/pexels-photo-5752242.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-kacamata.jpg"
   ],
   "lampu": [
-    "https://images.pexels.com/photos/17994856/pexels-photo-17994856.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-lampu.jpg"
   ],
   "madu": [
-    "https://images.pexels.com/photos/5634212/pexels-photo-5634212.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-madu.jpg"
   ],
   "nasi": [
-    "https://images.pexels.com/photos/8956718/pexels-photo-8956718.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-nasi.jpg"
   ],
   "obeng": [
-    "https://images.pexels.com/photos/5583097/pexels-photo-5583097.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-obeng.jpg"
   ],
   "payung": [
-    "https://images.pexels.com/photos/7140708/pexels-photo-7140708.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-payung.jpg"
   ],
   "quran": [
-    "https://images.pexels.com/photos/14743719/pexels-photo-14743719.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-quran.jpg"
   ],
   "roda": [
-    "https://images.pexels.com/photos/34357287/pexels-photo-34357287.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-roda.jpg"
   ],
   "susu": [
-    "https://images.pexels.com/photos/4324359/pexels-photo-4324359.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-susu.jpg"
   ],
   "tahu": [
-    "https://images.pexels.com/photos/11663140/pexels-photo-11663140.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-tahu.jpg"
   ],
   "uang": [
-    "https://images.pexels.com/photos/6927371/pexels-photo-6927371.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-uang.jpg"
   ],
   "vas": [
-    "https://images.pexels.com/photos/30555647/pexels-photo-30555647.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-vas.jpg"
   ],
   "wajan": [
-    "https://images.pexels.com/photos/10936545/pexels-photo-10936545.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-wajan.jpg"
   ],
   "xilofon": [
-    "https://images.pexels.com/photos/6637619/pexels-photo-6637619.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-xilofon.jpg"
   ],
   "yoyo": [
-    "https://images.pexels.com/photos/5454342/pexels-photo-5454342.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-yoyo.jpg"
   ],
   "zebra": [
-    "https://images.pexels.com/photos/35725386/pexels-photo-35725386.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/benda-zebra.jpg"
   ],
   "air": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHgxMTkxNDg1LWltYWdlLWt3dnkxMG1xLmpwZw.jpg"
+    "assets/foto/benda-air.jpg"
   ],
   "api": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/0G7N1L3G2F.jpg"
+    "assets/foto/benda-api.jpg"
   ],
   "awan": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/ERWF7IMSRX.jpg"
+    "assets/foto/benda-awan.jpg"
   ],
   "anggur": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA0L3Vwd2s2MjE4MDMwMS13aWtpbWVkaWEtaW1hZ2Uta293bmEwNzUuanBn.jpg"
+    "assets/foto/benda-anggur.jpg"
   ],
   "alpukat": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/GM3FAABVJ8.jpg"
+    "assets/foto/benda-alpukat.jpg"
   ],
   "atap": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/JKPSQFD1JX.jpg"
+    "assets/foto/benda-atap.jpg"
   ],
   "bola": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL2lzMTMxMDUtaW1hZ2Uta3d2d3NodXUuanBn.jpg"
+    "assets/foto/benda-bola.jpg"
   ],
   "bunga": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/YRHRKRPJMS.jpg"
+    "assets/foto/benda-bunga.jpg"
   ],
   "baju": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvYnMzMzItaW1hZ2Uta3d2eW43eGkuanBn.jpg"
+    "assets/foto/benda-baju.jpg"
   ],
   "cangkir": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvaXMxNzgzMS1pbWFnZS1rd3lzYTVvcy5qcGc.jpg"
+    "assets/foto/benda-cangkir.jpg"
   ],
   "celana": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/QBSVGRFT2Y.jpg"
+    "assets/foto/benda-celana.jpg"
   ],
   "cabai": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4MTA0ODY2Ni1pbWFnZS1rd3Z3Zjg1My5qcGc.jpg"
+    "assets/foto/benda-cabai.jpg"
   ],
   "daun": [
-    "https://live.staticflickr.com/65535/52416444062_39f6ee0e89_b.jpg"
+    "assets/foto/benda-daun.jpg"
   ],
   "dasi": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvZnJidXNpbmVzc21hbl9wcm9mZXNzaW9uX3dvcmt3ZWFyXzY3NjM2My1pbWFnZS1reWJlM3gxdS5qcGc.jpg"
+    "assets/foto/benda-dasi.jpg"
   ],
   "dompet": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHg5MjczMzEtaW1hZ2Uta3d5bzFudWwuanBn.jpg"
+    "assets/foto/benda-dompet.jpg"
   ],
   "dadu": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/IMUB39JBN1.jpg"
+    "assets/foto/benda-dadu.jpg"
   ],
   "durian": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTAyL2xyL3djczk0eGJtdnktaW1hZ2UuanBn.jpg"
+    "assets/foto/benda-durian.jpg"
   ],
   "danau": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvc2szMDQ2LWltYWdlLWt3eW5wcHp6LmpwZw.jpg"
+    "assets/foto/benda-danau.jpg"
   ],
   "drum": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHgxNTY2MDU1LWltYWdlLWt3dnh2anhtLmpwZw.jpg"
+    "assets/foto/benda-drum.jpg"
   ],
   "ember": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvYnMxNDI4LWltYWdlLWt3eXQ4YmRrLmpwZw.jpg"
+    "assets/foto/benda-ember.jpg"
   ],
   "emas": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTEwL21ldDI0MzU0Ni1pbWFnZS5qcGc.jpg"
+    "assets/foto/benda-emas.jpg"
   ],
   "embun": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/YYLGRHEGST.jpg"
+    "assets/foto/benda-embun.jpg"
   ],
   "es batu": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHgxMjU5MDA5LWltYWdlLWt3dnkwMXJnLmpwZw.jpg"
+    "assets/foto/benda-es-batu.jpg"
   ],
   "eskalator": [
-    "https://live.staticflickr.com/65535/51971780456_a2d4c708cf_b.jpg"
+    "assets/foto/benda-eskalator.jpg"
   ],
   "es teh": [
-    "https://live.staticflickr.com/43/79456295_3bc9d3dad5_b.jpg"
+    "assets/foto/benda-es-teh.jpg"
   ],
   "film": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAzL2ZyYWJnZXdpY2tlbHRfZW50d2lja2VsdC1pbWFnZS5qcGc.jpg"
+    "assets/foto/benda-film.jpg"
   ],
   "figura": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L3B4OTUwNjgwLWltYWdlLWt3dnVvbWZiLmpwZw.jpg"
+    "assets/foto/benda-figura.jpg"
   ],
   "fosil": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL2xyL3drMjQ1NTcyNzQtaW1hZ2UuanBn.jpg"
+    "assets/foto/benda-fosil.jpg"
   ],
   "fajar": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/IJWWZE99HS.jpg"
+    "assets/foto/benda-fajar.jpg"
   ],
   "feri": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvZmwxNjExNzczMjQ3MC1pbWFnZS1rdHhwZDY1ai5qcGc.jpg"
+    "assets/foto/benda-feri.jpg"
   ],
   "garpu": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4OTE4OTI3LWltYWdlLWt3dnVyZHVoLmpwZw.jpg"
+    "assets/foto/benda-garpu.jpg"
   ],
   "gitar": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/HP2GGWWPIN.jpg"
+    "assets/foto/benda-gitar.jpg"
   ],
   "gunung": [
-    "https://live.staticflickr.com/65535/51537246564_4d6e3ea0fd_b.jpg"
+    "assets/foto/benda-gunung.jpg"
   ],
   "gelas": [
-    "https://cdn.thingiverse.com/renders/6f/3b/d5/4f/d4/4ff4661ae505d6dd8fcebf4c1d2a20cf_display_large.jpg"
+    "assets/foto/benda-gelas.jpg"
   ],
   "gigi": [
-    "https://live.staticflickr.com/65535/48019458508_790687525b.jpg"
+    "assets/foto/benda-gigi.jpg"
   ],
   "gula": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4OTIwMDkyLWltYWdlLWt3dnVza3ZuLmpwZw.jpg"
+    "assets/foto/benda-gula.jpg"
   ],
   "hujan": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/A3GM7T9ZDV.jpg"
+    "assets/foto/benda-hujan.jpg"
   ],
   "hutan": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4NjMyOTEwLWltYWdlLWt3dnY4OXFzLmpwZw.jpg"
+    "assets/foto/benda-hutan.jpg"
   ],
   "handuk": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHg2NTQ2ODUtaW1hZ2Uta3d2eGw4bzAuanBn.jpg"
+    "assets/foto/benda-handuk.jpg"
   ],
   "helikopter": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA1L2ZsNTIzNTg4Mzk1MDUtaW1hZ2UuanBn.jpg"
+    "assets/foto/benda-helikopter.jpg"
   ],
   "hotel": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/RWAH1RGKQJ.jpg"
+    "assets/foto/benda-hotel.jpg"
   ],
   "ilalang": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4Nzc1NDIwLWltYWdlLWt3dnYyMmVmLmpwZw.jpg"
+    "assets/foto/benda-ilalang.jpg"
   ],
   "ikat pinggang": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL2ZyYmVsdHNfbGVhdGhlcl9idWNrbGVfbWV0YWwtaW1hZ2Uta3liZThkNTMuanBn.jpg"
+    "assets/foto/benda-ikat-pinggang.jpg"
   ],
   "jeruk": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvbnMyOTEtaW1hZ2Uta3d5cnd5NHAuanBn.jpg"
+    "assets/foto/benda-jeruk.jpg"
   ],
   "jagung": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHg3MjQxNjktaW1hZ2Uta3d2eGlmMXEuanBn.jpg"
+    "assets/foto/benda-jagung.jpg"
   ],
   "jembatan": [
-    "https://live.staticflickr.com/65535/54896067535_9d12801a1d_b.jpg"
+    "assets/foto/benda-jembatan.jpg"
   ],
   "jari": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/Z8IUUHKPTA.jpg"
+    "assets/foto/benda-jari.jpg"
   ],
   "jamur": [
-    "https://live.staticflickr.com/65535/52129861618_04552c5bd5_b.jpg"
+    "assets/foto/benda-jamur.jpg"
   ],
   "jalan": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3Nta2ttczcxMDUtaW1hZ2UuanBn.jpg"
+    "assets/foto/benda-jalan.jpg"
   ],
   "kunci": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvZnJrZXlfb2xkX2Nsb3NlX3J1c3RlZF8wLWltYWdlLWt5YmRjcDV4LmpwZw.jpg"
+    "assets/foto/benda-kunci.jpg"
   ],
   "kursi": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/0DH6S6OU6Q.jpg"
+    "assets/foto/benda-kursi.jpg"
   ],
   "kompor": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHgxMTU5NTQzLWltYWdlLWt3dnk1NmsxLmpwZw.jpg"
+    "assets/foto/benda-kompor.jpg"
   ],
   "lemari": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcGQxMDktcGRvYmowMTI3Mi1pbWFnZS5qcGc.jpg"
+    "assets/foto/benda-lemari.jpg"
   ],
   "lilin": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvZnJjYW5kbGVzX2NhbmRsZV93YXhfbGlnaHQtaW1hZ2Uta3liZTR4YWEuanBn.jpg"
+    "assets/foto/benda-lilin.jpg"
   ],
   "lidah": [
-    "https://live.staticflickr.com/65535/55231884897_4474e7ac40_b.jpg"
+    "assets/foto/benda-lidah.jpg"
   ],
   "layang-layang": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3N2MjE3Mzk3LWltYWdlLWt3dnVibnVvLmpwZw.jpg"
+    "assets/foto/benda-layang-layang.jpg"
   ],
   "lemon": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/W28QPZPAK6.jpg"
+    "assets/foto/benda-lemon.jpg"
   ],
   "mangga": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvZnJtYW5nb19mcnVpdF9mb29kXzg5NjE4MC1pbWFnZS1reWJkOHI5cC5qcGc.jpg"
+    "assets/foto/benda-mangga.jpg"
   ],
   "meja": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTAyL2xyL2dldHR5MTA3dmhwLWltYWdlLmpwZw.jpg"
+    "assets/foto/benda-meja.jpg"
   ],
   "mobil": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL2ZyY2FyX3doaXRlX2NsYXNzaWNfaGRyLWltYWdlLWt5YmUyNjJqLmpwZw.jpg"
+    "assets/foto/benda-mobil.jpg"
   ],
   "matahari": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/5IBGRKHDHQ.jpg"
+    "assets/foto/benda-matahari.jpg"
   ],
   "motor": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/1ES1UBPHYX.jpg"
+    "assets/foto/benda-motor.jpg"
   ],
   "mawar": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/ZNN96DDKLT.jpg"
+    "assets/foto/benda-mawar.jpg"
   ],
   "nanas": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/A7Z4GHXHSB.jpg"
+    "assets/foto/benda-nanas.jpg"
   ],
   "nangka": [
-    "https://inaturalist-open-data.s3.amazonaws.com/photos/263717858/original.jpeg"
+    "assets/foto/benda-nangka.jpg"
   ],
   "naga": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4MTAxODA3MS1pbWFnZS1rd3Z3ZXR4NS5qcGc.jpg"
+    "assets/foto/benda-naga.jpg"
   ],
   "nampan": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAzL2NsZTE5OTEtLTYyLWltYWdlLmpwZw.jpg"
+    "assets/foto/benda-nampan.jpg"
   ],
   "nelayan": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4OTk3MzY4LWltYWdlLWt3dnVwZmF6LmpwZw.jpg"
+    "assets/foto/benda-nelayan.jpg"
   ],
   "nyiur": [
-    "https://live.staticflickr.com/65535/52188290516_31cafdf12e_b.jpg"
+    "assets/foto/benda-nyiur.jpg"
   ],
   "nugget": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvaXMxMTY3Mi1pbWFnZS1rd3lzZnppaC5qcGc.jpg"
+    "assets/foto/benda-nugget.jpg"
   ],
   "oven": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/BE0UGGW85Y.jpg"
+    "assets/foto/benda-oven.jpg"
   ],
   "obat": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvaXMxNzE0OS1pbWFnZS1rd3lzY2hkbi5qcGc.jpg"
+    "assets/foto/benda-obat.jpg"
   ],
   "ombak": [
-    "https://live.staticflickr.com/65535/52339337703_b0eb48b17c_b.jpg"
+    "assets/foto/benda-ombak.jpg"
   ],
   "oli": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvc2syNzkwLWltYWdlLWt3dng5dGljLmpwZw.jpg"
+    "assets/foto/benda-oli.jpg"
   ],
   "onde-onde": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL2ZycnVtX2JhbGxzX3B1bmNoX2JhbGwtaW1hZ2Uta3liYXJybzUuanBn.jpg"
+    "assets/foto/benda-onde-onde.jpg"
   ],
   "okra": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA2L3Vwd2s2MTY2NTIyMC13aWtpbWVkaWEtaW1hZ2Uta293cmMweXIuanBn.jpg"
+    "assets/foto/benda-okra.jpg"
   ],
   "pisang": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/D0C5D92CD9.jpg"
+    "assets/foto/benda-pisang.jpg"
   ],
   "pensil": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/UYKW8TJK1Z.jpg"
+    "assets/foto/benda-pensil.jpg"
   ],
   "piring": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHg4MjYyNzQtaW1hZ2Uta3d5b2dlc2suanBn.jpg"
+    "assets/foto/benda-piring.jpg"
   ],
   "pintu": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3N2MTk3ODI5LWltYWdlLWt3dnVocjBoLmpwZw.jpg"
+    "assets/foto/benda-pintu.jpg"
   ],
   "pesawat": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/5TOQESCBWY.jpg"
+    "assets/foto/benda-pesawat.jpg"
   ],
   "pantai": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHg0OTQ3MTAtaW1hZ2Uta3d2dmU2dm8uanBn.jpg"
+    "assets/foto/benda-pantai.jpg"
   ],
   "rumah": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/LJ515CPAKI.jpg"
+    "assets/foto/benda-rumah.jpg"
   ],
   "roti": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL2ZyYXNpYV90YWl3YW5fYnJlYWRfZ3JhaW5zLWltYWdlLWt5YmM3MzZsLmpwZw.jpg"
+    "assets/foto/benda-roti.jpg"
   ],
   "rok": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA3L21pYTI4MTA0LWltYWdlLmpwZw.jpg"
+    "assets/foto/benda-rok.jpg"
   ],
   "radio": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvZnJvbGRfcmFkaW9fb2xkX3ZhbHZlcy1pbWFnZS1reWJkNWJoYy5qcGc.jpg"
+    "assets/foto/benda-radio.jpg"
   ],
   "rantai": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTAyL2xyL2dldHR5MTAzeGsyLWltYWdlLmpwZw.jpg"
+    "assets/foto/benda-rantai.jpg"
   ],
   "rumput": [
-    "https://live.staticflickr.com/65535/52748935722_52ef38114b_b.jpg"
+    "assets/foto/benda-rumput.jpg"
   ],
   "rambutan": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4MTMzNzc1My1pbWFnZS1rd3Z3MnVpdi5qcGc.jpg"
+    "assets/foto/benda-rambutan.jpg"
   ],
   "sepatu": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/U20YIXFQBC.jpg"
+    "assets/foto/benda-sepatu.jpg"
   ],
   "sepeda": [
-    "https://live.staticflickr.com/65535/48019235328_40826dffdd_b.jpg"
+    "assets/foto/benda-sepeda.jpg"
   ],
   "sendok": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/CX92JSDG32.jpg"
+    "assets/foto/benda-sendok.jpg"
   ],
   "sisir": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA5L21ldDE2ODA5LWltYWdlLmpwZw.jpg"
+    "assets/foto/benda-sisir.jpg"
   ],
   "salju": [
-    "https://live.staticflickr.com/65535/52598616516_3e16bb3fa5_b.jpg"
+    "assets/foto/benda-salju.jpg"
   ],
   "semangka": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/30C9EB71DC.jpg"
+    "assets/foto/benda-semangka.jpg"
   ],
   "telur": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHg2NDMzOTAtaW1hZ2Uta3d2djlxaGcuanBn.jpg"
+    "assets/foto/benda-telur.jpg"
   ],
   "tomat": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/GB9LU1L8RG.jpg"
+    "assets/foto/benda-tomat.jpg"
   ],
   "topi": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/QIJ4BAZL2D.jpg"
+    "assets/foto/benda-topi.jpg"
   ],
   "tangga": [
-    "https://live.staticflickr.com/65535/52335189432_bf1b3995c4_b.jpg"
+    "assets/foto/benda-tangga.jpg"
   ],
   "ubi": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHUyMzMzNDc0LWltYWdlLWt3dndqd2RtLmpwZw.jpg"
+    "assets/foto/benda-ubi.jpg"
   ],
   "ukulele": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/5ZPN66JSA4.jpg"
+    "assets/foto/benda-ukulele.jpg"
   ],
   "vespa": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/P2IIDP6UPD.jpg"
+    "assets/foto/benda-vespa.jpg"
   ],
   "violin": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/ULXETLYBDM.jpg"
+    "assets/foto/benda-violin.jpg"
   ],
   "voli": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvZnJiYWxsX2JlYWNoX3NreV9zZWEtaW1hZ2Uta3liZWFwNWIuanBn.jpg"
+    "assets/foto/benda-voli.jpg"
   ],
   "wortel": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/RKHZEX3629.jpg"
+    "assets/foto/benda-wortel.jpg"
   ],
   "wafer": [
-    "https://live.staticflickr.com/65535/55168894993_c7804d7d5e_b.jpg"
+    "assets/foto/benda-wafer.jpg"
   ],
   "wastafel": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvZmw0MTI1ODM0NDE1Mi1pbWFnZS1reWJlaWo2Yi5qcGc.jpg"
+    "assets/foto/benda-wastafel.jpg"
   ],
   "waduk": [
-    "https://live.staticflickr.com/65535/52958214839_0d13c8af9c_b.jpg"
+    "assets/foto/benda-waduk.jpg"
   ],
   "yogurt": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/ELZKUZYJK0.jpg"
+    "assets/foto/benda-yogurt.jpg"
   ],
   "zaitun": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/VUAQNMLAPF.jpg"
+    "assets/foto/benda-zaitun.jpg"
   ],
   "zamrud": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTEwL21ldDI1MzUzNi1pbWFnZS5qcGc.jpg"
+    "assets/foto/benda-zamrud.jpg"
   ],
   "cincin": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTEwL21ldDI0MzU0Ni1pbWFnZS5qcGc.jpg"
+    "assets/foto/benda-cincin.jpg"
   ],
   "intan": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTAxL2xyL3JpamtzbmctYy0yMDAwLTMtaW1hZ2UuanBn.jpg"
+    "assets/foto/benda-intan.jpg"
   ],
   "mangkuk": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/GAMHRIGNDW.jpg"
+    "assets/foto/benda-mangkuk.jpg"
   ],
   "ulekan": [
-    "https://live.staticflickr.com/65535/54877133737_8062e67175_b.jpg"
+    "assets/foto/benda-ulekan.jpg"
   ],
   "helm": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvc3YxNTQwMjMtaW1hZ2Uta3d2dWg4bXUuanBn.jpg"
+    "assets/foto/benda-helm.jpg"
   ],
   "odol": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/UD9953XS1H.jpg"
+    "assets/foto/benda-odol.jpg"
   ],
   "omelet": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4Nzc4NDM2LWltYWdlLWt3dnYycmFrLmpwZw.jpg"
+    "assets/foto/benda-omelet.jpg"
   ],
   "ubin": [
-    "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvZmlsZXMvd2Vic2l0ZS8yMDIzLTExL21ldDE4NzkzNi1pbWFnZS5qcGc.jpg"
+    "assets/foto/benda-ubin.jpg"
   ]
  },
  "hewan": {
   "ayam": [
-    "https://images.pexels.com/photos/38365059/pexels-photo-38365059.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-ayam.jpg"
   ],
   "anjing": [
-    "https://images.pexels.com/photos/30074125/pexels-photo-30074125.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-anjing.jpg"
   ],
   "angsa": [
-    "https://images.pexels.com/photos/29793056/pexels-photo-29793056.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-angsa.jpg"
   ],
   "bebek": [
-    "https://images.pexels.com/photos/27565478/pexels-photo-27565478.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-bebek.jpg"
   ],
   "burung": [
-    "https://images.pexels.com/photos/20124080/pexels-photo-20124080.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-burung.jpg"
   ],
   "babi": [
-    "https://images.pexels.com/photos/37073014/pexels-photo-37073014.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-babi.jpg"
   ],
   "buaya": [
-    "https://images.pexels.com/photos/6407978/pexels-photo-6407978.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-buaya.jpg"
   ],
   "beruang": [
-    "https://images.pexels.com/photos/37533536/pexels-photo-37533536.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-beruang.jpg"
   ],
   "badak": [
-    "https://images.pexels.com/photos/29156999/pexels-photo-29156999.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-badak.jpg"
   ],
   "belalang": [
-    "https://images.pexels.com/photos/7987527/pexels-photo-7987527.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-belalang.jpg"
   ],
   "bangau": [
-    "https://images.pexels.com/photos/36156216/pexels-photo-36156216.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-bangau.jpg"
   ],
   "belut": [
-    "https://images.pexels.com/photos/17088606/pexels-photo-17088606.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-belut.jpg"
   ],
   "bunglon": [
-    "https://images.pexels.com/photos/53971/chameleon-parduckameleon-furcifer-pardalis-reptile-53971.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-bunglon.jpg"
   ],
   "berang-berang": [
-    "https://images.pexels.com/photos/12305419/pexels-photo-12305419.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-berang-berang.jpg"
   ],
   "cicak": [
-    "https://images.pexels.com/photos/29979168/pexels-photo-29979168.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-cicak.jpg"
   ],
   "capung": [
-    "https://images.pexels.com/photos/18151389/pexels-photo-18151389.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-capung.jpg"
   ],
   "cacing": [
-    "https://images.pexels.com/photos/4386491/pexels-photo-4386491.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-cacing.jpg"
   ],
   "cumi-cumi": [
-    "https://images.pexels.com/photos/10377019/pexels-photo-10377019.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-cumi-cumi.jpg"
   ],
   "cendrawasih": [
-    "https://images.pexels.com/photos/29388658/pexels-photo-29388658.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-cendrawasih.jpg"
   ],
   "domba": [
-    "https://images.pexels.com/photos/32367317/pexels-photo-32367317.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-domba.jpg"
   ],
   "duyung": [
-    "https://images.pexels.com/photos/13277594/pexels-photo-13277594.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-duyung.jpg"
   ],
   "elang": [
-    "https://images.pexels.com/photos/38204263/pexels-photo-38204263.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-elang.jpg"
   ],
   "enggang": [
-    "https://images.pexels.com/photos/37650991/pexels-photo-37650991.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-enggang.jpg"
   ],
   "flamingo": [
-    "https://images.pexels.com/photos/30597934/pexels-photo-30597934.png?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-flamingo.jpg"
   ],
   "gajah": [
-    "https://images.pexels.com/photos/17081254/pexels-photo-17081254.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-gajah.jpg"
   ],
   "gurita": [
-    "https://images.pexels.com/photos/18573919/pexels-photo-18573919.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-gurita.jpg"
   ],
   "gagak": [
-    "https://images.pexels.com/photos/18051324/pexels-photo-18051324.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-gagak.jpg"
   ],
   "gorila": [
-    "https://images.pexels.com/photos/36804633/pexels-photo-36804633.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-gorila.jpg"
   ],
   "harimau": [
-    "https://images.pexels.com/photos/36530920/pexels-photo-36530920.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-harimau.jpg"
   ],
   "hiu": [
-    "https://images.pexels.com/photos/13476998/pexels-photo-13476998.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-hiu.jpg"
   ],
   "hamster": [
-    "https://images.pexels.com/photos/28749492/pexels-photo-28749492.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-hamster.jpg"
   ],
   "ikan": [
-    "https://images.pexels.com/photos/886210/pexels-photo-886210.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-ikan.jpg"
   ],
   "jerapah": [
-    "https://images.pexels.com/photos/31030732/pexels-photo-31030732.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-jerapah.jpg"
   ],
   "jangkrik": [
-    "https://images.pexels.com/photos/26447247/pexels-photo-26447247.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-jangkrik.jpg"
   ],
   "kucing": [
-    "https://images.pexels.com/photos/33819083/pexels-photo-33819083.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-kucing.jpg"
   ],
   "kuda": [
-    "https://images.pexels.com/photos/13340061/pexels-photo-13340061.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-kuda.jpg"
   ],
   "kelinci": [
-    "https://images.pexels.com/photos/35983095/pexels-photo-35983095.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-kelinci.jpg"
   ],
   "kambing": [
-    "https://images.pexels.com/photos/32655845/pexels-photo-32655845.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-kambing.jpg"
   ],
   "kupu-kupu": [
-    "https://images.pexels.com/photos/18536541/pexels-photo-18536541.png?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-kupu-kupu.jpg"
   ],
   "katak": [
-    "https://images.pexels.com/photos/17506297/pexels-photo-17506297.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-katak.jpg"
   ],
   "kura-kura": [
-    "https://images.pexels.com/photos/31219119/pexels-photo-31219119.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-kura-kura.jpg"
   ],
   "kerbau": [
-    "https://images.pexels.com/photos/19848150/pexels-photo-19848150.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-kerbau.jpg"
   ],
   "kelelawar": [
-    "https://images.pexels.com/photos/12453386/pexels-photo-12453386.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-kelelawar.jpg"
   ],
   "kanguru": [
-    "https://images.pexels.com/photos/27110776/pexels-photo-27110776.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-kanguru.jpg"
   ],
   "koala": [
-    "https://images.pexels.com/photos/14971555/pexels-photo-14971555.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-koala.jpg"
   ],
   "komodo": [
-    "https://images.pexels.com/photos/34189978/pexels-photo-34189978.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-komodo.jpg"
   ],
   "lebah": [
-    "https://images.pexels.com/photos/27418555/pexels-photo-27418555.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-lebah.jpg"
   ],
   "lumba-lumba": [
-    "https://images.pexels.com/photos/11342081/pexels-photo-11342081.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-lumba-lumba.jpg"
   ],
   "laba-laba": [
-    "https://images.pexels.com/photos/10520634/pexels-photo-10520634.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-laba-laba.jpg"
   ],
   "lalat": [
-    "https://images.pexels.com/photos/19816317/pexels-photo-19816317.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-lalat.jpg"
   ],
   "landak": [
-    "https://images.pexels.com/photos/13044549/pexels-photo-13044549.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-landak.jpg"
   ],
   "lipan": [
-    "https://images.pexels.com/photos/32543475/pexels-photo-32543475.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-lipan.jpg"
   ],
   "monyet": [
-    "https://images.pexels.com/photos/13272459/pexels-photo-13272459.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-monyet.jpg"
   ],
   "merpati": [
-    "https://images.pexels.com/photos/6438048/pexels-photo-6438048.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-merpati.jpg"
   ],
   "merak": [
-    "https://images.pexels.com/photos/23354936/pexels-photo-23354936.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-merak.jpg"
   ],
   "nyamuk": [
-    "https://images.pexels.com/photos/1685610/pexels-photo-1685610.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-nyamuk.jpg"
   ],
   "nuri": [
-    "https://images.pexels.com/photos/17817260/pexels-photo-17817260.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-nuri.jpg"
   ],
   "orangutan": [
-    "https://images.pexels.com/photos/10971036/pexels-photo-10971036.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-orangutan.jpg"
   ],
   "panda": [
-    "https://images.pexels.com/photos/31047125/pexels-photo-31047125.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-panda.jpg"
   ],
   "penguin": [
-    "https://images.pexels.com/photos/31791288/pexels-photo-31791288.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-penguin.jpg"
   ],
   "paus": [
-    "https://images.pexels.com/photos/4781925/pexels-photo-4781925.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-paus.jpg"
   ],
   "penyu": [
-    "https://images.pexels.com/photos/5967753/pexels-photo-5967753.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-penyu.jpg"
   ],
   "quokka": [
-    "https://images.pexels.com/photos/30652256/pexels-photo-30652256.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-quokka.jpg"
   ],
   "rusa": [
-    "https://images.pexels.com/photos/20489124/pexels-photo-20489124.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-rusa.jpg"
   ],
   "rubah": [
-    "https://images.pexels.com/photos/23914490/pexels-photo-23914490.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-rubah.jpg"
   ],
   "sapi": [
-    "https://images.pexels.com/photos/27896657/pexels-photo-27896657.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-sapi.jpg"
   ],
   "singa": [
-    "https://images.pexels.com/photos/14855062/pexels-photo-14855062.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-singa.jpg"
   ],
   "semut": [
-    "https://images.pexels.com/photos/20724883/pexels-photo-20724883.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-semut.jpg"
   ],
   "siput": [
-    "https://images.pexels.com/photos/36919759/pexels-photo-36919759.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-siput.jpg"
   ],
   "tikus": [
-    "https://images.pexels.com/photos/9980949/pexels-photo-9980949.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-tikus.jpg"
   ],
   "tupai": [
-    "https://images.pexels.com/photos/32848285/pexels-photo-32848285.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-tupai.jpg"
   ],
   "tokek": [
-    "https://images.pexels.com/photos/38347001/pexels-photo-38347001.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-tokek.jpg"
   ],
   "tapir": [
-    "https://images.pexels.com/photos/15544997/pexels-photo-15544997.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-tapir.jpg"
   ],
   "trenggiling": [
-    "https://images.pexels.com/photos/31391630/pexels-photo-31391630.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-trenggiling.jpg"
   ],
   "tarsius": [
-    "https://images.pexels.com/photos/15289296/pexels-photo-15289296.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-tarsius.jpg"
   ],
   "unta": [
-    "https://images.pexels.com/photos/3788/animal-wilderness-zoo-camel.jpg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-unta.jpg"
   ],
   "ular": [
-    "https://images.pexels.com/photos/28578838/pexels-photo-28578838.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-ular.jpg"
   ],
   "udang": [
-    "https://images.pexels.com/photos/16521533/pexels-photo-16521533.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-udang.jpg"
   ],
   "ubur-ubur": [
-    "https://images.pexels.com/photos/27555660/pexels-photo-27555660.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-ubur-ubur.jpg"
   ],
   "viper": [
-    "https://images.pexels.com/photos/8807543/pexels-photo-8807543.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-viper.jpg"
   ],
   "walrus": [
-    "https://images.pexels.com/photos/12073523/pexels-photo-12073523.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-walrus.jpg"
   ],
   "xerus": [
-    "https://images.pexels.com/photos/33144154/pexels-photo-33144154.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-xerus.jpg"
   ],
   "yuyu": [
-    "https://images.pexels.com/photos/31764068/pexels-photo-31764068.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-yuyu.jpg"
   ],
   "zebra": [
-    "https://images.pexels.com/photos/26954301/pexels-photo-26954301.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+    "assets/foto/hewan-zebra.jpg"
   ],
   "iguana": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/B98D652C09.jpg"
+    "assets/foto/hewan-iguana.jpg"
   ],
   "ulat": [
-    "https://live.staticflickr.com/65535/51328606729_af2bc5c609_b.jpg"
+    "assets/foto/hewan-ulat.jpg"
   ],
   "itik": [
-    "https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvZnJkdWNrX2xha2Vfd2F0ZXJfYmlyZF8xLWltYWdlLWt5YmRyNG1vLmpwZw.jpg"
+    "assets/foto/hewan-itik.jpg"
   ],
   "entok": [
-    "https://live.staticflickr.com/65535/51774810023_64734b4356_b.jpg"
+    "assets/foto/hewan-entok.jpg"
   ],
   "jalak": [
-    "https://cdn.stocksnap.io/img-thumbs/960w/SBWPAPFGLI.jpg"
+    "assets/foto/hewan-jalak.jpg"
   ],
   "walet": [
-    "https://live.staticflickr.com/65535/53827703196_d325b1c043_b.jpg"
+    "assets/foto/hewan-walet.jpg"
   ]
  },
 };

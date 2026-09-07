@@ -98,14 +98,18 @@
 }
 
 /* ---- Tingkat 3: satu benda ---- */
-/* Foto muncul paling atas dan paling besar.
+/* Foto muncul paling atas, tapi bukan yang paling besar.
 
-   Bukan hadiah di akhir, tapi penopang di awal: kalau dia sudah tahu
-   gambarnya ayam, mengeja "a-yam" jadi mencocokkan bunyi ke sesuatu yang
-   sudah pasti, bukan menebak dalam gelap. Ketidakpastian itu justru bagian
-   yang paling melelahkan buat anak ASD. */
+   Fotonya penopang, bukan isi: kalau dia sudah tahu gambarnya ayam, mengeja
+   "a-yam" jadi mencocokkan bunyi ke sesuatu yang sudah pasti, bukan menebak
+   dalam gelap — dan untuk itu foto sebesar telapak tangan sudah cukup.
+   Yang sedang dipelajari di layar ini bentuk mulutnya, jadi sisa ruangnya
+   diberikan ke tangga bunyi. Tingginya dipatok supaya foto yang berdiri
+   (buku, botol) tidak diam-diam mengambil setengah layar dan mendesak
+   mulutnya mengecil. */
 #gambar{
-  flex:1;min-height:0;
+  flex:0 1 auto;min-height:0;
+  height:clamp(96px,18vh,190px);
   display:grid;place-items:center;
   /* Barisnya dikunci setinggi kotaknya, bukan setinggi isinya. Tanpa ini
      foto yang berdiri (buku, botol) melar melewati kotaknya sendiri sampai
@@ -153,9 +157,24 @@
   color:var(--sage-tua);
 }
 
-/* Kepingan dan kartu cara-baca duduk dalam satu kelompok, supaya di tablet
-   mendatar keduanya bisa pindah ke lajur kanan sekaligus. */
-#kanan{flex:none;display:flex;flex-direction:column;gap:12px;min-height:0}
+/* Kepingan dan tangga bunyi duduk dalam satu kelompok, supaya di tablet
+   mendatar keduanya bisa pindah ke lajur kanan sekaligus. Kelompok ini yang
+   memakan sisa tinggi layar, bukan fotonya. */
+#kanan{
+  flex:1;min-height:0;
+  display:flex;flex-direction:column;gap:12px;
+  justify-content:center;
+  /* "safe" supaya waktu isinya lebih tinggi daripada ruangnya, tumpahannya
+     tidak keluar lewat atas — tanpa ini kepingan suku kata naik menimpa
+     tombol suara di kepala halaman, dan tidak ada cara menggapainya lagi. */
+  justify-content:safe center;
+  /* Pengaman terakhir, bukan rancangan: di layar yang cukup tinggi tangga
+     bunyinya selalu muat utuh dan batang gulung ini tidak pernah muncul.
+     Yang dijaga cuma satu hal — kata empat suku kata di ponsel pendek harus
+     tetap bisa dilihat sampai habis, bukan terpotong diam-diam. */
+  overflow-y:auto;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
 
 /* ---- Tangga bunyi: satu baris per suku kata, satu mulut per bunyi ---- */
 /* Digelar menurun, bukan satu baris panjang. Kata seperti "helikopter" punya
@@ -184,7 +203,7 @@
 
 .labelSuku{
   flex:none;min-width:2.6em;
-  font-weight:800;font-size:clamp(19px,5.5vw,24px);line-height:1;
+  font-weight:800;font-size:clamp(21px,6vw,28px);line-height:1;
   letter-spacing:-.01em;color:var(--tinta);
   text-align:center;
 }
@@ -208,12 +227,21 @@
 .bunyi.dipilih{border-color:var(--sage-tua)}
 .bunyi:active{transform:scale(.96)}
 
+/* Mulutnya digambar lebih besar daripada fotonya. Bentuk bibir itu yang
+   harus dia tiru, dan bentuk yang harus ditiru tidak boleh jadi yang paling
+   kecil di layar — perbedaan antara bibir bulat dan bibir melebar baru
+   kelihatan kalau gambarnya cukup lebar.
+
+   Ukurannya ikut lebar sekaligus tinggi layar. Kalau cuma ikut lebar, layar
+   pendek seperti 360x640 tetap memberi mulut sebesar layar tinggi, dan kata
+   empat suku kata seperti "helikopter" jadi sepuluh mulut yang tidak muat —
+   yang paling sempit di antara keduanya yang dipakai. */
 .bunyi svg{
-  display:block;width:clamp(38px,11vw,54px);height:auto;
+  display:block;width:clamp(42px,min(16vw,8vh),78px);height:auto;
 }
 
 .namaBunyi{
-  font-weight:800;font-size:13px;line-height:1;
+  font-weight:800;font-size:clamp(15px,4vw,18px);line-height:1;
   color:var(--tinta-lembut);
   text-transform:lowercase;
 }
@@ -238,7 +266,10 @@
   }
   #rinci.on{display:grid}
   #rinci .kepala{grid-column:1/-1;padding-bottom:0}
-  #gambar{grid-column:1;grid-row:2;min-height:0}
+  /* Di layar rebah fotonya tidak perlu dipatok: lajur kanan sudah menampung
+     tangga bunyinya sendiri, jadi tinggi yang tersisa di kiri boleh habis
+     untuk fotonya. */
+  #gambar{grid-column:1;grid-row:2;min-height:0;height:auto}
   #kanan{
     grid-column:2;grid-row:2;
     display:flex;flex-direction:column;justify-content:center;gap:16px;

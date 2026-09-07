@@ -1,0 +1,193 @@
+/* Tampilan khusus "belajar menulis". */
+
+:root{
+  /* Garis huruf yang sudah dia lewati: sage pucat, cukup jelas sebagai
+     jejak tapi tidak menyaingi bentuk hurufnya sendiri. */
+  --sage-pucat:#c3d6c6;
+  /* Coretannya sendiri sengaja beda warna dari huruf panduan, supaya
+     kelihatan mana bentuk yang dicontoh dan mana yang dia buat. */
+  --biru:#89a7bb;
+  --tinta-pudar:#c0b8ae;
+}
+
+/* Roda gigi pengaturan didorong ke kanan, jauh dari tombol kembali. */
+#gir{margin-left:auto}
+
+/* ---- Layar menulis ---- */
+#tulis{
+  position:fixed;inset:0;z-index:10;
+  display:none;flex-direction:column;align-items:center;
+  background:var(--kertas);
+  padding:calc(14px + env(safe-area-inset-top)) 14px
+          calc(14px + env(safe-area-inset-bottom));
+  gap:10px;
+}
+#tulis.on{display:flex}
+
+/* Ulangi dan Suara duduk di baris atas, bukan di bawah kotak gambar:
+   di atas mereka tidak memakan tinggi kotak menulis, dan tombol yang
+   bersebelahan dengan tangannya adalah tombol yang kepencet. */
+#atas{width:100%;display:flex;justify-content:space-between;flex:none}
+#bunyi.mati{opacity:.45}
+
+/* Tinggi tetap, bukan max-height: foto yang baru datang tidak boleh
+   menggeser kotak yang sedang dia coret. Tepinya baru muncul setelah
+   fotonya benar-benar termuat. */
+#foto{
+  flex:none;height:24vh;max-width:100%;object-fit:contain;
+  border:var(--border) solid transparent;border-radius:var(--radius);
+  background:none;
+  opacity:0;transition:opacity .2s ease;
+}
+#foto.tampil{opacity:1;border-color:var(--garis)}
+
+/* Kata ditulis huruf besar di sini, tidak seperti di halaman gambar: yang
+   dia salin adalah bentuk-bentuk ini persis, jadi yang dibaca dan yang
+   ditelusuri harus sama. */
+#kata{
+  flex:none;white-space:nowrap;font-weight:800;line-height:1.2;
+  font-size:min(7.5vmin,4.2vh);letter-spacing:.02em;
+}
+#kata .sudah{color:var(--sage)}
+#kata .kini{color:var(--tinta);border-bottom:3px solid var(--tinta)}
+#kata .nanti{color:var(--tinta-pudar)}
+
+#kotak{flex:1;min-height:0;width:100%;display:grid;place-items:center}
+
+/* aspect-ratio saja tidak cukup: max-height:100% di sini dihitung terhadap
+   tinggi flex yang dianggap peramban belum pasti, jadi kotaknya diam-diam
+   meluber. atur() yang menetapkan piksel sebenarnya; ini cadangannya. */
+#bidang{
+  position:relative;width:100%;aspect-ratio:1;max-height:100%;
+  touch-action:none;cursor:crosshair;
+}
+#panduan,#coret{position:absolute;inset:0;width:100%;height:100%}
+#panduan{transition:transform .25s ease}
+/* Satu-satunya gerakan perayaan: huruf membesar sedikit, sekali, lalu diam.
+   Bukan ledakan kertas warna-warni yang dulu memenuhi layar. */
+#panduan.mekar{transform:scale(1.08)}
+
+#panduan path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* Panduan bertitik-titik, jejak sage pucat di belakang jarinya, dan sage
+   penuh begitu hurufnya selesai. Titik-titiknya dibuat dari ujung bundar
+   di atas garis putus sepanjang nol. */
+#panduan .jalur{stroke:var(--garis);stroke-width:6.5;stroke-dasharray:.001 13}
+#panduan .maju,#panduan .lewat{stroke:var(--sage-pucat);stroke-width:13}
+#panduan .jadi{stroke:var(--sage);stroke-width:13}
+
+/* Titik mulai. Dulu berdenyut tanpa henti — gerakan terus-menerus yang tidak
+   dia mulai dan tidak bisa dia hentikan. Sekarang diam saja: satu titik di
+   tempat pensil turun sudah cukup memberitahu dari mana. */
+#panduan .mulai{fill:var(--sage)}
+#panduan .bisik{fill:var(--biru);opacity:.4}
+
+/* Centang kecil di pojok, muncul pelan waktu satu huruf selesai. Kecil dan
+   di pinggir dengan sengaja: yang layak dilihat adalah huruf yang baru dia
+   buat, bukan tanda yang menutupinya. */
+#centang{
+  position:absolute;right:2%;bottom:2%;
+  width:16%;height:16%;
+  color:var(--sage);
+  opacity:0;transition:opacity .3s ease;
+  pointer-events:none;
+}
+#centang.tampil{opacity:1}
+#centang svg{width:100%;height:100%;display:block;
+  fill:none;stroke:currentColor;stroke-width:3;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* ---- Kotak huruf di papan ---- */
+/* Kotaknya menyimpan tiga hal sekaligus: bentuk huruf yang akan ditelusuri,
+   sudah sampai mana huruf itu dikerjakan, dan apakah sudah selesai. Semuanya
+   lewat warna dan satu garis tipis — tidak ada yang bergerak sendiri. */
+.papan .kotak{position:relative;padding-bottom:9px}
+
+/* Huruf digambar, bukan diketik: goresan yang sama persis dengan yang nanti
+   dia telusuri di layar menulis. Kotaknya jadi contoh kecil pekerjaannya,
+   bukan sekadar label. */
+.papan .kotak .bentuk{width:56%;height:56%;overflow:visible}
+.papan .kotak .bentuk path{
+  fill:none;stroke:var(--tinta);stroke-width:9;
+  stroke-linecap:round;stroke-linejoin:round;
+  transition:stroke .2s ease;
+}
+
+/* Ditekan: kotaknya masuk sedikit dan garis hurufnya menghangat. Umpan balik
+   yang datang seketika di bawah jarinya, tanpa bunyi dan tanpa kilat. */
+.papan .kotak:active{transform:scale(.94)}
+.papan .kotak:active .bentuk path{stroke:var(--sage-tua)}
+
+/* Garis kemajuan di kaki kotak: berapa kata di balik huruf itu yang sudah
+   dia tulis. Baru muncul begitu huruf itu dia mulai — 26 garis kosong cuma
+   akan jadi 26 hal yang belum dikerjakan. */
+.papan .kotak .maju{
+  position:absolute;left:16%;right:16%;bottom:7px;height:4px;
+  border-radius:2px;background:rgba(63,59,55,.10);overflow:hidden;
+  opacity:0;transition:opacity .2s ease;
+}
+.papan .kotak.jalan .maju,.papan .kotak.usai .maju{opacity:1}
+.papan .kotak .maju i{
+  display:block;height:100%;width:0;
+  background:var(--sage);border-radius:2px;
+  transition:width .25s ease;
+}
+
+/* Huruf yang barusan dikerjakan, supaya waktu kembali ke papan dia tidak
+   perlu mencari lagi tadi sampai di mana. Tepi sage saja, tidak berdenyut. */
+.papan .kotak.sedang{border-color:var(--sage)}
+
+/* Sudah selesai: garis hurufnya sage, centang kecil di pojok, warnanya
+   sedikit mundur. Tetap bisa ditekan — mengulang huruf yang sama itu boleh,
+   dan papan penuh kotak mati adalah papan yang menolak. */
+.papan .kotak.usai{opacity:.72}
+.papan .kotak.usai .bentuk path{stroke:var(--sage)}
+
+.papan .kotak .tanda{
+  position:absolute;top:5px;right:6px;width:15px;height:15px;
+  color:var(--sage);
+  opacity:0;transition:opacity .2s ease;
+}
+.papan .kotak.usai .tanda{opacity:1}
+.papan .kotak .tanda path{
+  fill:none;stroke:currentColor;stroke-width:3.4;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ---- Pengaturan: panel orang tua, tidak pernah menghalanginya ---- */
+#atur{
+  position:fixed;inset:0;z-index:30;display:none;
+  align-items:center;justify-content:center;
+  background:rgba(63,59,55,.3);
+  padding:22px;
+}
+#atur.on{display:flex}
+#atur .panel{
+  background:var(--kertas);
+  border:var(--border) solid var(--garis);border-radius:var(--radius);
+  padding:22px;width:100%;max-width:340px;
+}
+#atur h2{font-size:18px;font-weight:800;margin-bottom:16px}
+#atur .baris{margin-bottom:16px}
+#atur .baris>span{
+  display:block;font-size:13px;font-weight:700;color:var(--tinta-lembut);
+  margin-bottom:8px;
+}
+#atur .pilih{display:flex;gap:8px;flex-wrap:wrap}
+#atur .pilih button{
+  border:var(--border) solid var(--garis);border-radius:12px;
+  background:transparent;padding:10px 14px;cursor:pointer;
+  font-family:inherit;font-weight:700;font-size:14px;color:var(--tinta-lembut);
+}
+#atur .pilih button.on{
+  border-color:var(--sage);background:var(--sage-muda);color:var(--sage-tua);
+}
+#tutupatur{
+  width:100%;border:var(--border) solid var(--sage);border-radius:12px;
+  margin-top:8px;background:var(--sage-muda);color:var(--sage-tua);
+  padding:13px;cursor:pointer;
+  font-family:inherit;font-weight:800;font-size:15px;
+}
+
+@media (prefers-reduced-motion:reduce){
+  #panduan,#centang{transition:none!important}
+}

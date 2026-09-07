@@ -1,0 +1,169 @@
+/* ------------------------------------------------------------------
+   Dasar tampilan untuk semua kegiatan.
+
+   Aturan yang dipegang di seluruh berkas ini, karena penggunanya anak
+   dengan ASD yang gampang kebanjiran rangsangan:
+
+   1. Tidak ada warna jenuh. Latar putih hangat, bukan putih layar; huruf
+      abu arang, bukan hitam. Yang dulu hijau Duolingo #58cc02 sekarang
+      hijau sage yang teredam.
+   2. Tidak ada gerak yang tidak dia mulai. Tidak ada yang berdenyut,
+      berputar, atau melintas sendiri. Peralihan paling lama 200ms dan
+      hanya opacity atau skala kecil.
+   3. Tidak ada suara tanpa diminta. Bunyi mati sejak awal di mana-mana.
+   4. Satu hal per layar.
+   5. Letak tetap. Tombol kembali selalu di kiri atas, ukuran sama,
+      di keempat kegiatan — jadi tidak perlu dicari ulang.
+   6. Sasaran sentuh minimal 64px.
+   7. Tidak ada waktu hitung mundur, nilai, atau nyawa. Tidak ada cara
+      untuk gagal.
+   ------------------------------------------------------------------ */
+:root{
+  /* Latar putih hangat, bukan #fff: putih murni menyilaukan di layar
+     terang dan itu keluhan sensorik yang paling sering muncul. */
+  --kertas:#faf8f5;
+  --kertas-dalam:#f2eee8;
+  --tinta:#3f3b37;
+  --tinta-lembut:#6f6862;
+  --garis:#ddd6cd;
+
+  /* Satu-satunya aksen. Sage teredam, bukan hijau menyala — cukup jelas
+     sebagai penanda "ini yang aktif", tidak cukup terang untuk merebut
+     perhatian dari foto atau huruf. */
+  --sage:#7a9b7e;
+  --sage-tua:#5f7f63;
+  --sage-muda:#e6eee7;
+
+  --font:"Nunito",ui-rounded,"SF Pro Rounded",system-ui,-apple-system,sans-serif;
+  --radius:16px;
+  --border:2px;
+  --gap:12px;
+  --sentuh:64px;
+
+  /* Enam kelompok warna huruf, versi teredam. Nada-nya dipertahankan
+     supaya peta warna yang sudah dihafal tetap berlaku, tapi kejenuhannya
+     diturunkan jauh: papan 26 kotak dengan warna penuh adalah 26 hal yang
+     berteriak berbarengan. */
+  --pink-isi:#f2dfe4;    --pink-tepi:#d7b3bd;
+  --blue-isi:#dbe7ee;    --blue-tepi:#a8c2d1;
+  --yellow-isi:#f2ead5;  --yellow-tepi:#d3c398;
+  --brown-isi:#e9e0d5;   --brown-tepi:#c3ac93;
+  --orange-isi:#f4e2d2;  --orange-tepi:#d7b394;
+  --purple-isi:#e4dfed;  --purple-tepi:#b6abc9;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html,body{
+  height:100%;
+  background:var(--kertas);
+  color:var(--tinta);
+  font-family:var(--font);
+  overflow:hidden;
+  -webkit-user-select:none;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  overscroll-behavior:none;
+  touch-action:manipulation;
+  /* Teks berukuran tetap: Android kadang membesarkan teks sendiri di
+     halaman yang dianggapnya artikel, dan itu merusak tata letak yang
+     sudah dipas supaya tidak pernah menggulung. */
+  -webkit-text-size-adjust:100%;text-size-adjust:100%;
+}
+
+/* Tinggi layar sesungguhnya di ponsel. 100vh menghitung bilah alamat yang
+   bisa hilang, jadi isi terpotong di bawah; 100dvh ikut menyusut bersama
+   bilahnya. vh tetap ditulis lebih dulu untuk peramban lama. */
+.layar{
+  position:fixed;inset:0;
+  height:100vh;height:100dvh;
+  display:flex;flex-direction:column;
+  padding:calc(14px + env(safe-area-inset-top)) 14px
+          calc(14px + env(safe-area-inset-bottom));
+}
+
+/* ---- Kepala halaman: tombol kembali + judul, sama di setiap kegiatan ---- */
+.kepala{
+  display:flex;align-items:center;gap:var(--gap);
+  padding-bottom:14px;flex:none;
+}
+.kepala h1{
+  font-size:19px;font-weight:800;letter-spacing:-.01em;
+  color:var(--tinta);
+}
+
+/* Tombol bundar: kembali, ulangi, suara. Satu bentuk untuk semua kontrol
+   dewasa, selalu seukuran ibu jari, warnanya sengaja tenang supaya bukan
+   itu yang pertama dia pencet. */
+.bulat{
+  flex:none;
+  width:var(--sentuh);height:var(--sentuh);
+  display:grid;place-items:center;
+  border:var(--border) solid var(--garis);border-radius:var(--radius);
+  background:var(--kertas);color:var(--tinta-lembut);
+  font-family:inherit;font-weight:700;font-size:26px;line-height:1;
+  cursor:pointer;
+  transition:transform .12s ease,background .12s ease;
+}
+.bulat:active{transform:scale(.95);background:var(--kertas-dalam)}
+.bulat svg{width:26px;height:26px;display:block}
+
+/* ---- Papan 26 huruf, 4x7, selalu muat, tidak pernah menggulung ---- */
+.papan{
+  flex:1;min-height:0;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:repeat(7,1fr);
+  gap:10px;
+}
+.kotak{
+  border:var(--border) solid;border-radius:var(--radius);
+  /* Bawaan grid membuat baris ikut tinggi isinya, dan satu huruf jangkung
+     cukup untuk mendorong baris terakhir keluar layar. */
+  min-width:0;min-height:0;overflow:hidden;
+  display:grid;place-items:center;
+  /* Ditulis longhand, bukan singkatan `font:` — `inherit` hanya sah sebagai
+     nilai utuh, jadi bentuk singkatnya diabaikan dan tombol kembali ke
+     13px bawaan peramban. */
+  font-family:inherit;font-weight:800;
+  font-size:min(9vmin,9.5vh);line-height:1;letter-spacing:-.02em;
+  color:var(--tinta);
+  cursor:pointer;
+  transition:transform .12s ease;
+}
+.kotak:active{transform:scale(.95)}
+/* Z jatuh sendirian di baris terakhir; Y digeser ke kolom dua supaya dua
+   huruf sisa itu duduk di tengah, bukan menggantung di kiri. */
+.kotak[data-pos="y"]{grid-column:2}
+
+.pink  {background:var(--pink-isi);  border-color:var(--pink-tepi)}
+.blue  {background:var(--blue-isi);  border-color:var(--blue-tepi)}
+.yellow{background:var(--yellow-isi);border-color:var(--yellow-tepi)}
+.brown {background:var(--brown-isi); border-color:var(--brown-tepi)}
+.orange{background:var(--orange-isi);border-color:var(--orange-tepi)}
+.purple{background:var(--purple-isi);border-color:var(--purple-tepi)}
+
+/* Huruf yang sudah selesai dikerjakan: pudar, tapi masih terbaca. Bukan
+   dihapus — papan harus tetap terlihat sama supaya letaknya tidak berubah
+   di bawah jarinya. */
+.kotak:disabled{opacity:.32;cursor:default}
+.kotak:disabled:active{transform:none}
+
+/* ---- Foto ---- */
+.foto{
+  max-width:100%;max-height:100%;
+  object-fit:contain;
+  border:var(--border) solid var(--garis);border-radius:var(--radius);
+  background:var(--kertas-dalam);
+  opacity:0;transition:opacity .2s ease;
+}
+.foto.tampil{opacity:1}
+
+/* Fokus papan tuts, untuk orang tua yang membuka lewat laptop. Tidak pernah
+   muncul karena sentuhan. */
+:focus{outline:none}
+:focus-visible{outline:3px solid var(--sage);outline-offset:3px}
+
+/* Aturan 2, dipaksakan: kalau sistemnya minta gerak dikurangi, semuanya diam. */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}

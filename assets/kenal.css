@@ -1,0 +1,41 @@
+/* Tampilan khusus "mengenal": papan huruf, lalu satu foto layar penuh. */
+
+/* Layar foto menutupi papan sepenuhnya, bukan menggeser atau menyusutkannya.
+   Satu hal di layar, dan papan yang tadi dia lihat tidak ikut berkedip di
+   belakang foto. */
+#lihat{
+  position:fixed;inset:0;z-index:10;
+  display:none;
+  background:var(--kertas);
+  padding:calc(14px + env(safe-area-inset-top)) 14px
+          calc(14px + env(safe-area-inset-bottom));
+}
+#lihat.on{display:block}
+
+/* Seluruh sisa layar adalah satu sasaran ketuk untuk maju ke gambar
+   berikutnya. Tidak ada tombol "lanjut" yang harus dicari dan dibaca dulu —
+   ketuk di mana saja, kecuali di tombol kembali. */
+#panggung{
+  position:absolute;inset:0;
+  display:grid;place-items:center;
+  padding:calc(78px + env(safe-area-inset-top)) 20px
+          calc(96px + env(safe-area-inset-bottom));
+  cursor:pointer;
+}
+
+/* Kata di bawah foto, bukan menimpanya, dan selalu di tempat yang sama
+   berapa pun tinggi fotonya. */
+#kata{
+  position:absolute;left:0;right:0;
+  bottom:calc(22px + env(safe-area-inset-bottom));
+  text-align:center;
+  font-weight:800;font-size:min(9vmin,34px);line-height:1.2;
+  letter-spacing:-.01em;color:var(--sage-tua);
+  pointer-events:none;
+}
+
+#pulang{
+  position:absolute;left:14px;
+  top:calc(14px + env(safe-area-inset-top));
+  z-index:2;
+}

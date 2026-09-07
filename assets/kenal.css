@@ -19,8 +19,41 @@
   position:absolute;inset:0;
   display:grid;place-items:center;
   padding:calc(78px + env(safe-area-inset-top)) 20px
-          calc(96px + env(safe-area-inset-bottom));
+          calc(124px + env(safe-area-inset-bottom));
+  /* Barisnya dikunci setinggi kotaknya, bukan setinggi isinya. Tanpa ini
+     max-height:100% pada fotonya tidak punya tinggi pasti untuk diukur, jadi
+     diabaikan — dan foto yang berdiri (jerapah, kuda) melar melewati alas
+     kotaknya sampai menutupi nama hewannya sendiri. */
+  grid-template-rows:minmax(0,1fr);
   cursor:pointer;
+}
+
+/* Penanda ada berapa banyak. Satu titik satu hewan, jadi sekali lihat
+   ketahuan hurufnya berisi tiga atau tiga belas, dan sudah sampai mana.
+   Sengaja titik, bukan angka: yang perlu dia baca posisinya, bukan
+   bilangannya — dan titik yang masih pucat di kanan sudah cukup memberitahu
+   masih ada lagi, tanpa satu kata pun. */
+#titik{
+  position:absolute;left:0;right:0;
+  bottom:calc(76px + env(safe-area-inset-bottom));
+  display:flex;justify-content:center;align-items:center;
+  flex-wrap:wrap;gap:8px;
+  padding:0 24px;
+  pointer-events:none;
+}
+
+#titik i{
+  display:block;width:9px;height:9px;
+  border-radius:50%;
+  background:var(--garis);
+  transition:background .18s ease,transform .18s ease;
+}
+
+/* Yang sedang dilihat. Menua warnanya dan membesar sedikit — tidak berdenyut,
+   tidak bergoyang, cuma berpindah tempat waktu fotonya berganti. */
+#titik i.kini{
+  background:var(--sage-tua);
+  transform:scale(1.55);
 }
 
 /* Kata di bawah foto, bukan menimpanya, dan selalu di tempat yang sama

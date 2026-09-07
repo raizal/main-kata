@@ -13,6 +13,7 @@ const lihat   = el("lihat");
 const panggung= el("panggung");
 const foto    = el("foto");
 const kataEl  = el("kata");
+const titikEl = el("titik");
 
 let huruf = null, langkah = 0;
 
@@ -38,9 +39,23 @@ function barisan(letter){
   return kataDari(letter).map(word => [word, kumpulan(word)[0] || null]);
 }
 
+/* Titiknya dibangun sekali tiap huruf dibuka, bukan tiap ketukan: yang
+   berubah waktu maju cuma titik mana yang menyala, dan membangun ulang
+   seluruh barisnya membuat semuanya berkedip padahal tidak ada yang
+   bertambah. */
+function susunTitik(n){
+  titikEl.textContent = "";
+  for (let i = 0; i < n; i++) titikEl.appendChild(document.createElement("i"));
+}
+
+function catTitik(){
+  [...titikEl.children].forEach((t, i) => t.classList.toggle("kini", i === langkah));
+}
+
 function tampilkan(letter){
   const urut = barisan(letter);
   foto.classList.remove("tampil");
+  catTitik();
   if (!urut.length) { foto.removeAttribute("src"); kataEl.textContent = ""; return; }
 
   /* Kata berganti bersama fotonya, tepat saat barisan menyeberang ke kata
@@ -58,6 +73,7 @@ function tampilkan(letter){
 function buka(letter){
   huruf = letter;
   langkah = 0;
+  susunTitik(barisan(letter).length);
   lihat.classList.add("on");
   jalan.titip();
   tampilkan(letter);
@@ -77,7 +93,7 @@ function susunPapan(){
     b.textContent = letter;
     /* Pembaca layar menyebut isi kotaknya, bukan hurufnya: yang sedang
        dipelajari adalah kaitan huruf ke bendanya. */
-    b.setAttribute("aria-label", letter + ", " + kata[0]);
+    b.setAttribute("aria-label", letter + ", " + kata[0] + ", " + kata.length + " gambar");
     if (letter === "Y") b.dataset.pos = "y";
     b.addEventListener("click", () => buka(letter));
     papan.appendChild(b);

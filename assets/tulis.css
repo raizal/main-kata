@@ -102,20 +102,16 @@
    lewat warna dan satu garis tipis — tidak ada yang bergerak sendiri. */
 .papan .kotak{position:relative;padding-bottom:9px}
 
-/* Huruf digambar, bukan diketik: goresan yang sama persis dengan yang nanti
-   dia telusuri di layar menulis. Kotaknya jadi contoh kecil pekerjaannya,
-   bukan sekadar label. */
-.papan .kotak .bentuk{width:56%;height:56%;overflow:visible}
-.papan .kotak .bentuk path{
-  fill:none;stroke:var(--tinta);stroke-width:9;
-  stroke-linecap:round;stroke-linejoin:round;
-  transition:stroke .2s ease;
-}
+/* Hurufnya mewarisi ukuran dan tebal dari .kotak di base.css — papan di
+   sini harus terbaca sebagai papan yang sama dengan di halaman mengenal dan
+   membaca, bukan sepupunya. Yang boleh beda cuma keterangan keadaannya:
+   garis kemajuan, tepi sage, dan centang. */
+.papan .kotak .huruf{transition:color .2s ease}
 
-/* Ditekan: kotaknya masuk sedikit dan garis hurufnya menghangat. Umpan balik
-   yang datang seketika di bawah jarinya, tanpa bunyi dan tanpa kilat. */
+/* Ditekan: kotaknya masuk sedikit dan hurufnya menghangat. Umpan balik yang
+   datang seketika di bawah jarinya, tanpa bunyi dan tanpa kilat. */
 .papan .kotak:active{transform:scale(.94)}
-.papan .kotak:active .bentuk path{stroke:var(--sage-tua)}
+.papan .kotak:active .huruf{color:var(--sage-tua)}
 
 /* Garis kemajuan di kaki kotak: berapa kata di balik huruf itu yang sudah
    dia tulis. Baru muncul begitu huruf itu dia mulai — 26 garis kosong cuma
@@ -141,7 +137,7 @@
    .72 dengan sengaja: kotak yang hampir hilang membuat papan terlihat
    rusak, padahal hurufnya justru yang sudah dia kerjakan. */
 .papan .kotak.usai{opacity:.72}
-.papan .kotak.usai .bentuk path{stroke:var(--sage)}
+.papan .kotak.usai .huruf{color:var(--sage)}
 .papan .kotak:disabled{cursor:default}
 .papan .kotak:disabled:active{transform:none}
 

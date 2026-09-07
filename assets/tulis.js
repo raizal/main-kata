@@ -182,16 +182,17 @@ function susunPapan(){
     b.dataset.total = kataDari(letter).length;
     if (letter === "Y") b.dataset.pos = "y";
 
-    /* Hurufnya digambar dari goresan yang nanti ditelusuri, bukan diketik
-       sebagai teks: yang dia lihat di kotak persis bentuk yang akan dia buat
-       dengan jarinya, dan garis itu pula yang berubah jadi sage waktu
-       hurufnya selesai. Kotaknya jadi contoh kecil dari pekerjaannya. */
-    const bentuk = document.createElementNS(NS, "svg");
-    bentuk.setAttribute("viewBox", "0 0 100 100");
-    bentuk.setAttribute("class", "bentuk");
-    bentuk.setAttribute("aria-hidden", "true");
-    for (const d of (GORESAN[letter] || [])) bentuk.appendChild(jalur(d, ""));
-    b.appendChild(bentuk);
+    /* Hurufnya diketik, sama persis dengan papan di halaman mengenal dan
+       membaca. Dulu digambar dari goresan yang nanti ditelusuri — niatnya
+       supaya kotaknya jadi contoh kecil pekerjaannya — tapi garis setipis
+       itu di sebelah huruf tebal di halaman lain membuat papan yang sama
+       terlihat seperti dua papan berbeda. Untuk dia, empat papan yang serupa
+       adalah satu benda yang sudah dikenal; bentuk goresannya toh dia lihat
+       utuh begitu hurufnya dibuka. */
+    const teks = document.createElement("span");
+    teks.className = "huruf";
+    teks.textContent = letter;
+    b.appendChild(teks);
 
     /* Garis tipis di kaki kotak: berapa kata di balik huruf ini yang sudah
        dia tulis. Baru muncul setelah dia mulai — 26 garis kosong hanya akan

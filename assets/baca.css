@@ -110,6 +110,12 @@
 #gambar{
   flex:0 1 auto;min-height:0;
   height:clamp(96px,18vh,190px);
+  /* Sisa tinggi layar dibagi rata ke atas foto dan ke bawah petunjuk, lewat
+     margin auto di kedua ujung. Sebelumnya sisa itu dikumpulkan di satu
+     tempat — tepat di antara foto dan kepingan suku katanya — dan lubang di
+     tengah halaman terbaca seperti ada yang gagal dimuat, bukan seperti
+     ruang napas. */
+  margin-top:auto;
   display:grid;place-items:center;
   /* Barisnya dikunci setinggi kotaknya, bukan setinggi isinya. Tanpa ini
      foto yang berdiri (buku, botol) melar melewati kotaknya sendiri sampai
@@ -161,13 +167,12 @@
    mendatar keduanya bisa pindah ke lajur kanan sekaligus. Kelompok ini yang
    memakan sisa tinggi layar, bukan fotonya. */
 #kanan{
-  flex:1;min-height:0;
+  flex:0 1 auto;min-height:0;
   display:flex;flex-direction:column;gap:12px;
-  justify-content:center;
-  /* "safe" supaya waktu isinya lebih tinggi daripada ruangnya, tumpahannya
-     tidak keluar lewat atas — tanpa ini kepingan suku kata naik menimpa
-     tombol suara di kepala halaman, dan tidak ada cara menggapainya lagi. */
-  justify-content:safe center;
+  /* Pasangan margin-top:auto milik #gambar. Keduanya baru bekerja waktu ada
+     ruang lebih; begitu isinya kepenuhan, margin auto jadi nol sendiri dan
+     kolomnya menyusut seperti biasa. */
+  margin-bottom:auto;
   /* Pengaman terakhir, bukan rancangan: di layar yang cukup tinggi tangga
      bunyinya selalu muat utuh dan batang gulung ini tidak pernah muncul.
      Yang dijaga cuma satu hal — kata empat suku kata di ponsel pendek harus
@@ -253,6 +258,31 @@
   min-height:2.7em;
 }
 
+/* ---- Tingkat 4: satu bunyi, sebesar layar ---- */
+/* Satu mulut, satu kalimat, tidak ada yang lain. Tidak ada foto benda, tidak
+   ada suku kata, tidak ada tangga — semua itu sudah dia lihat di tingkat
+   sebelumnya, dan yang tertinggal di layar ini cuma bentuk yang harus dia
+   tiru. Ketuk di mana saja untuk kembali. */
+#zoom{z-index:30;cursor:pointer}
+
+#mulutBesar{
+  flex:1;min-height:0;
+  display:grid;place-items:center;
+  grid-template-rows:minmax(0,1fr);
+}
+#mulutBesar svg{
+  display:block;
+  width:min(90vw,620px);max-height:100%;height:auto;
+}
+
+#petunjukBesar{
+  flex:none;margin:0;
+  padding-bottom:8px;
+  font-weight:800;line-height:1.35;
+  font-size:clamp(17px,4.8vw,24px);
+  color:var(--tinta-lembut);text-align:center;
+}
+
 /* ---- Tablet mendatar: foto di kiri, bacaannya di kanan ---- */
 /* Di layar rebah, satu lajur berarti fotonya jadi pipih dan kepingannya
    terdorong keluar layar. Dua lajur memakai lebarnya dan membiarkan tinggi
@@ -269,10 +299,14 @@
   /* Di layar rebah fotonya tidak perlu dipatok: lajur kanan sudah menampung
      tangga bunyinya sendiri, jadi tinggi yang tersisa di kiri boleh habis
      untuk fotonya. */
-  #gambar{grid-column:1;grid-row:2;min-height:0;height:auto}
+  /* Margin auto yang membagi sisa tinggi di layar tegak dimatikan di sini:
+     di dalam petak grid, margin auto membatalkan regangan petaknya dan malah
+     mendorong isinya ke satu sisi. */
+  #gambar{grid-column:1;grid-row:2;min-height:0;height:auto;margin-top:0}
   #kanan{
     grid-column:2;grid-row:2;
-    display:flex;flex-direction:column;justify-content:center;gap:16px;
-    min-height:0;
+    display:flex;flex-direction:column;gap:16px;
+    justify-content:center;justify-content:safe center;
+    min-height:0;margin-bottom:0;
   }
 }

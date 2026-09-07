@@ -30,6 +30,10 @@ const sukuEl     = el("suku");
 const tanggaEl   = el("tangga");
 const petunjuk   = el("petunjuk");
 const suaraBtn   = el("suara");
+const zoom       = el("zoom");
+const judulBunyi = el("judulBunyi");
+const mulutBesar = el("mulutBesar");
+const petunjukBesar = el("petunjukBesar");
 
 let huruf = null, kata = "", potong = [], sampai = 0;
 
@@ -98,9 +102,10 @@ suaraBtn.addEventListener("click", () => {
 let tingkat = 0, ditumpuk = 0;
 
 function keTingkat(n){
-  tingkat = n < 0 ? 0 : n > 2 ? 2 : n;
+  tingkat = n < 0 ? 0 : n > 3 ? 3 : n;
   daftar.classList.toggle("on", tingkat >= 1);
   rinci.classList.toggle("on", tingkat >= 2);
+  zoom.classList.toggle("on", tingkat >= 3);
   if (tingkat < 2) {
     try { speechSynthesis.cancel(); } catch (e) {}
     foto.classList.remove("tampil");
@@ -227,11 +232,37 @@ function catTangga(){
   });
 }
 
+/* ------------------------------------------------------------------
+   Satu bunyi diperbesar.
+
+   Di tangga, mulutnya sebesar ibu jari — cukup untuk melihat urutannya,
+   belum cukup untuk ditiru. Bedanya bibir bulat dan bibir maju cuma
+   beberapa piksel di ukuran itu, dan yang harus dia tiru justru bedanya.
+   Jadi satu ketukan membesarkan satu mulut sampai selebar layar.
+
+   Menutupnya: ketuk di mana saja. Tidak ada tombol silang kecil yang harus
+   dicari — seluruh layar adalah jalan keluarnya, sama seperti seluruh layar
+   tadi adalah jalan masuknya.
+   ------------------------------------------------------------------ */
+function bukaZoom(bunyi){
+  judulBunyi.textContent = "";
+  const em = document.createElement("em");
+  em.textContent = String(bunyi).toUpperCase();
+  judulBunyi.appendChild(document.createTextNode("Bunyi "));
+  judulBunyi.appendChild(em);
+
+  mulutBesar.innerHTML = gambarBibir(bunyi, true);
+  petunjukBesar.textContent = caraBaca(bunyi);
+  keTingkat(3);
+  titip();
+}
+
 function pilihBunyi(i, j, bunyi){
   sorot = [i, j];
   petunjuk.textContent = caraBaca(bunyi);
   catTangga();
   ucap(bunyi);
+  bukaZoom(bunyi);
 }
 
 function susunTangga(){
@@ -341,8 +372,12 @@ foto.addEventListener("error", () => {
   foto.removeAttribute("src");
 });
 
-for (const id of ["kembali1", "kembali2"])
-  el(id).addEventListener("click", mundur);
+for (const id of ["kembali1", "kembali2", "kembali3"])
+  el(id).addEventListener("click", e => { e.stopPropagation(); mundur(); });
+
+/* Seluruh layar zoom menutup dirinya sendiri. Tombol kembali di pojok tetap
+   ada untuk yang mencarinya, tapi tidak wajib ditemukan dulu. */
+zoom.addEventListener("click", mundur);
 
 susunPapan();
 catSuara();

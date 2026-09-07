@@ -174,11 +174,34 @@ function svgBibir(pose){
   return bagian.join("");
 }
 
-function gambarBibir(letter){
+/* Kotak gambar yang dirapatkan ke mulutnya.
+
+   Kotak seragam 160x116 tetap dipakai di tangga bunyi, supaya tiap barisnya
+   sama tinggi dan mulutnya berjajar rapi. Tapi di layar zoom kotak seragam
+   itu merugikan: mulut "u" cuma mengisi sepertiganya, jadi yang ikut
+   membesar sebagian besar ruang kosong, bukan bibirnya.
+
+   Lebar dan tingginya diberi lantai, tidak dirapatkan sampai mepet. Kalau
+   tiap pose dipaksa memenuhi kotaknya sendiri-sendiri, "u" dan "a" berakhir
+   sama besar di layar — padahal bedanya bibir dibulatkan kecil dan mulut
+   dibuka lebar justru salah satu hal yang harus dia tiru. */
+function kotakBibir(pose){
+  const p = POSE[pose] || POSE.sedang;
+  const cx = 80, cy = 58;
+  const RX = p.rapat ? 46 : p.rx + 16;
+  const RY = p.rapat ? 20 : p.ry + 13;
+  const atas = cy - RY * 1.32, bawah = cy + RY * 1.42;
+  const w = Math.max(RX * 2 + 18, 104);
+  const h = Math.max(bawah - atas + 18, 104);
+  return (cx - w / 2) + " " + ((atas + bawah) / 2 - h / 2) + " " + w + " " + h;
+}
+
+function gambarBibir(letter, penuh){
   const kunci = String(letter).toUpperCase();
   const b = BIBIR[kunci];
   if (!b) return "";
-  return '<svg viewBox="0 0 160 116" role="img" aria-label="Bentuk bibir untuk bunyi ' +
+  const kotak = penuh ? kotakBibir(b.pose) : "0 0 160 116";
+  return '<svg viewBox="' + kotak + '" role="img" aria-label="Bentuk bibir untuk bunyi ' +
          kunci + '">' + svgBibir(b.pose) + '</svg>';
 }
 

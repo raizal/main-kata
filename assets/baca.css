@@ -1,0 +1,312 @@
+/* ------------------------------------------------------------------
+   Tampilan khusus "belajar membaca".
+
+   Tiga tingkat, satu hal di tiap tingkat:
+     papan   26 huruf
+     daftar  semua benda dan hewan yang berawalan huruf itu
+     rinci   satu benda: gambarnya, katanya, dan cara membaca hurufnya
+
+   Tiap tingkat menutupi tingkat sebelumnya sepenuhnya, bukan menggeser
+   atau menyusutkannya, supaya yang barusan dia lihat tidak ikut berkedip
+   di belakang yang sedang dia lihat.
+   ------------------------------------------------------------------ */
+
+:root{
+  /* Warna mulut. Diredam sejauh mungkin dari merah: mulut merah menyala di
+     tengah halaman krem adalah persis jenis kejutan yang dihindari di sini,
+     dan yang perlu dia baca dari gambarnya adalah bentuknya, bukan warnanya. */
+  --bibir:#e3bfc2;
+  --bibir-garis:#c49aa0;
+  --mulut:#6b5250;
+  --gigi:#faf8f5;
+  --lidah:#d59a9c;
+}
+
+.tingkat{
+  position:fixed;inset:0;
+  display:none;flex-direction:column;
+  background:var(--kertas);
+  padding:calc(14px + env(safe-area-inset-top)) 14px
+          calc(14px + env(safe-area-inset-bottom));
+  gap:12px;
+}
+.tingkat.on{display:flex}
+#daftar{z-index:10}
+#rinci{z-index:20}
+
+/* Tombol suara didorong ke kanan, jauh dari tombol kembali: dua tombol
+   bersebelahan di sudut yang sama berarti salah pencet. */
+#suara{margin-left:auto}
+#suara.mati{opacity:.45}
+
+.kepala h1 em{font-style:normal;color:var(--sage-tua)}
+
+/* ---- Tingkat 2: daftar benda dan hewan ---- */
+/* Satu-satunya tempat di seluruh aplikasi yang boleh menggulung. Daftar
+   ini memang daftar, panjangnya berbeda-beda tiap huruf, dan memaksanya
+   selalu muat berarti kartunya mengecil sampai fotonya tidak terbaca. */
+#kartu{
+  flex:1;min-height:0;
+  overflow-y:auto;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  display:grid;
+  /* Dua lajur di ponsel, lima sampai enam di tablet mendatar, tanpa satu
+     pun titik putus yang ditulis tangan. */
+  grid-template-columns:repeat(auto-fill,minmax(148px,1fr));
+  gap:12px;align-content:start;
+  /* Tinggi baris ikut isi kartunya. Tanpa ini baris dibagi rata setinggi
+     wadahnya, dan kartu yang lebih pendek dari isinya memotong namanya. */
+  grid-auto-rows:max-content;
+  padding-bottom:6px;
+}
+
+/* Blok biasa, bukan flex. Tinggi .bingkai datang dari aspect-ratio, dan
+   di dalam kolom flex peramban menghitung tinggi itu sebelum lebarnya pasti
+   — hasilnya kartu lebih pendek dari isinya dan namanya terpotong. */
+.kartu{
+  display:block;
+  border:var(--border) solid var(--garis);border-radius:var(--radius);
+  background:var(--kertas);
+  overflow:hidden;cursor:pointer;
+  font-family:inherit;text-align:center;
+  transition:transform .12s ease,border-color .12s ease;
+}
+.kartu:active{transform:scale(.97);border-color:var(--sage)}
+
+/* Bingkai fotonya berukuran tetap sejak awal, jadi kartu tidak melompat
+   waktu fotonya datang satu per satu. Sebelum ada foto isinya bidang krem,
+   bukan ruang kosong yang runtuh. */
+.kartu .bingkai{
+  display:block;width:100%;aspect-ratio:4/3;
+  background:var(--kertas-dalam);
+  overflow:hidden;
+}
+.kartu img{
+  width:100%;height:100%;display:block;object-fit:cover;
+  opacity:0;transition:opacity .25s ease;
+}
+.kartu img.tampil{opacity:1}
+
+.kartu .nama{
+  /* span bawaannya sebaris: padding tegaknya tidak menambah tinggi baris
+     dan namanya menggantung keluar dari kartu. */
+  display:block;
+  padding:9px 8px 11px;
+  font-weight:800;font-size:16px;line-height:1.2;
+  letter-spacing:-.01em;color:var(--tinta);
+  text-transform:capitalize;
+}
+
+/* ---- Tingkat 3: satu benda ---- */
+/* Foto muncul paling atas, tapi bukan yang paling besar.
+
+   Fotonya penopang, bukan isi: kalau dia sudah tahu gambarnya ayam, mengeja
+   "a-yam" jadi mencocokkan bunyi ke sesuatu yang sudah pasti, bukan menebak
+   dalam gelap — dan untuk itu foto sebesar telapak tangan sudah cukup.
+   Yang sedang dipelajari di layar ini bentuk mulutnya, jadi sisa ruangnya
+   diberikan ke tangga bunyi. Tingginya dipatok supaya foto yang berdiri
+   (buku, botol) tidak diam-diam mengambil setengah layar dan mendesak
+   mulutnya mengecil. */
+#gambar{
+  flex:0 1 auto;min-height:0;
+  height:clamp(96px,18vh,190px);
+  /* Sisa tinggi layar dibagi rata ke atas foto dan ke bawah petunjuk, lewat
+     margin auto di kedua ujung. Sebelumnya sisa itu dikumpulkan di satu
+     tempat — tepat di antara foto dan kepingan suku katanya — dan lubang di
+     tengah halaman terbaca seperti ada yang gagal dimuat, bukan seperti
+     ruang napas. */
+  margin-top:auto;
+  display:grid;place-items:center;
+  /* Barisnya dikunci setinggi kotaknya, bukan setinggi isinya. Tanpa ini
+     foto yang berdiri (buku, botol) melar melewati kotaknya sendiri sampai
+     menyelinap ke bawah kepingan suku kata, karena max-height:100% pada
+     foto tidak punya tinggi pasti untuk diukur. */
+  grid-template-rows:minmax(0,1fr);
+}
+
+/* ---- Kepingan suku kata ---- */
+#suku{
+  flex:none;
+  display:flex;flex-wrap:wrap;
+  justify-content:center;align-items:center;
+  gap:10px;
+}
+
+.keping{
+  min-width:74px;min-height:var(--sentuh);
+  padding:10px 16px;
+  display:grid;place-items:center;
+  border:var(--border) solid var(--garis);border-radius:var(--radius);
+  background:var(--kertas);
+  font-family:inherit;font-weight:800;
+  font-size:clamp(21px,6vw,28px);line-height:1;letter-spacing:-.01em;
+  color:var(--tinta);
+  cursor:default;
+  transition:opacity .18s ease,background .18s ease,
+             border-color .18s ease,color .18s ease;
+}
+
+/* Belum gilirannya: masih terbaca, hanya mundur ke belakang. Sengaja tidak
+   disembunyikan — melihat seluruh kata terpecah sejak awal memberitahu dia
+   ada berapa bagian dan sampai mana ini akan berjalan. */
+.keping.nanti{opacity:.3}
+
+/* Gilirannya: hanya tepinya yang menguat. Tidak berdenyut, tidak bergoyang,
+   tidak ada panah melompat — satu tepi sage sudah cukup untuk menunjuk,
+   dan dia diam di situ selama apa pun dia perlu. */
+.keping.giliran{border-color:var(--sage);cursor:pointer}
+.keping.giliran:active{transform:scale(.96)}
+
+.keping.sudah{
+  background:var(--sage-muda);
+  border-color:var(--sage);
+  color:var(--sage-tua);
+}
+
+/* Kepingan dan tangga bunyi duduk dalam satu kelompok, supaya di tablet
+   mendatar keduanya bisa pindah ke lajur kanan sekaligus. Kelompok ini yang
+   memakan sisa tinggi layar, bukan fotonya. */
+#kanan{
+  flex:0 1 auto;min-height:0;
+  display:flex;flex-direction:column;gap:12px;
+  /* Pasangan margin-top:auto milik #gambar. Keduanya baru bekerja waktu ada
+     ruang lebih; begitu isinya kepenuhan, margin auto jadi nol sendiri dan
+     kolomnya menyusut seperti biasa. */
+  margin-bottom:auto;
+  /* Pengaman terakhir, bukan rancangan: di layar yang cukup tinggi tangga
+     bunyinya selalu muat utuh dan batang gulung ini tidak pernah muncul.
+     Yang dijaga cuma satu hal — kata empat suku kata di ponsel pendek harus
+     tetap bisa dilihat sampai habis, bukan terpotong diam-diam. */
+  overflow-y:auto;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* ---- Tangga bunyi: satu baris per suku kata, satu mulut per bunyi ---- */
+/* Digelar menurun, bukan satu baris panjang. Kata seperti "helikopter" punya
+   sepuluh bunyi, dan sepuluh mulut berjajar di layar ponsel mengecil sampai
+   bentuknya — satu-satunya isi gambar ini — tidak lagi terbaca. Menurun,
+   tiap baris cukup memuat satu suku kata, dan matanya membaca dari kiri ke
+   kanan lalu turun: persis urutan mulutnya bergerak. */
+#tangga{
+  flex:none;
+  display:flex;flex-direction:column;gap:8px;
+}
+
+.anak{
+  display:flex;align-items:center;gap:12px;
+  padding:6px 12px;
+  border:var(--border) solid transparent;border-radius:var(--radius);
+  transition:background .18s ease,border-color .18s ease;
+}
+
+/* Baris yang sedang dieja. Cuma tepi dan alas yang berganti — tidak ada
+   yang membesar, bergeser, atau berdenyut waktu sorotnya pindah. */
+.anak.kini{
+  background:var(--sage-muda);
+  border-color:var(--sage);
+}
+
+.labelSuku{
+  flex:none;min-width:2.6em;
+  font-weight:800;font-size:clamp(21px,6vw,28px);line-height:1;
+  letter-spacing:-.01em;color:var(--tinta);
+  text-align:center;
+}
+
+.deret{
+  display:flex;flex-wrap:wrap;align-items:center;
+  gap:6px;
+}
+
+.bunyi{
+  display:flex;flex-direction:column;align-items:center;gap:1px;
+  padding:4px 5px 3px;
+  border:2px solid transparent;border-radius:12px;
+  background:none;cursor:pointer;
+  font-family:inherit;
+  transition:border-color .15s ease;
+}
+/* Bunyi yang petunjuknya sedang tampil di bawah. Satu tepi sage, tanpa
+   isian: dua bidang berwarna bertumpuk di dalam baris yang juga berwarna
+   sudah terlalu banyak lapisan untuk satu hal sekecil ini. */
+.bunyi.dipilih{border-color:var(--sage-tua)}
+.bunyi:active{transform:scale(.96)}
+
+/* Mulutnya digambar lebih besar daripada fotonya. Bentuk bibir itu yang
+   harus dia tiru, dan bentuk yang harus ditiru tidak boleh jadi yang paling
+   kecil di layar — perbedaan antara bibir bulat dan bibir melebar baru
+   kelihatan kalau gambarnya cukup lebar.
+
+   Ukurannya ikut lebar sekaligus tinggi layar. Kalau cuma ikut lebar, layar
+   pendek seperti 360x640 tetap memberi mulut sebesar layar tinggi, dan kata
+   empat suku kata seperti "helikopter" jadi sepuluh mulut yang tidak muat —
+   yang paling sempit di antara keduanya yang dipakai. */
+.bunyi svg{
+  display:block;width:clamp(42px,min(16vw,8vh),78px);height:auto;
+}
+
+.namaBunyi{
+  font-weight:800;font-size:clamp(15px,4vw,18px);line-height:1;
+  color:var(--tinta-lembut);
+  text-transform:lowercase;
+}
+
+#petunjuk{
+  flex:none;margin:0;
+  font-size:13px;font-weight:700;line-height:1.35;
+  color:var(--tinta-lembut);text-align:center;
+  min-height:2.7em;
+}
+
+/* ---- Tingkat 4: satu bunyi, sebesar layar ---- */
+/* Satu mulut, satu kalimat, tidak ada yang lain. Tidak ada foto benda, tidak
+   ada suku kata, tidak ada tangga — semua itu sudah dia lihat di tingkat
+   sebelumnya, dan yang tertinggal di layar ini cuma bentuk yang harus dia
+   tiru. Ketuk di mana saja untuk kembali. */
+#zoom{z-index:30;cursor:pointer}
+
+#mulutBesar{
+  flex:1;min-height:0;
+  display:grid;place-items:center;
+  grid-template-rows:minmax(0,1fr);
+}
+#mulutBesar svg{
+  display:block;
+  width:min(90vw,620px);max-height:100%;height:auto;
+}
+
+#petunjukBesar{
+  flex:none;margin:0;
+  padding-bottom:8px;
+  font-weight:800;line-height:1.35;
+  font-size:clamp(17px,4.8vw,24px);
+  color:var(--tinta-lembut);text-align:center;
+}
+
+/* ---- Tablet mendatar: foto di kiri, bacaannya di kanan ---- */
+/* Di layar rebah, satu lajur berarti fotonya jadi pipih dan kepingannya
+   terdorong keluar layar. Dua lajur memakai lebarnya dan membiarkan tinggi
+   yang sedikit itu utuh untuk fotonya. */
+@media (orientation:landscape) and (min-width:720px){
+  #rinci{
+    display:none;
+    grid-template-columns:1fr minmax(300px,380px);
+    grid-template-rows:auto 1fr;
+    column-gap:20px;
+  }
+  #rinci.on{display:grid}
+  #rinci .kepala{grid-column:1/-1;padding-bottom:0}
+  /* Di layar rebah fotonya tidak perlu dipatok: lajur kanan sudah menampung
+     tangga bunyinya sendiri, jadi tinggi yang tersisa di kiri boleh habis
+     untuk fotonya. */
+  /* Margin auto yang membagi sisa tinggi di layar tegak dimatikan di sini:
+     di dalam petak grid, margin auto membatalkan regangan petaknya dan malah
+     mendorong isinya ke satu sisi. */
+  #gambar{grid-column:1;grid-row:2;min-height:0;height:auto;margin-top:0}
+  #kanan{
+    grid-column:2;grid-row:2;
+    display:flex;flex-direction:column;gap:16px;
+    justify-content:center;justify-content:safe center;
+    min-height:0;margin-bottom:0;
+  }
+}

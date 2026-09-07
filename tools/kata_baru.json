@@ -1,0 +1,776 @@
+[
+[
+"A",
+"air",
+"benda",
+"water pouring into glass"
+],
+[
+"A",
+"api",
+"benda",
+"campfire flames"
+],
+[
+"A",
+"awan",
+"benda",
+"white clouds blue sky"
+],
+[
+"A",
+"anggur",
+"benda",
+"bunch of grapes"
+],
+[
+"A",
+"alpukat",
+"benda",
+"avocado fruit"
+],
+[
+"A",
+"atap",
+"benda",
+"red roof tiles"
+],
+[
+"B",
+"bola",
+"benda",
+"soccer ball"
+],
+[
+"B",
+"bunga",
+"benda",
+"flower blossom"
+],
+[
+"B",
+"baju",
+"benda",
+"shirt on hanger"
+],
+[
+"C",
+"cangkir",
+"benda",
+"tea cup"
+],
+[
+"C",
+"celana",
+"benda",
+"blue jeans trousers"
+],
+[
+"C",
+"cermin",
+"benda",
+"mirror"
+],
+[
+"C",
+"cabai",
+"benda",
+"red chili peppers"
+],
+[
+"D",
+"daun",
+"benda",
+"green leaf"
+],
+[
+"D",
+"dasi",
+"benda",
+"necktie"
+],
+[
+"D",
+"dompet",
+"benda",
+"leather wallet"
+],
+[
+"D",
+"dadu",
+"benda",
+"dice"
+],
+[
+"D",
+"durian",
+"benda",
+"durian fruit"
+],
+[
+"D",
+"danau",
+"benda",
+"calm lake"
+],
+[
+"D",
+"drum",
+"benda",
+"drum set"
+],
+[
+"E",
+"ember",
+"benda",
+"bucket"
+],
+[
+"E",
+"emas",
+"benda",
+"gold ring jewelry"
+],
+[
+"E",
+"embun",
+"benda",
+"dew drops on leaf"
+],
+[
+"E",
+"es batu",
+"benda",
+"ice cubes"
+],
+[
+"E",
+"eskalator",
+"benda",
+"escalator"
+],
+[
+"E",
+"eceng gondok",
+"benda",
+"water hyacinth"
+],
+[
+"E",
+"es teh",
+"benda",
+"iced tea glass"
+],
+[
+"F",
+"film",
+"benda",
+"film reel"
+],
+[
+"F",
+"figura",
+"benda",
+"picture frame"
+],
+[
+"F",
+"fosil",
+"benda",
+"fossil"
+],
+[
+"F",
+"fajar",
+"benda",
+"sunrise dawn sky"
+],
+[
+"F",
+"feri",
+"benda",
+"ferry boat"
+],
+[
+"G",
+"garpu",
+"benda",
+"fork cutlery"
+],
+[
+"G",
+"gitar",
+"benda",
+"acoustic guitar"
+],
+[
+"G",
+"gunung",
+"benda",
+"mountain"
+],
+[
+"G",
+"gelas",
+"benda",
+"drinking glass"
+],
+[
+"G",
+"gigi",
+"benda",
+"teeth smile"
+],
+[
+"G",
+"gula",
+"benda",
+"sugar cubes"
+],
+[
+"H",
+"hujan",
+"benda",
+"rain drops"
+],
+[
+"H",
+"hutan",
+"benda",
+"forest trees"
+],
+[
+"H",
+"handuk",
+"benda",
+"folded towel"
+],
+[
+"H",
+"helm",
+"benda",
+"motorcycle helmet"
+],
+[
+"H",
+"helikopter",
+"benda",
+"helicopter"
+],
+[
+"H",
+"hotel",
+"benda",
+"hotel building"
+],
+[
+"I",
+"iguana",
+"hewan",
+"iguana"
+],
+[
+"I",
+"ibu",
+"benda",
+"mother holding baby"
+],
+[
+"I",
+"istana",
+"benda",
+"palace"
+],
+[
+"I",
+"ilalang",
+"benda",
+"tall grass field"
+],
+[
+"I",
+"ikat pinggang",
+"benda",
+"leather belt"
+],
+[
+"J",
+"jeruk",
+"benda",
+"orange fruit"
+],
+[
+"J",
+"jagung",
+"benda",
+"corn cob"
+],
+[
+"J",
+"jendela",
+"benda",
+"window"
+],
+[
+"J",
+"jembatan",
+"benda",
+"bridge"
+],
+[
+"J",
+"jaket",
+"benda",
+"jacket"
+],
+[
+"J",
+"jari",
+"benda",
+"hand fingers"
+],
+[
+"J",
+"jamur",
+"benda",
+"mushroom"
+],
+[
+"J",
+"jalan",
+"benda",
+"country road"
+],
+[
+"K",
+"kunci",
+"benda",
+"keys"
+],
+[
+"K",
+"kursi",
+"benda",
+"wooden chair"
+],
+[
+"K",
+"kompor",
+"benda",
+"gas stove"
+],
+[
+"L",
+"lemari",
+"benda",
+"wardrobe cupboard"
+],
+[
+"L",
+"lilin",
+"benda",
+"candle"
+],
+[
+"L",
+"lidah",
+"benda",
+"tongue"
+],
+[
+"L",
+"layang-layang",
+"benda",
+"kite flying sky"
+],
+[
+"L",
+"lemon",
+"benda",
+"lemon fruit"
+],
+[
+"M",
+"mangga",
+"benda",
+"mango fruit"
+],
+[
+"M",
+"meja",
+"benda",
+"wooden table"
+],
+[
+"M",
+"mobil",
+"benda",
+"car"
+],
+[
+"M",
+"matahari",
+"benda",
+"sun sky"
+],
+[
+"M",
+"mata",
+"benda",
+"human eye"
+],
+[
+"M",
+"motor",
+"benda",
+"motorcycle"
+],
+[
+"M",
+"mawar",
+"benda",
+"rose flower"
+],
+[
+"N",
+"nanas",
+"benda",
+"pineapple"
+],
+[
+"N",
+"nangka",
+"benda",
+"jackfruit"
+],
+[
+"N",
+"naga",
+"benda",
+"dragon statue"
+],
+[
+"N",
+"nampan",
+"benda",
+"serving tray"
+],
+[
+"N",
+"nelayan",
+"benda",
+"fisherman boat"
+],
+[
+"N",
+"nyiur",
+"benda",
+"coconut palm tree"
+],
+[
+"N",
+"nugget",
+"benda",
+"chicken nuggets"
+],
+[
+"O",
+"oven",
+"benda",
+"kitchen oven"
+],
+[
+"O",
+"obat",
+"benda",
+"medicine pills"
+],
+[
+"O",
+"ombak",
+"benda",
+"ocean wave"
+],
+[
+"O",
+"oli",
+"benda",
+"motor oil can"
+],
+[
+"O",
+"ondel-ondel",
+"benda",
+"ondel-ondel jakarta"
+],
+[
+"O",
+"onde-onde",
+"benda",
+"sesame ball snack"
+],
+[
+"O",
+"obor",
+"benda",
+"burning torch"
+],
+[
+"O",
+"okra",
+"benda",
+"okra vegetable"
+],
+[
+"P",
+"pisang",
+"benda",
+"banana"
+],
+[
+"P",
+"pensil",
+"benda",
+"pencil"
+],
+[
+"P",
+"piring",
+"benda",
+"plate dish"
+],
+[
+"P",
+"pintu",
+"benda",
+"wooden door"
+],
+[
+"P",
+"pohon",
+"benda",
+"big tree"
+],
+[
+"P",
+"pesawat",
+"benda",
+"airplane"
+],
+[
+"P",
+"pantai",
+"benda",
+"tropical beach"
+],
+[
+"R",
+"rumah",
+"benda",
+"house"
+],
+[
+"R",
+"roti",
+"benda",
+"bread loaf"
+],
+[
+"R",
+"rambut",
+"benda",
+"long hair"
+],
+[
+"R",
+"rok",
+"benda",
+"skirt"
+],
+[
+"R",
+"radio",
+"benda",
+"vintage radio"
+],
+[
+"R",
+"rantai",
+"benda",
+"metal chain"
+],
+[
+"R",
+"rumput",
+"benda",
+"green grass"
+],
+[
+"R",
+"rambutan",
+"benda",
+"rambutan fruit"
+],
+[
+"S",
+"sepatu",
+"benda",
+"shoes pair"
+],
+[
+"S",
+"sepeda",
+"benda",
+"bicycle"
+],
+[
+"S",
+"sendok",
+"benda",
+"spoon"
+],
+[
+"S",
+"sisir",
+"benda",
+"hair comb"
+],
+[
+"S",
+"salju",
+"benda",
+"snow"
+],
+[
+"S",
+"semangka",
+"benda",
+"watermelon"
+],
+[
+"T",
+"telur",
+"benda",
+"eggs"
+],
+[
+"T",
+"tomat",
+"benda",
+"tomato"
+],
+[
+"T",
+"topi",
+"benda",
+"hat cap"
+],
+[
+"T",
+"tas",
+"benda",
+"backpack"
+],
+[
+"T",
+"tangga",
+"benda",
+"ladder"
+],
+[
+"U",
+"ubi",
+"benda",
+"sweet potato"
+],
+[
+"U",
+"ulat",
+"hewan",
+"caterpillar"
+],
+[
+"U",
+"ukulele",
+"benda",
+"ukulele"
+],
+[
+"V",
+"vespa",
+"benda",
+"vespa scooter"
+],
+[
+"V",
+"violin",
+"benda",
+"violin"
+],
+[
+"V",
+"vitamin",
+"benda",
+"vitamin pills"
+],
+[
+"V",
+"voli",
+"benda",
+"volleyball"
+],
+[
+"W",
+"wortel",
+"benda",
+"carrot"
+],
+[
+"W",
+"wayang",
+"benda",
+"wayang kulit puppet"
+],
+[
+"W",
+"wafer",
+"benda",
+"wafer biscuit"
+],
+[
+"W",
+"wastafel",
+"benda",
+"bathroom sink"
+],
+[
+"W",
+"waduk",
+"benda",
+"reservoir dam"
+],
+[
+"W",
+"wijen",
+"benda",
+"sesame seeds"
+],
+[
+"Y",
+"yogurt",
+"benda",
+"yogurt"
+],
+[
+"Z",
+"zaitun",
+"benda",
+"olives"
+],
+[
+"Z",
+"zamrud",
+"benda",
+"emerald gemstone"
+]
+]

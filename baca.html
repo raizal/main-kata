@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Belajar Membaca</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#faf8f5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%237a9b7e'/%3E%3Ctext x='90' y='128' font-family='Nunito,system-ui,sans-serif' font-size='110' font-weight='800' text-anchor='middle' fill='%23faf8f5'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap">
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/baca.css">
+</head>
+<body>
+
+<!-- Tingkat 1: papan 26 huruf -->
+<div class="layar">
+  <div class="kepala">
+    <a class="bulat" href="index.html" aria-label="Kembali ke menu" id="kemenu"></a>
+    <h1>Belajar Membaca</h1>
+  </div>
+  <div class="papan" id="papan"></div>
+</div>
+
+<!-- Tingkat 2: benda dan hewan yang berawalan huruf itu -->
+<div class="tingkat" id="daftar">
+  <div class="kepala">
+    <button class="bulat" id="kembali1" aria-label="Kembali"></button>
+    <h1 id="judulHuruf"></h1>
+  </div>
+  <div id="kartu"></div>
+</div>
+
+<!-- Tingkat 3: satu benda, katanya, dan cara membaca hurufnya -->
+<div class="tingkat" id="rinci">
+  <div class="kepala">
+    <button class="bulat" id="kembali2" aria-label="Kembali"></button>
+    <h1 id="judulKata"></h1>
+    <button class="bulat" id="suara" aria-label="Suara"></button>
+  </div>
+  <div id="gambar"><img class="foto" id="foto" alt=""></div>
+  <div id="kanan">
+    <div id="suku"></div>
+    <!-- Tangga bunyi: satu baris per suku kata, satu mulut per bunyi. -->
+    <div id="tangga"></div>
+    <p id="petunjuk"></p>
+  </div>
+</div>
+
+<!-- Tingkat 4: satu bunyi, sebesar layar -->
+<div class="tingkat" id="zoom">
+  <div class="kepala">
+    <button class="bulat" id="kembali3" aria-label="Kembali"></button>
+    <h1 id="judulBunyi"></h1>
+  </div>
+  <div id="mulutBesar"></div>
+  <p id="petunjukBesar"></p>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/bibir.js"></script>
+<script>
+  el("kemenu").innerHTML = PANAH;
+  el("kembali1").innerHTML = PANAH;
+  el("kembali2").innerHTML = PANAH;
+  el("kembali3").innerHTML = PANAH;
+</script>
+<script src="assets/baca.js"></script>
+<script src="assets/waktu.js"></script>
+</body>
+</html>

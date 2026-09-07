@@ -137,10 +137,13 @@
 .papan .kotak.sedang{border-color:var(--sage)}
 
 /* Sudah selesai: garis hurufnya sage, centang kecil di pojok, warnanya
-   sedikit mundur. Tetap bisa ditekan — mengulang huruf yang sama itu boleh,
-   dan papan penuh kotak mati adalah papan yang menolak. */
+   sedikit mundur — dan kotaknya tidak menyahut lagi. Redupnya berhenti di
+   .72 dengan sengaja: kotak yang hampir hilang membuat papan terlihat
+   rusak, padahal hurufnya justru yang sudah dia kerjakan. */
 .papan .kotak.usai{opacity:.72}
 .papan .kotak.usai .bentuk path{stroke:var(--sage)}
+.papan .kotak:disabled{cursor:default}
+.papan .kotak:disabled:active{transform:none}
 
 .papan .kotak .tanda{
   position:absolute;top:5px;right:6px;width:15px;height:15px;

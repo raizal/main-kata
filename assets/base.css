@@ -167,3 +167,58 @@ html,body{
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important;animation:none!important}
 }
+
+/* ---- Batas main ---- */
+/* Dua layar dari assets/waktu.js: soal hitungan setelah sepuluh menit, dan
+   layar berhenti kalau soalnya salah. Keduanya menutup layar penuh dengan
+   kertas yang sama, bukan menggelapkan yang di bawahnya: aturan 1 hal per
+   layar berlaku paling keras justru di sini — kalau hurufnya masih
+   setengah terlihat di baliknya, yang dia tunggu adalah kembali ke situ,
+   bukan yang sedang diminta halaman ini. */
+#batas{
+  position:fixed;inset:0;z-index:90;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--kertas);
+  padding:24px;
+}
+#batas .isi{width:100%;max-width:320px;text-align:center}
+
+#batas .pesan{
+  /* Kalimat berhentinya dua baris, dan pemenggalannya ditulis di teksnya
+     supaya "Nanti lagi" tidak pernah terlanjur naik ke baris pertama. */
+  white-space:pre-line;
+  font-weight:800;line-height:1.45;
+  font-size:clamp(17px,4.8vw,21px);
+  color:var(--tinta-lembut);
+}
+#batas.usai .pesan{
+  font-size:clamp(21px,6vw,26px);
+  color:var(--tinta);
+}
+
+#batas .soal{
+  margin:22px 0 20px;
+  font-weight:800;line-height:1;
+  font-size:clamp(38px,11vw,52px);
+  letter-spacing:.04em;
+}
+
+/* Tombol angka bergaya papan telepon. Tidak ada tombol hapus dan tidak ada
+   tombol kirim: jawabannya selalu satu angka, jadi satu ketukan sudah
+   menjawabnya. */
+#batas .angka{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  max-width:290px;margin:0 auto;
+}
+#batas .angka button{
+  min-height:var(--sentuh);
+  border:var(--border) solid var(--garis);border-radius:14px;
+  background:transparent;color:var(--tinta);
+  font-family:inherit;font-weight:800;font-size:24px;
+  cursor:pointer;
+  transition:transform .12s ease,background .12s ease;
+}
+#batas .angka button:active{transform:scale(.95);background:var(--kertas-dalam)}
+#batas .angka .nol{grid-column:2}
+
+#batas.usai .soal,#batas.usai .angka{display:none}

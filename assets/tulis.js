@@ -13,7 +13,7 @@
    - Bunyi mati sejak awal, dan yang tersisa hanya pengucapan kata.
    - Papan hurufnya bukan lagi 26 kotak diam. Tiap kotak menggambar huruf
      dengan goresan yang nanti dia telusuri, menyimpan sudah sampai mana
-     dia mengerjakan huruf itu, dan tetap bisa ditekan setelah selesai.
+     dia mengerjakan huruf itu, dan berhenti bisa ditekan begitu selesai.
    ------------------------------------------------------------------ */
 
 /* ------------------------------------------------------------------
@@ -151,6 +151,15 @@ function catPapan(){
     const usai = sudahDitulis(l);
     const n = usai ? total : Math.min(total, MAJU[l] || 0);
 
+    /* Huruf yang sudah selesai tidak bisa ditekan lagi. Sebelumnya masih
+       bisa, dengan alasan mengulang huruf yang sama itu caranya menenangkan
+       diri — tapi yang terjadi di tangannya bukan itu: dia kembali ke huruf
+       yang paling dikenalnya dan berhenti di situ, dan sisa alfabetnya
+       tinggal. Centang saja ternyata tidak cukup untuk menahannya; kotak
+       yang tidak menyahut ternyata cukup. Papan tidak pernah berakhir mati
+       semua: alfabet yang penuh mengosongkan dirinya sendiri, dan 26 kotak
+       itu kembali terbuka. */
+    b.disabled = usai;
     b.classList.toggle("usai", usai);
     b.classList.toggle("jalan", !usai && n > 0);
     /* Huruf yang barusan dia kerjakan diberi tepi sage, jadi waktu kembali
@@ -166,11 +175,11 @@ function catPapan(){
 
 function susunPapan(){
   papan.textContent = "";
-  for (const [letter, kataKata] of SEMUA) {
+  for (const [letter] of SEMUA) {
     const b = document.createElement("button");
     b.className = "kotak " + COLOURS[letter];
     b.dataset.huruf = letter;
-    b.dataset.total = kataKata.length;
+    b.dataset.total = kataDari(letter).length;
     if (letter === "Y") b.dataset.pos = "y";
 
     /* Hurufnya digambar dari goresan yang nanti ditelusuri, bukan diketik
@@ -199,11 +208,7 @@ function susunPapan(){
     tanda.appendChild(jalur("M4.5 12.5l5 5 10-11", ""));
     b.appendChild(tanda);
 
-    /* Huruf yang sudah selesai tetap bisa ditekan. Dulu kotaknya dimatikan
-       supaya dia terdorong ke huruf yang belum — tapi mengulang huruf yang
-       sama adalah caranya menenangkan diri, dan papan penuh kotak mati
-       adalah papan yang menolak. Centangnya cukup untuk memberitahu mana
-       yang sudah; babak berjalan sendiri tetap melewati yang selesai. */
+    /* Kotak yang sudah selesai dimatikan — lihat catatan di catPapan. */
     b.addEventListener("click", () => mulaiBabak(letter));
     papan.appendChild(b);
   }
@@ -213,9 +218,19 @@ function susunPapan(){
 /* ---- Satu babak ---- */
 let huruf = null, kataKini = "", antre = [], ai = 0, subjek = 0;
 
+/* Dua kata per huruf, tidak lebih. Daftarnya sendiri bisa berisi dua belas
+   kata untuk satu huruf, dan di mode huruf awal itu berarti menggambar K
+   dua belas kali berturut-turut sebelum pindah — huruf yang sama, bentuk
+   yang sama, dua belas kali. Yang datang setelah kali ketiga bukan lagi
+   latihan, tapi kejenuhan, dan huruf yang dia lewati karena bosan tidak
+   pernah dia kerjakan lagi. Dua kali cukup untuk mengulang, cukup pendek
+   untuk selesai. Sisa katanya tidak hilang: masih dipakai di membaca dan
+   di mengenal, di mana melihat banyak contoh memang gunanya. */
+const BATAS_KATA = 2;
+
 function kataDari(letter){
   const baris = SEMUA.find(([l]) => l === letter);
-  return baris ? baris[1] : [];
+  return baris ? baris[1].slice(0, BATAS_KATA) : [];
 }
 
 /* Di sini fotonya cuma memberitahu benda apa yang sedang dia tulis, jadi
